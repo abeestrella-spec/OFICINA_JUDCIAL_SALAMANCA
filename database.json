@@ -4,16 +4,19 @@
     "titulo": "Curso Operativo: Nueva Oficina Judicial Salamanca",
     "meta": "Vigor: 31/12/2025 | LO 1/2025",
     "descripcion": "Formación técnica y operativa para Policía Local basada en la Guía Práctica y Protocolos Oficiales.",
-    "audio_url": "Silencio_en_la_Justicia_el_nuevo_modelo.m4a",
+    
+    "audio_url": "audio.m4a",
+    
     "imagenes": [
-      { "nombre": "Mapa Mental Protocolo", "url": "protocolo oficina judicial.png" },
-      { "nombre": "Infografía Estructura", "url": "inforgrafia procolo oficina judicial .png" }
+      { "nombre": "Mapa Mental Protocolo", "url": "mapa.png" },
+      { "nombre": "Infografía Estructura", "url": "estructura.png" }
     ],
-    "bibliografia": [
+    
+    "bibliografia": [ 
       {
         "nivel": "Normativa y Protocolos",
         "archivos": [
-          { "nombre": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO.pdf", "desc": "Protocolo de Actuación (TI Salamanca)" },
+          { "nombre": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO%20(1).pdf", "desc": "Protocolo de Actuación (TI Salamanca)" },
           { "nombre": "Anexo-I-Manual-de-Organizacion-Salamanca-firmado.pdf", "desc": "Manual de Organización" }
         ]
       },
@@ -21,15 +24,15 @@
         "nivel": "Manuales Operativos",
         "archivos": [
           { "nombre": "Anexo-II-Manual-del-SCT-Salamanca-firmado.pdf", "desc": "Manual SCT (Tramitación)" },
-          { "nombre": "Anexo-III-Manual-del-SCG-Salamanca-firmado.pdf", "desc": "Manual SCG (General)" },
-          { "nombre": "Anexo-IV-Manual-SCEJ-Salamanca-firmado.pdf", "desc": "Manual SCEJ (Ejecución)" }
+          { "nombre": "Anexo-III-Manual-del-SCG-Salamanca-firmado%20-%20copia.pdf", "desc": "Manual SCG (General)" },
+          { "nombre": "Anexo-IV-Manual-SCEJ-Salamanca-firmado%20-%20copia.pdf", "desc": "Manual SCEJ (Ejecución)" }
         ]
       }
     ],
     "secciones_temario": [
       {
         "titulo": "1.0 Introducción",
-        "contenido": "<h3>1.0 Introducción: La Transformación del Sistema Judicial en Salamanca</h3><p>Este documento ha sido elaborado como un manual de referencia esencial para que todos los miembros de la Policía Local de Salamanca puedan comprender e interactuar con eficacia en la nueva estructura de la Oficina Judicial (OJ). Este nuevo modelo organizativo, que entrará en vigor el <strong>31 de diciembre de 2025</strong>, representa un cambio fundamental en el funcionamiento de la Administración de Justicia en nuestro partido judicial.</p><p>Impulsada por la Ley Orgánica 1/2025, esta transformación busca modernizar el sistema, superando el modelo tradicional de juzgados individuales y autónomos. El objetivo es implantar un sistema integrado de servicios centralizados que den soporte a la actividad jurisdiccional, promoviendo una mayor agilidad, eficiencia y homogeneidad en los procedimientos. Para la Policía Local, comprender esta nueva arquitectura es clave para asegurar una colaboración fluida, predecible y eficaz con el sistema judicial.</p><p>A continuación, se detalla la nueva estructura organizativa de la Oficina Judicial, diseñada para facilitar su comprensión desde una perspectiva eminentemente operativa.</p>"
+        "contenido": "<h3>1.0 Introducción: La Transformación del Sistema Judicial en Salamanca</h3><p>Este documento ha sido elaborado como un manual de referencia esencial para que todos los miembros de la Policía Local de Salamanca puedan comprender e interactuar con eficacia en la nueva estructura de la Oficina Judicial (OJ). Este nuevo modelo organizativo, que entrará en vigor el 31 de diciembre de 2025, representa un cambio fundamental en el funcionamiento de la Administración de Justicia en nuestro partido judicial.</p><p>Impulsada por la Ley Orgánica 1/2025, esta transformación busca modernizar el sistema, superando el modelo tradicional de juzgados individuales y autónomos. El objetivo es implantar un sistema integrado de servicios centralizados que den soporte a la actividad jurisdiccional, promoviendo una mayor agilidad, eficiencia y homogeneidad en los procedimientos. Para la Policía Local, comprender esta nueva arquitectura es clave para asegurar una colaboración fluida, predecible y eficaz con el sistema judicial.</p><p>A continuación, se detalla la nueva estructura organizativa de la Oficina Judicial, diseñada para facilitar su comprensión desde una perspectiva eminentemente operativa.</p>"
       },
       {
         "titulo": "2.0 Visión General OJ",
