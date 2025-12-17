@@ -71,19 +71,25 @@
         .fc-nav { text-align: center; margin-top: 20px; }
         .btn-fc { padding: 10px 20px; cursor: pointer; background: #ddd; border: none; border-radius: 5px; }
 
-        /* TEST */
+        /* TEST CHECKBOX STYLE */
         .q-block { margin-bottom: 25px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .quiz-option { padding: 12px; margin: 8px 0; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; display: flex; align-items: center; }
+        .quiz-option { 
+            padding: 12px; margin: 8px 0; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; 
+            display: flex; align-items: center; transition: all 0.2s;
+        }
         
-        /* CHECKPOINT STYLE */
+        /* Círculo visual (Checkbox) */
         .quiz-option::before {
             content: ''; display: inline-block; width: 18px; height: 18px; 
             border: 2px solid #ccc; border-radius: 50%; margin-right: 15px; flex-shrink: 0;
             transition: all 0.2s;
         }
+        
+        /* Estado Seleccionado */
         .quiz-option.selected { background: #f0f7ff; border-color: var(--primary); }
-        .quiz-option.selected::before { border-color: var(--primary); background: radial-gradient(circle, var(--primary) 40%, white 45%); }
+        .quiz-option.selected::before { border-color: var(--primary); background: var(--primary); box-shadow: inset 0 0 0 3px white; }
 
+        /* Estados Finales */
         .quiz-option.correct { background: #d4edda; border-color: #28a745; }
         .quiz-option.correct::before { border-color: #28a745; background: #28a745; }
         
@@ -167,7 +173,7 @@
 
                 <div id="view-test" class="view-section">
                     <h2>Evaluación de Conocimientos (20 Preguntas)</h2>
-                    <p style="background:#eef; padding:10px; border-radius:5px;">Para aprobar necesitas <b>más de 10 aciertos</b>. La validación se realiza al pulsar "Finalizar".</p>
+                    <p style="background:#eef; padding:10px; border-radius:5px;">Para aprobar necesitas <b>más de 10 aciertos</b>. Selecciona una opción por pregunta y pulsa finalizar.</p>
                     <div id="test-container"></div>
                     <button onclick="App.submitTest()" style="margin-top:20px; padding:15px 30px; background:var(--primary); color:white; border:none; border-radius:5px; cursor:pointer; font-size:1.1rem; font-weight:bold;">Finalizar y Validar</button>
                     <div id="test-result" style="margin-top:20px; font-weight:bold; font-size:1.4rem; text-align:center; padding:20px; border-radius:8px;"></div>
@@ -211,6 +217,7 @@ const App = {
     dbNameUsers: 'noj_users_v2',
 
     init: async () => {
+        // Usuarios por defecto si es la primera vez
         if(!localStorage.getItem(App.dbNameUsers)) {
             const defaultUsers = [
                 { u: 'admin', p: 'admin', r: 'admin' },
