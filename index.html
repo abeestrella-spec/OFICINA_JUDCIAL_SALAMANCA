@@ -12,7 +12,7 @@
         /* LOGIN MODAL */
         #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary); z-index: 1000; display: flex; justify-content: center; align-items: center; }
         .login-box { background: white; padding: 40px; border-radius: 10px; width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .login-box img { width: 80px; margin-bottom: 20px; }
+        .login-box h2 { color: var(--primary); margin-top: 0; }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
         .btn-login { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
         .btn-login:hover { background: #001a3b; }
@@ -37,7 +37,7 @@
         .view-section { display: none; animation: fadeIn 0.3s; }
         .view-section.active { display: block; }
 
-        /* DOC CONTENT (PAGINATION) */
+        /* DOC CONTENT */
         .doc-nav { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
         .doc-tab { padding: 8px 15px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
         .doc-tab.active { background: var(--primary); color: white; }
@@ -45,20 +45,18 @@
         .doc-page.active { display: block; }
         .doc-page h3 { color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-top: 0; }
 
-        /* BIBLIOGRAPHY TREE */
+        /* BIBLIOGRAFIA */
         .file-tree { list-style: none; padding-left: 0; }
         .file-node { margin-bottom: 15px; border: 1px solid #eee; border-radius: 6px; overflow: hidden; }
         .node-header { background: #f8f9fa; padding: 10px 15px; font-weight: bold; border-bottom: 1px solid #eee; }
         .file-item { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f1f1; background: white; }
-        .file-item:last-child { border-bottom: none; }
         .file-item a { color: var(--primary); text-decoration: none; font-weight: 500; }
         .file-item span { font-size: 0.85rem; color: #777; }
 
         /* MULTIMEDIA */
         .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .media-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-        .media-card img { max-width: 100%; border-radius: 4px; cursor: zoom-in; transition: transform 0.2s; }
-        .media-card img:hover { transform: scale(1.02); }
+        .media-card img { max-width: 100%; border-radius: 4px; cursor: zoom-in; }
 
         /* FLASHCARDS */
         .fc-container { perspective: 1000px; height: 300px; max-width: 600px; margin: 0 auto; cursor: pointer; }
@@ -70,15 +68,19 @@
         .fc-nav { text-align: center; margin-top: 20px; }
         .btn-fc { padding: 10px 20px; cursor: pointer; background: #ddd; border: none; border-radius: 5px; }
 
-        /* TEST & ADMIN */
+        /* TEST */
         .quiz-option { padding: 15px; margin: 10px 0; background: white; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; }
-        .quiz-option:hover { background: #f0f0f0; }
+        .quiz-option.selected { border: 2px solid var(--primary); background: #eef2f6; }
         .quiz-option.correct { background: #d4edda; border-color: #28a745; }
         .quiz-option.wrong { background: #f8d7da; border-color: #c0392b; }
         
-        .admin-table { width: 100%; border-collapse: collapse; background: white; }
+        /* ADMIN TABLE */
+        .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
         .admin-table th, .admin-table td { padding: 12px; border: 1px solid #ddd; text-align: left; }
         .admin-table th { background: #f1f1f1; }
+        
+        .import-area { width: 100%; height: 150px; padding: 10px; border: 1px solid #ccc; font-family: monospace; font-size: 12px; margin-top: 10px; }
+        .btn-action { padding: 10px 15px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .hidden { display: none !important; }
@@ -88,12 +90,12 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="color:var(--primary)">Formación Policial</h2>
-            <p style="color:#666; font-size:0.9rem;">Acceso Restringido NOJ Salamanca</p>
-            <input type="text" id="username" placeholder="Usuario (ej: policia, admin)">
+            <h2>Formación Policial</h2>
+            <p style="color:#666;">Acceso Restringido NOJ Salamanca</p>
+            <input type="text" id="username" placeholder="Usuario">
             <input type="password" id="password" placeholder="Contraseña">
             <button class="btn-login" onclick="App.login()">Entrar</button>
-            <p style="font-size:0.8rem; color:#888; margin-top:15px;">Usuarios demo: <b>policia / policia</b> o <b>admin / admin</b></p>
+            <p id="login-msg" style="color:red; font-size:0.9rem; margin-top:10px;"></p>
         </div>
     </div>
 
@@ -152,14 +154,32 @@
                 </div>
 
                 <div id="view-admin" class="view-section">
-                    <h2>Panel de Control e Incidencias</h2>
-                    <p>Registro de actividad y errores de usuarios en los tests.</p>
+                    <h2>Panel de Administración</h2>
+                    
+                    <div style="background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); margin-bottom:20px;">
+                        <h3><i class="fas fa-file-import"></i> Importar Usuarios desde Excel</h3>
+                        <p>Copia las celdas de tu Excel (Columnas: <b>Usuario</b> | <b>Contraseña</b> | <b>Rol</b>) y pégalas aquí debajo. <br>
+                        <i>Roles válidos: "admin" o "user". Si no pones rol, será "user".</i></p>
+                        <textarea id="import-data" class="import-area" placeholder="Ejemplo:
+policia    policia123    user
+jefe       jefe456       admin"></textarea>
+                        <button class="btn-action" onclick="App.importUsers()"><i class="fas fa-save"></i> Procesar e Importar</button>
+                        <p id="import-msg" style="color:green; font-weight:bold;"></p>
+                    </div>
+
+                    <h3>Listado de Usuarios Activos</h3>
+                    <table class="admin-table">
+                        <thead><tr><th>Usuario</th><th>Contraseña</th><th>Rol</th></tr></thead>
+                        <tbody id="users-list"></tbody>
+                    </table>
+
+                    <h3 style="margin-top:30px;">Registro de Resultados (Tests)</h3>
                     <table class="admin-table">
                         <thead><tr><th>Usuario</th><th>Fecha</th><th>Aciertos</th><th>Fallos</th><th>Nota</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
                     </table>
                     <br>
-                    <button onclick="App.clearLogs()" style="background:#c0392b; color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Borrar Registros</button>
+                    <button onclick="App.clearLogs()" style="background:#c0392b; color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Borrar Historial Resultados</button>
                 </div>
 
             </div>
@@ -170,73 +190,113 @@
 const App = {
     data: null,
     user: null,
-    dbName: 'noj_db_users',
+    dbNameLogs: 'noj_logs',
+    dbNameUsers: 'noj_users',
 
     init: async () => {
+        // Precargar usuarios por defecto si no existen
+        if(!localStorage.getItem(App.dbNameUsers)) {
+            const defaultUsers = [
+                { u: 'admin', p: 'admin', r: 'admin' },
+                { u: 'policia', p: 'policia', r: 'user' }
+            ];
+            localStorage.setItem(App.dbNameUsers, JSON.stringify(defaultUsers));
+        }
+
         try {
+            // Timestamp para evitar caché antigua y "no ver la información"
             const r = await fetch('database.json?t=' + Date.now());
+            if (!r.ok) throw new Error("Error HTTP " + r.status);
             const d = await r.json();
-            App.data = d[0]; // Asumimos un solo objeto curso principal
+            App.data = d[0]; 
+            
+            // Renderizar todo
             App.renderTemario();
             App.renderBiblio();
             App.renderMedia();
             App.renderFC();
             App.renderTest();
         } catch(e) {
-            alert("Error cargando base de datos. Verifica JSON.");
             console.error(e);
+            alert("Error cargando el contenido. Asegúrate de haber subido 'database.json' correctamente.");
         }
     },
 
     // --- AUTH & USER MANAGEMENT ---
     login: () => {
-        const u = document.getElementById('username').value.toLowerCase().trim();
-        const p = document.getElementById('password').value.trim();
+        const uInput = document.getElementById('username').value.trim();
+        const pInput = document.getElementById('password').value.trim();
+        
+        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
+        const found = users.find(x => x.u === uInput && x.p === pInput);
 
-        if((u === 'policia' && p === 'policia') || (u === 'admin' && p === 'admin')) {
-            App.user = { 
-                name: u, 
-                role: u === 'admin' ? 'admin' : 'user' 
-            };
+        if(found) {
+            App.user = { name: found.u, role: found.r };
             
             document.getElementById('login-overlay').classList.add('hidden');
             document.getElementById('main-app').classList.remove('hidden');
-            document.getElementById('display-user').innerText = u.toUpperCase();
-            document.getElementById('role-badge').innerText = u === 'admin' ? 'Mando/Admin' : 'Agente';
+            document.getElementById('display-user').innerText = found.u.toUpperCase();
+            document.getElementById('role-badge').innerText = found.r === 'admin' ? 'Mando/Admin' : 'Agente';
             
             if(App.user.role === 'admin') {
                 document.getElementById('menu-admin').classList.remove('hidden');
-                App.loadAdminLogs();
+                App.renderAdminPanel();
             }
         } else {
-            alert("Credenciales incorrectas.\nPrueba: policia / policia");
+            document.getElementById('login-msg').innerText = "Credenciales incorrectas.";
         }
     },
 
-    logout: () => {
-        location.reload();
-    },
+    logout: () => { location.reload(); },
 
-    saveResult: (score, total) => {
-        const logs = JSON.parse(localStorage.getItem(App.dbName) || '[]');
-        logs.push({
-            user: App.user.name,
-            date: new Date().toLocaleString(),
-            score: score,
-            total: total,
-            errors: total - score
-        });
-        localStorage.setItem(App.dbName, JSON.stringify(logs));
-        if(App.user.role === 'admin') App.loadAdminLogs();
-    },
+    // --- IMPORTAR EXCEL ---
+    importUsers: () => {
+        const raw = document.getElementById('import-data').value;
+        if(!raw.trim()) return;
 
-    loadAdminLogs: () => {
-        const logs = JSON.parse(localStorage.getItem(App.dbName) || '[]');
-        const tbody = document.getElementById('admin-logs');
-        tbody.innerHTML = logs.length ? '' : '<tr><td colspan="5">Sin registros</td></tr>';
+        const lines = raw.split('\n');
+        const newUsers = [];
         
+        lines.forEach(line => {
+            // Soporta pegar desde Excel (separado por tabulación) o espacios
+            let parts = line.split(/\t+/); 
+            if(parts.length < 2) parts = line.split(/\s+/); // Intento con espacios si falla tab
+
+            if(parts.length >= 2) {
+                const u = parts[0].trim();
+                const p = parts[1].trim();
+                const r = (parts[2] && parts[2].trim().toLowerCase() === 'admin') ? 'admin' : 'user';
+                if(u && p) newUsers.push({ u, p, r });
+            }
+        });
+
+        if(newUsers.length > 0) {
+            if(confirm(`¿Importar ${newUsers.length} usuarios? Esto sobrescribirá la lista anterior.`)) {
+                localStorage.setItem(App.dbNameUsers, JSON.stringify(newUsers));
+                App.renderAdminPanel();
+                document.getElementById('import-msg').innerText = "¡Usuarios importados correctamente!";
+                document.getElementById('import-data').value = "";
+            }
+        } else {
+            alert("No se detectaron datos válidos. Copia columnas: Usuario | Clave");
+        }
+    },
+
+    renderAdminPanel: () => {
+        // Listar usuarios
+        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
+        const tUsers = document.getElementById('users-list');
+        tUsers.innerHTML = '';
+        users.forEach(x => {
+            tUsers.innerHTML += `<tr><td>${x.u}</td><td>••••••</td><td>${x.r}</td></tr>`;
+        });
+
+        // Listar logs
+        const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
+        const tLogs = document.getElementById('admin-logs');
+        tLogs.innerHTML = logs.length ? '' : '<tr><td colspan="5">Sin registros</td></tr>';
         logs.forEach(l => {
-            tbody.innerHTML += `
+            tLogs.innerHTML += `
                 <tr>
                     <td><b>${l.user}</b></td>
                     <td>${l.date}</td>
@@ -246,29 +306,42 @@ const App = {
                 </tr>`;
         });
     },
-    
+
+    saveResult: (score, total) => {
+        const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
+        logs.push({
+            user: App.user.name,
+            date: new Date().toLocaleString(),
+            score: score,
+            total: total,
+            errors: total - score
+        });
+        localStorage.setItem(App.dbNameLogs, JSON.stringify(logs));
+        if(App.user.role === 'admin') App.renderAdminPanel();
+    },
+
     clearLogs: () => {
         if(confirm("¿Borrar historial?")) {
-            localStorage.removeItem(App.dbName);
-            App.loadAdminLogs();
+            localStorage.removeItem(App.dbNameLogs);
+            App.renderAdminPanel();
         }
     },
 
-    // --- NAVIGATION ---
+    // --- NAVEGACIÓN Y RENDERS ---
     nav: (viewId) => {
         document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
         document.getElementById('view-' + viewId).classList.add('active');
-        
         document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-        // Encontrar el item clickeado es complejo sin pasar 'this', simplificado:
-        // (Visual active state requires passing element reference, skipping for brevity)
+        // (Simple visual toggle logic skipped for brevity)
     },
 
-    // --- RENDERS ---
     renderTemario: () => {
+        if(!App.data || !App.data.secciones_temario) return;
         const tabs = document.getElementById('doc-tabs');
         const content = document.getElementById('doc-content');
         
+        tabs.innerHTML = ''; content.innerHTML = ''; // Limpiar
+
         App.data.secciones_temario.forEach((sec, i) => {
             tabs.innerHTML += `<button class="doc-tab ${i===0?'active':''}" onclick="App.switchTab(${i})">${sec.titulo}</button>`;
             content.innerHTML += `<div id="page-${i}" class="doc-page ${i===0?'active':''}">${sec.contenido}</div>`;
@@ -284,32 +357,22 @@ const App = {
 
     renderBiblio: () => {
         const ul = document.getElementById('file-tree');
+        ul.innerHTML = '';
         App.data.bibliografia.forEach(cat => {
             let filesHtml = cat.archivos.map(f => `
                 <li class="file-item">
-                    <div>
-                        <i class="fas fa-file-pdf" style="color:#c0392b"></i> 
-                        <a href="${f.nombre}" target="_blank">${f.desc}</a>
-                    </div>
+                    <div><i class="fas fa-file-pdf" style="color:#c0392b"></i> <a href="${f.nombre}" target="_blank">${f.desc}</a></div>
                     <span>${f.nombre}</span>
                 </li>`).join('');
-            
-            ul.innerHTML += `
-                <li class="file-node">
-                    <div class="node-header">${cat.nivel}</div>
-                    <ul>${filesHtml}</ul>
-                </li>`;
+            ul.innerHTML += `<li class="file-node"><div class="node-header">${cat.nivel}</div><ul>${filesHtml}</ul></li>`;
         });
     },
 
     renderMedia: () => {
         const grid = document.getElementById('media-container');
+        grid.innerHTML = '';
         App.data.imagenes.forEach(img => {
-            grid.innerHTML += `
-                <div class="media-card">
-                    <img src="${img.url}" alt="${img.nombre}">
-                    <p><b>${img.nombre}</b></p>
-                </div>`;
+            grid.innerHTML += `<div class="media-card"><img src="${img.url}" alt="${img.nombre}"><p><b>${img.nombre}</b></p></div>`;
         });
         document.getElementById('main-audio').src = App.data.audio_url;
     },
@@ -317,18 +380,13 @@ const App = {
     renderFC: () => {
         const container = document.getElementById('fc-canvas');
         App.fcIndex = 0;
-        
         App.drawFC = () => {
             const card = App.data.flashcards[App.fcIndex];
             container.innerHTML = `
                 <div class="fc-container" onclick="this.classList.toggle('fc-flipped')">
                     <div class="fc-inner">
-                        <div class="fc-face fc-front">
-                            <div><i class="fas fa-question-circle fa-2x"></i><br><br>${card.front}</div>
-                        </div>
-                        <div class="fc-face fc-back">
-                            <div>${card.back}</div>
-                        </div>
+                        <div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${card.front}</div></div>
+                        <div class="fc-face fc-back"><div>${card.back}</div></div>
                     </div>
                 </div>
                 <div class="fc-nav">
@@ -337,14 +395,12 @@ const App = {
                     <button class="btn-fc" onclick="App.moveFC(1)">Siguiente ❯</button>
                 </div>`;
         };
-        
         App.moveFC = (dir) => {
             App.fcIndex += dir;
             if(App.fcIndex < 0) App.fcIndex = App.data.flashcards.length - 1;
             if(App.fcIndex >= App.data.flashcards.length) App.fcIndex = 0;
             App.drawFC();
         };
-        
         App.drawFC();
     },
 
@@ -353,9 +409,7 @@ const App = {
         div.innerHTML = App.data.test.map((q, i) => `
             <div class="q-block" data-correct="${q.correcta}">
                 <p><b>${i+1}. ${q.pregunta}</b></p>
-                ${q.respuestas.map((r, ri) => `
-                    <div class="quiz-option" onclick="App.selectOption(this, ${i})">${r}</div>
-                `).join('')}
+                ${q.respuestas.map((r, ri) => `<div class="quiz-option" onclick="App.selectOption(this, ${i})">${r}</div>`).join('')}
             </div>
         `).join('');
     },
@@ -364,44 +418,34 @@ const App = {
         const parent = el.parentElement;
         parent.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
         el.classList.add('selected');
-        el.style.border = "2px solid var(--primary)";
     },
 
     submitTest: () => {
         let score = 0;
         const blocks = document.querySelectorAll('.q-block');
-        
         blocks.forEach(b => {
             const selected = b.querySelector('.selected');
             const correctIdx = parseInt(b.dataset.correct);
             const options = b.querySelectorAll('.quiz-option');
-            
-            // Reset styles
-            options.forEach(o => o.className = 'quiz-option');
+            options.forEach(o => o.className = 'quiz-option'); // Reset
 
             if(selected) {
-                // Determine index of selected
                 const selIdx = Array.from(options).indexOf(selected);
                 if(selIdx === correctIdx) {
                     selected.classList.add('correct');
                     score++;
                 } else {
                     selected.classList.add('wrong');
-                    options[correctIdx].classList.add('correct'); // Show right answer
+                    options[correctIdx].classList.add('correct');
                 }
             }
         });
-
-        const resDiv = document.getElementById('test-result');
-        resDiv.innerText = `Resultado: ${score} / ${blocks.length}`;
-        resDiv.style.color = score >= (blocks.length/2) ? 'green' : 'red';
-        
+        document.getElementById('test-result').innerText = `Resultado: ${score} / ${blocks.length}`;
         App.saveResult(score, blocks.length);
     }
 };
 
 window.onload = App.init;
 </script>
-
 </body>
 </html>
