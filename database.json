@@ -55,4 +55,152 @@
       { "front": "WORD: ¿Cuál es el punto único de entrada de documentos ordinarios?", "back": "El Servicio Común General (SCG)" },
       { "front": "WORD: ¿Horario de recepción del SCG?", "back": "Lunes a viernes laborables, 08:30 a 15:00" },
       { "front": "WORD: ¿Dónde se entregan atestados con DETENIDO?", "back": "Directamente al Servicio de Guardia (GU)" },
-      { "front": "WORD: ¿Dónde van las solicitudes urgentes de entradas y
+      { "front": "WORD: ¿Dónde van las solicitudes urgentes de entradas y registros?", "back": "Al Servicio de Guardia (GU)" },
+      { "front": "WORD: ¿Qué servicio gestiona la fase de Instrucción?", "back": "SCT (Servicio Común de Tramitación) - Área Penal" },
+      { "front": "WORD: ¿Qué servicio gestiona la ejecución de sentencias firmes?", "back": "SCEJ (Servicio Común de Ejecución)" },
+      { "front": "WORD: ¿Quién dirige un Servicio Común (Máxima autoridad)?", "back": "El Director/a del Servicio (LAJ)" },
+      { "front": "WORD: ¿Quién resuelve un error de datos en un escrito?", "back": "La Jefatura de Equipo de la unidad tramitadora" },
+      { "front": "WORD: ¿Quién resuelve una devolución por reparto incorrecto?", "back": "La Jefatura de Equipo (se devuelve al equipo de inicio)" },
+      { "front": "WORD: ¿Qué hacer con un documento no registrado?", "back": "Remitirlo al equipo de inicio para su registro oficial" },
+      { "front": "WORD: ¿Qué unidad gestiona Violencia sobre la Mujer?", "back": "Grupo de Trabajo Instrucción nº 3" },
+      { "front": "WORD: ¿Qué unidad gestiona Menores (enjuiciamiento y ejecución)?", "back": "SCT - Equipo de Enjuiciamiento (Sección Menores)" },
+      { "front": "WORD: ¿Quién gestiona internamientos no voluntarios?", "back": "SCT Civil - Negociado de familia" },
+      { "front": "WORD: ¿Qué servicio tramita una orden de busca y captura POST-sentencia?", "back": "SCEJ (Ejecución)" },
+      { "front": "WORD: ¿Qué servicio realiza la averiguación patrimonial?", "back": "SCEJ (Ejecución)" },
+      { "front": "WORD: ¿Principal órgano estratégico de la OJ?", "back": "Comité de Dirección" },
+      { "front": "WORD: ¿Quién compone el Comité de Dirección?", "back": "Dirección, Jefaturas de Área y Jefaturas de Equipo" },
+      { "front": "WORD: ¿Plataforma de comunicación con operadores?", "back": "LexNet" },
+      { "front": "WORD: ¿Sistema de gestión procesal interno?", "back": "Atenea" },
+      { "front": "WORD: ¿Forma preferente de presentación de atestados?", "back": "Telemática" },
+      { "front": "WORD: ¿Quién gestiona los juicios por delitos leves?", "back": "Grupos de Trabajo de Delitos Leves (SCT)" },
+      { "front": "WORD: ¿Quién coordina un Área dentro de un servicio?", "back": "Jefatura de Área (LAJ o GPA)" },
+      { "front": "PDF: (Anexo III) ¿Función principal del SCG?", "back": "Registro, reparto, actos de comunicación, archivo y depósito" },
+      { "front": "PDF: (Anexo III) ¿Qué equipo del SCG realiza notificaciones en calle?", "back": "Equipo 2: Servicios Transversales (Actos de Comunicación)" },
+      { "front": "PDF: (Anexo III) ¿Quién gestiona el Depósito de Efectos Judiciales?", "back": "SCG - Equipo 2" },
+      { "front": "PDF: (Anexo III) ¿Qué grupo gestiona el Apud-Acta?", "back": "Grupo de Trabajo de Apud-Actas (Equipo 1 SCG)" },
+      { "front": "PDF: (Anexo II) ¿Qué significa SCT?", "back": "Servicio Común de Tramitación" },
+      { "front": "PDF: (Anexo II) ¿El SCT de la Audiencia Provincial es independiente?", "back": "Sí, existe un SCT para el TI y otro para la AP" },
+      { "front": "PDF: (Anexo IV) ¿Qué significa SCEJ?", "back": "Servicio Común de Ejecución" },
+      { "front": "PDF: (Anexo IV) ¿Quién tramita las subastas judiciales?", "back": "SCEJ" },
+      { "front": "PDF: (Anexo IV) ¿Quién gestiona la Cuenta de Depósitos y Consignaciones?", "back": "SCEJ" },
+      { "front": "PDF: (Protocolo) ¿Qué significa OJM?", "back": "Oficinas de Justicia en el Municipio (Sustituyen Juzgados Paz)" },
+      { "front": "PDF: (Protocolo) ¿Dónde se publicita el protocolo?", "back": "Punto de Acceso General de la Administración de Justicia (PAGAJ)" },
+      { "front": "PDF: (Anexo I) ¿Quién cuida la aplicación de protección de datos?", "back": "El titular de la Dirección de cada servicio común" },
+      { "front": "PDF: (Anexo I) ¿Normativa de protección de datos aplicable?", "back": "LOPJ, Reglamento (UE) 2016/679 y LO 3/2018" },
+      { "front": "PDF: (Protocolo) Carácter del protocolo", "back": "Normativo, flexible y dinámico" },
+      { "front": "PDF: (Anexo IV) Sistema para videoconferencias", "back": "EVID" },
+      { "front": "PDF: (Anexo I) ¿Frecuencia control cuentas consignación?", "back": "Trimestral" },
+      { "front": "PDF: (Anexo II) ¿Quién propone el régimen de sustituciones en SCT?", "back": "La Jefatura de Área" },
+      { "front": "PDF: (Anexo III) ¿Horario atención al público general?", "back": "09:00 a 14:00 (Verificar protocolo específico)" },
+      { "front": "PDF: (Protocolo) ¿A quién se comunica la entrada en vigor?", "back": "Sala Gobierno TSJ, Fiscalía, Colegios Profesionales, Gerencia, etc." },
+      { "front": "PDF: (Anexo I) ¿Nivel 4 de organización?", "back": "Unidades Funcionales" },
+      { "front": "PDF: (Anexo I) ¿Nivel 1 de organización?", "back": "Equipos" },
+      { "front": "PDF: (Protocolo) ¿Quién firma el protocolo?", "back": "Secretario Coordinador Provincial y Secretario de Gobierno TSJ" },
+      { "front": "PDF: (Anexo II) Ubicación personal funcionario", "back": "Puestos de trabajo próximos por equipos" },
+      { "front": "PDF: (Anexo III) ¿Quién gestiona el Archivo Judicial de Gestión?", "back": "SCG - Equipo 2" },
+      { "front": "PDF: (Anexo IV) ¿Registro electrónico habilitado?", "back": "Registro SIR" }
+    ],
+    "test": [
+      {
+        "pregunta": "¿Cuál es la 'puerta única' de entrada para documentación ordinaria?",
+        "respuestas": ["Decanato", "SCG (Servicio Común General)", "SCT Penal"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Hasta qué hora se pueden presentar atestados en el SCG?",
+        "respuestas": ["14:00", "15:00", "24 horas"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Dónde se entrega un atestado con DETENIDO?",
+        "respuestas": ["SCG", "Servicio de Guardia (GU)", "SCT"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué servicio gestiona la fase de instrucción?",
+        "respuestas": ["SCT (Tramitación)", "SCEJ (Ejecución)", "SCG"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué servicio ejecuta una sentencia firme de prisión?",
+        "respuestas": ["SCT", "SCEJ (Ejecución)", "Servicio de Guardia"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Quién es la máxima autoridad funcional de un Servicio Común?",
+        "respuestas": ["El Juez Decano", "El Director/a del Servicio (LAJ)", "El Gestor Procesal"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué unidad lleva los casos de Violencia de Género?",
+        "respuestas": ["Grupo Instrucción nº 3", "Sección de Menores", "SCG"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién resuelve un error en el DNI de un atestado?",
+        "respuestas": ["Se devuelve a comisaría", "Jefatura de Equipo de la unidad tramitadora", "El Decanato"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué ocurre si presentas un documento sin registrar?",
+        "respuestas": ["Se archiva", "Se devuelve al equipo de inicio para registro", "Se procesa igual"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Quién realiza las notificaciones en la calle?",
+        "respuestas": ["Policía Local", "SCG (Actos de Comunicación)", "SCT"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Dónde se tramitan los delitos leves?",
+        "respuestas": ["Grupos de Trabajo de Delitos Leves (SCT)", "SCEJ", "Juzgados de Paz"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién gestiona la averiguación patrimonial para embargos?",
+        "respuestas": ["SCT", "SCEJ", "SCG"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué órgano decide las estrategias de la OJ?",
+        "respuestas": ["Comité de Dirección", "Junta de Personal", "Sindicatos"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué ley regula la NOJ de Salamanca?",
+        "respuestas": ["LO 1/2025", "LECrim", "Ley de Enjuiciamiento Civil"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Las solicitudes de entrada y registro urgentes van a...?",
+        "respuestas": ["SCG", "Servicio de Guardia", "SCT"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Quién gestiona el Depósito de Efectos Judiciales?",
+        "respuestas": ["SCG", "SCT", "Policía Científica"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué sustituye a los Juzgados de Paz?",
+        "respuestas": ["OJM (Oficinas de Justicia en el Municipio)", "Ayuntamientos", "Registros Civiles"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Cuándo entra en vigor el modelo?",
+        "respuestas": ["31/12/2025", "01/01/2026", "Inmediatamente"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿El Tribunal de Instancia sustituye a...?",
+        "respuestas": ["La Audiencia Provincial", "Los juzgados unipersonales", "El Tribunal Supremo"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Cómo se llama el sistema de gestión procesal?",
+        "respuestas": ["Atenea", "LexNet", "Siraj"],
+        "correcta": 0
+      }
+    ]
+  }
+]
