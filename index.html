@@ -79,10 +79,16 @@
         .fc-front { background: var(--primary); color: white; }
         .fc-back { background: white; color: #333; border: 2px solid var(--primary); transform: rotateY(180deg); }
         
-        /* BOTONES FUERA DE LA TARJETA */
-        .fc-controls { display: flex; justify-content: center; gap: 30px; margin-top: 30px; align-items: center; }
-        .btn-fc { padding: 12px 30px; cursor: pointer; background: var(--primary); color: white; border: none; border-radius: 50px; font-size: 1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.1s; }
+        /* BOTONES MODIFICADOS: BAJADOS 1CM Y COLORES */
+        .fc-controls { display: flex; justify-content: center; gap: 40px; margin-top: 50px; align-items: center; }
+        .btn-fc { padding: 12px 30px; cursor: pointer; color: white; border: none; border-radius: 50px; font-size: 1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.1s; width: 140px; }
         .btn-fc:active { transform: scale(0.95); }
+        
+        .btn-prev { background-color: #c0392b; /* ROJO */ }
+        .btn-prev:hover { background-color: #a93226; }
+        
+        .btn-next { background-color: #27ae60; /* VERDE */ }
+        .btn-next:hover { background-color: #229954; }
 
         /* TEST CHECKBOX STYLE */
         .q-block { margin-bottom: 25px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
@@ -189,9 +195,9 @@
                     <h2 style="text-align:center">Entrenamiento de Memoria (50 Tarjetas)</h2>
                     <div id="fc-canvas"></div>
                     <div class="fc-controls">
-                        <button class="btn-fc" onclick="App.moveFC(-1)"><i class="fas fa-chevron-left"></i> Anterior</button>
+                        <button class="btn-fc btn-prev" onclick="App.moveFC(-1)"><i class="fas fa-chevron-left"></i> Atrás</button>
                         <span id="fc-counter" style="font-weight:bold; font-size:1.1rem; color:#555;">1 / 50</span>
-                        <button class="btn-fc" onclick="App.moveFC(1)">Siguiente <i class="fas fa-chevron-right"></i></button>
+                        <button class="btn-fc btn-next" onclick="App.moveFC(1)">Adelante <i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
 
@@ -204,44 +210,40 @@
                 </div>
 
                 <div id="view-admin" class="view-section">
-                    <h2>Panel de Administración</h2>
+                    <h2 id="admin-title">Panel de Control</h2>
                     
-                    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+                    <div id="admin-tools" style="display:flex; gap:20px; flex-wrap:wrap;">
                         <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); min-width:300px;">
                             <h3><i class="fas fa-user-plus"></i> Alta Rápida</h3>
                             <input type="text" id="new-user" placeholder="Usuario" style="width:100%; padding:8px; margin-bottom:5px;">
                             <input type="text" id="new-pass" placeholder="Contraseña" style="width:100%; padding:8px; margin-bottom:5px;">
-                            <select id="new-role" style="width:100%; padding:8px; margin-bottom:10px;">
-                                <option value="user">Agente (User)</option>
-                                <option value="admin">Mando (Admin)</option>
+                            <select id="new-role" style="width:100%; padding:8px; margin-bottom:5px;">
+                                <option value="ejecutiva">Escala Ejecutiva (Agente)</option>
+                                <option value="tecnica">Escala Técnica (Mando)</option>
+                                <option value="admin">Administrador</option>
                             </select>
+                            <input type="text" id="new-boss" placeholder="Jefe Asignado (Usuario del Mando)" style="width:100%; padding:8px; margin-bottom:10px;">
                             <button class="btn-action" onclick="App.addUser()"><i class="fas fa-plus"></i> Añadir</button>
                         </div>
 
                         <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); min-width:300px;">
                             <h3><i class="fas fa-file-import"></i> Importar Masivo (Excel)</h3>
-                            <p style="font-size:0.8rem; margin:0;">Pegar columnas: <b>Usuario</b> | <b>Contraseña</b></p>
-                            <textarea id="import-data" class="import-area" placeholder="agente1    1234&#10;agente2    5678"></textarea>
+                            <p style="font-size:0.8rem; margin:0;">Formato: <b>Usuario | Clave | Rol | Jefe</b></p>
+                            <textarea id="import-data" class="import-area" placeholder="agente1    1234    ejecutiva    mando1"></textarea>
                             <button class="btn-action" onclick="App.importUsers()"><i class="fas fa-save"></i> Importar Lista</button>
                             <p id="import-msg" style="color:green; font-weight:bold; font-size:0.9rem;"></p>
                         </div>
                     </div>
 
-                    <h3 style="margin-top:30px;">Listado de Usuarios</h3>
-                    <div style="max-height:200px; overflow-y:auto;">
-                        <table class="admin-table">
-                            <thead><tr><th>Usuario</th><th>Contraseña</th><th>Rol</th><th>Acción</th></tr></thead>
-                            <tbody id="users-list"></tbody>
-                        </table>
-                    </div>
-
-                    <h3 style="margin-top:30px;">Actividad y Notas</h3>
+                    <h3 style="margin-top:30px;">Resultados y Actividad</h3>
                     <table class="admin-table">
                         <thead><tr><th>Usuario</th><th>Fecha</th><th>Aciertos</th><th>Fallos</th><th>Nota</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
                     </table>
-                    <br>
-                    <button onclick="App.clearLogs()" style="background:#c0392b; color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Borrar Historial</button>
+                    
+                    <div id="admin-footer" style="margin-top:20px;">
+                        <button onclick="App.clearLogs()" style="background:#c0392b; color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Borrar Historial</button>
+                    </div>
                 </div>
 
             </div>
@@ -252,15 +254,16 @@
 const App = {
     data: null,
     user: null,
-    dbNameLogs: 'noj_logs_v2',
-    dbNameUsers: 'noj_users_v2',
+    dbNameLogs: 'noj_logs_v3',
+    dbNameUsers: 'noj_users_v3',
 
     init: async () => {
-        // Usuarios por defecto si es la primera vez
+        // Usuarios por defecto actualizados a las 3 escalas
         if(!localStorage.getItem(App.dbNameUsers)) {
             const defaultUsers = [
-                { u: 'admin', p: 'admin', r: 'admin' },
-                { u: 'policia', p: 'policia', r: 'user' }
+                { u: 'admin', p: 'admin', r: 'admin', boss: '' },
+                { u: 'mando', p: 'mando', r: 'tecnica', boss: '' }, // Puede ver resultados de sus agentes
+                { u: 'agente', p: 'agente', r: 'ejecutiva', boss: 'mando' }
             ];
             localStorage.setItem(App.dbNameUsers, JSON.stringify(defaultUsers));
         }
@@ -295,14 +298,22 @@ const App = {
             document.getElementById('login-overlay').classList.add('hidden');
             document.getElementById('main-app').classList.remove('hidden');
             document.getElementById('display-user').innerText = found.u.toUpperCase();
-            document.getElementById('role-badge').innerText = found.r === 'admin' ? 'Mando/Admin' : 'Agente';
             
-            if(App.user.role === 'admin') {
+            let roleName = "Agente";
+            if(found.r === 'admin') roleName = "ADMINISTRADOR";
+            if(found.r === 'tecnica') roleName = "MANDO TÉCNICO";
+            document.getElementById('role-badge').innerText = roleName;
+            
+            // LOGICA DE ROLES (Admin vs Tecnica vs Ejecutiva)
+            if(found.r === 'admin') {
                 document.getElementById('menu-admin').classList.remove('hidden');
-                // Auto-navegar a admin para que lo vea
-                App.nav('admin'); 
-                App.renderAdminPanel();
+                App.renderAdminPanel(true); // Full access
+            } else if (found.r === 'tecnica') {
+                document.getElementById('menu-admin').classList.remove('hidden');
+                document.getElementById('menu-admin').innerHTML = '<i class="fas fa-chart-line"></i> Revisión Equipo'; // Renombrar menú
+                App.renderAdminPanel(false); // Acceso limitado (solo lectura de su equipo)
             }
+            // Ejecutiva no ve nada (default hidden)
         } else {
             document.getElementById('login-msg').innerText = "Credenciales incorrectas.";
         }
@@ -314,18 +325,17 @@ const App = {
         const u = document.getElementById('new-user').value.trim();
         const p = document.getElementById('new-pass').value.trim();
         const r = document.getElementById('new-role').value;
+        const b = document.getElementById('new-boss').value.trim();
         
         if(!u || !p) return alert("Rellena usuario y contraseña");
         
         const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
         if(users.find(x => x.u === u)) return alert("Usuario ya existe");
         
-        users.push({ u, p, r });
+        users.push({ u, p, r, boss: b });
         localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
-        App.renderAdminPanel();
         alert("Usuario creado");
         document.getElementById('new-user').value = "";
-        document.getElementById('new-pass').value = "";
     },
 
     importUsers: () => {
@@ -343,9 +353,11 @@ const App = {
             if(parts.length >= 2) {
                 const u = parts[0].trim();
                 const p = parts[1].trim();
-                // Evitar duplicados
+                const r = parts[2] ? parts[2].trim().toLowerCase() : 'ejecutiva';
+                const b = parts[3] ? parts[3].trim() : '';
+                
                 if(!users.find(x => x.u === u)) {
-                    users.push({ u, p, r: 'user' });
+                    users.push({ u, p, r, boss: b });
                     count++;
                 }
             }
@@ -353,41 +365,41 @@ const App = {
 
         if(count > 0) {
             localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
-            App.renderAdminPanel();
             document.getElementById('import-msg').innerText = `+${count} usuarios importados.`;
-        } else {
-            alert("No se añadieron usuarios (formato incorrecto o duplicados).");
         }
     },
 
-    deleteUser: (idx) => {
-        if(confirm("¿Eliminar usuario?")) {
-            const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
-            users.splice(idx, 1);
-            localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
-            App.renderAdminPanel();
-        }
-    },
-
-    renderAdminPanel: () => {
-        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
-        const tUsers = document.getElementById('users-list');
-        tUsers.innerHTML = '';
-        users.forEach((x, i) => {
-            tUsers.innerHTML += `<tr>
-                <td>${x.u}</td>
-                <td>****</td>
-                <td>${x.r}</td>
-                <td><button onclick="App.deleteUser(${i})" style="color:red;border:none;background:none;cursor:pointer"><i class="fas fa-trash"></i></button></td>
-            </tr>`;
-        });
-
+    renderAdminPanel: (isFullAdmin) => {
         const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
+        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
         const tLogs = document.getElementById('admin-logs');
-        tLogs.innerHTML = logs.length ? '' : '<tr><td colspan="5">Sin registros</td></tr>';
+        tLogs.innerHTML = '';
+
+        // Si no es admin total (es decir, es Tecnica), ocultar herramientas de crear usuarios
+        if(!isFullAdmin) {
+            document.getElementById('admin-tools').style.display = 'none';
+            document.getElementById('admin-footer').style.display = 'none';
+            document.getElementById('admin-title').innerText = "Resultados de mi Equipo Asignado";
+        }
+
+        let visibleCount = 0;
         logs.forEach(l => {
-            tLogs.innerHTML += `<tr><td><b>${l.user}</b></td><td>${l.date}</td><td style="color:green">${l.score}</td><td style="color:red">${l.errors}</td><td><b>${((l.score/l.total)*10).toFixed(1)}</b></td></tr>`;
+            let show = false;
+            if(isFullAdmin) {
+                show = true; // Admin ve todo
+            } else {
+                // Lógica Tecnica: Mostrar solo si el usuario del log tiene como 'boss' al usuario actual
+                const logUser = users.find(u => u.u === l.user);
+                if(logUser && logUser.boss === App.user.name) show = true;
+            }
+
+            if(show) {
+                visibleCount++;
+                tLogs.innerHTML += `<tr><td><b>${l.user}</b></td><td>${l.date}</td><td style="color:green">${l.score}</td><td style="color:red">${l.errors}</td><td><b>${((l.score/l.total)*10).toFixed(1)}</b></td></tr>`;
+            }
         });
+
+        if(visibleCount === 0) tLogs.innerHTML = '<tr><td colspan="5">No hay actividad registrada en tu ámbito de responsabilidad.</td></tr>';
     },
 
     saveResult: (score, total) => {
@@ -400,11 +412,10 @@ const App = {
             errors: total - score
         });
         localStorage.setItem(App.dbNameLogs, JSON.stringify(logs));
-        if(App.user.role === 'admin') App.renderAdminPanel();
     },
     
     clearLogs: () => {
-        if(confirm("¿Borrar historial?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(); }
+        if(confirm("¿Borrar historial completo?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(true); }
     },
 
     // --- RENDERS ---
@@ -527,7 +538,6 @@ const App = {
             const correctIdx = parseInt(b.dataset.correct);
             const options = b.querySelectorAll('.quiz-option');
             
-            // Limpiar estilos previos
             options.forEach(o => { o.classList.remove('correct', 'wrong'); });
 
             if(selected) {
@@ -537,7 +547,7 @@ const App = {
                     score++;
                 } else {
                     selected.classList.add('wrong');
-                    options[correctIdx].classList.add('correct'); // Mostrar solución
+                    options[correctIdx].classList.add('correct');
                 }
             }
         });
