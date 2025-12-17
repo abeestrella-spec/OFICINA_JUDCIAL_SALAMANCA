@@ -6,65 +6,104 @@
     <title>Normativa Policial Salamanca</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --primary: #2c3e50; --secondary: #e74c3c; --bg: #ecf0f1; --card-bg: #fff; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 800px; margin: 0 auto; }
+        :root { --primary: #003366; --secondary: #c90000; --bg: #f0f2f5; --card-bg: #fff; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 900px; margin: 0 auto; }
         
+        /* HEADER */
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { color: var(--primary); margin: 0; font-size: 2.2rem; }
+        .subtitle { color: #666; margin-top: 5px; font-size: 1.1rem; }
+
         /* SEARCH */
-        .search-box { width: 100%; padding: 15px; margin-bottom: 25px; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; }
+        .search-container { position: sticky; top: 10px; z-index: 100; margin-bottom: 25px; }
+        .search-box { width: 100%; padding: 15px 20px; border-radius: 30px; border: 1px solid #ddd; font-size: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); outline: none; transition: 0.3s; }
+        .search-box:focus { border-color: var(--primary); box-shadow: 0 4px 15px rgba(0,51,102,0.15); }
         
         /* CARDS */
-        .card { background: var(--card-bg); border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; overflow: hidden; }
-        .card-header { padding: 20px; background: #fff; border-bottom: 1px solid #eee; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .card-header h2 { margin: 0; font-size: 1.2rem; color: var(--primary); }
-        .card-header:hover { background: #f9f9f9; }
+        .card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; overflow: hidden; transition: transform 0.2s; border-left: 5px solid transparent; }
+        .card:hover { transform: translateY(-2px); border-left-color: var(--primary); }
         
-        .card-body { display: none; padding: 0; }
-        .card.active .card-body { display: block; }
-        .card.active .card-header { background: #f1f1f1; border-left: 5px solid var(--secondary); }
+        .card-header { padding: 20px; background: #fff; border-bottom: 1px solid #eee; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+        .card-header h2 { margin: 0; font-size: 1.3rem; color: var(--primary); display: flex; flex-direction: column; }
+        .meta-tag { font-size: 0.8rem; color: #666; margin-top: 5px; font-weight: normal; }
+        
+        .card-body { display: none; background: #fff; }
+        .card.active .card-body { display: block; animation: slideDown 0.3s ease-out; }
+        .card.active .card-header { background: #f8f9fa; border-left-color: var(--secondary); }
         .card.active .fa-chevron-down { transform: rotate(180deg); }
 
         /* TABS */
-        .tabs { display: flex; background: #f8f9fa; border-bottom: 1px solid #ddd; }
-        .tab-btn { flex: 1; padding: 15px; border: none; background: none; cursor: pointer; font-weight: bold; color: #7f8c8d; }
-        .tab-btn.active { color: var(--secondary); border-bottom: 3px solid var(--secondary); background: #fff; }
-        .tab-content { display: none; padding: 20px; }
+        .tabs { display: flex; background: #f1f3f5; padding: 5px; gap: 5px; overflow-x: auto; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: none; cursor: pointer; font-weight: 600; color: #666; border-radius: 8px; transition: 0.2s; white-space: nowrap; }
+        .tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .tab-content { display: none; padding: 25px; }
         .tab-content.active { display: block; }
 
         /* CONTENT STYLES */
-        .btn-download { display: inline-block; padding: 10px 20px; background: var(--primary); color: white; text-decoration: none; border-radius: 5px; margin-top: 15px; }
-        
+        .doc-content h3 { color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 8px; margin-top: 25px; font-size: 1.2rem; }
+        .doc-content ul { padding-left: 20px; line-height: 1.6; }
+        .doc-content li { margin-bottom: 8px; }
+        .btn-download { display: inline-flex; align-items: center; gap: 8px; padding: 12px 25px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; margin-top: 20px; font-weight: 500; transition: 0.2s; }
+        .btn-download:hover { background: #002244; transform: scale(1.02); }
+
         /* FLASHCARDS */
-        .fc-scene { perspective: 600px; height: 200px; margin-bottom: 15px; cursor: pointer; }
-        .fc-card { width: 100%; height: 100%; position: relative; transition: transform 0.6s; transform-style: preserve-3d; }
-        .fc-card.is-flipped { transform: rotateY(180deg); }
-        .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); box-sizing: border-box; font-size: 1.1em; }
-        .fc-front { background: var(--primary); color: white; }
-        .fc-back { background: white; color: #333; transform: rotateY(180deg); border: 2px solid var(--primary); }
+        .fc-deck { perspective: 1000px; height: 280px; position: relative; max-width: 600px; margin: 0 auto; }
+        .fc-card { width: 100%; height: 100%; position: absolute; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); cursor: pointer; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .fc-card.flipped { transform: rotateY(180deg); }
+        .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; text-align: center; box-sizing: border-box; border-radius: 15px; }
+        .fc-front { background: white; border: 2px solid var(--primary); color: var(--primary); font-weight: 600; font-size: 1.2rem; }
+        .fc-back { background: var(--primary); color: white; transform: rotateY(180deg); font-size: 1.1rem; line-height: 1.5; }
+        .fc-controls { text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 20px; align-items: center; }
+        .fc-btn { background: #eee; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; transition: 0.2s; color: var(--primary); }
+        .fc-btn:hover { background: #ddd; transform: scale(1.1); }
 
         /* TEST */
-        .opt { padding: 12px; border: 1px solid #ddd; margin: 5px 0; border-radius: 5px; cursor: pointer; transition: 0.2s; }
-        .opt:hover { background: #eee; }
-        .opt.correct { background: #d4edda; border-color: #28a745; color: #155724; }
-        .opt.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .quiz-opt { padding: 15px; border: 1px solid #eee; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: 0.2s; position: relative; background: #fff; }
+        .quiz-opt:hover { background: #f8f9fa; border-color: #ccc; }
+        .quiz-opt.correct { background: #d4edda; border-color: #28a745; color: #155724; padding-right: 40px; font-weight: 500; }
+        .quiz-opt.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; opacity: 0.8; }
+        .quiz-opt.correct::after { content: '✓'; position: absolute; right: 15px; font-weight: bold; }
+        .quiz-opt.wrong::after { content: '✕'; position: absolute; right: 15px; font-weight: bold; }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1 style="text-align:center; color:var(--primary)">👮 Normativa Salamanca</h1>
-    <input type="text" id="search" class="search-box" placeholder="Buscar protocolo..." onkeyup="render()">
-    <div id="app"></div>
+    <header>
+        <h1><i class="fas fa-university"></i> Academia Policial</h1>
+        <div class="subtitle">Nueva Oficina Judicial Salamanca</div>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="search" class="search-box" placeholder="🔍 Buscar por tema, unidad o procedimiento..." onkeyup="render()">
+    </div>
+
+    <div id="app">
+        <div style="text-align:center; padding:50px; color:#666;">
+            <i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Cargando base de datos...
+        </div>
+    </div>
 </div>
 
 <script>
     let DATA = [];
 
-    // Cargar JSON local
-    fetch('database.json')
+    // Cargar JSON con timestamp para evitar caché
+    fetch('database.json?t=' + Date.now())
         .then(r => r.json())
         .then(d => { DATA = d; render(); })
-        .catch(e => document.getElementById('app').innerHTML = "<p align='center'>Error cargando database.json</p>");
+        .catch(e => {
+            console.error(e);
+            document.getElementById('app').innerHTML = `
+                <div style="text-align:center; padding:30px; background:#fff0f0; border-radius:10px; border:1px solid #ffcccc; color:#cc0000;">
+                    <h3>⚠️ Error de Carga</h3>
+                    <p>No se pudo leer <strong>database.json</strong>.</p>
+                    <p>Verifica que el archivo existe y el formato JSON es válido.</p>
+                </div>`;
+        });
 
     function render() {
         const term = document.getElementById('search').value.toLowerCase();
@@ -72,52 +111,67 @@
         app.innerHTML = '';
 
         DATA.forEach((item, i) => {
-            if(!item.titulo.toLowerCase().includes(term)) return;
+            if(!item.titulo.toLowerCase().includes(term) && !item.resumen.toLowerCase().includes(term)) return;
 
-            // Audio Player Check
-            let audioHTML = '<p>Sin audio.</p>';
+            // Audio Player (Soporte explícito m4a)
+            let audioHTML = `<div style="text-align:center; padding:20px; color:#999; background:#f9f9f9; border-radius:8px;">
+                                <i class="fas fa-volume-mute fa-2x"></i><br>No hay audio disponible
+                             </div>`;
+            
             if(item.audio_url) {
-                audioHTML = `<div style="background:#f1f3f4; padding:15px; border-radius:8px; text-align:center;">
-                                <strong>🎧 Audio Resumen</strong><br><br>
-                                <audio controls style="width:100%"><source src="${item.audio_url}" type="audio/mpeg"></audio>
+                audioHTML = `<div style="background:#f1f3f5; padding:20px; border-radius:10px; text-align:center;">
+                                <div style="margin-bottom:10px; font-weight:600; color:#444;">
+                                    <i class="fas fa-headphones"></i> Audio Resumen (Podcast)
+                                </div>
+                                <audio controls style="width:100%; outline:none;">
+                                    <source src="${item.audio_url}" type="audio/mp4">
+                                    <source src="${item.audio_url}" type="audio/x-m4a">
+                                    Tu navegador no soporta la reproducción de este audio.
+                                </audio>
                              </div>`;
             }
 
             app.innerHTML += `
             <div class="card">
                 <div class="card-header" onclick="this.parentElement.classList.toggle('active')">
-                    <strong>${item.titulo}</strong>
+                    <h2>
+                        ${item.titulo}
+                        <span class="meta-tag"><i class="fas fa-tag"></i> ${item.categoria.toUpperCase()}</span>
+                    </h2>
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="card-body">
                     <div class="tabs">
-                        <button class="tab-btn active" onclick="openTab(event, 'doc-${i}')">Norma</button>
-                        <button class="tab-btn" onclick="openTab(event, 'fc-${i}')">Estudio</button>
-                        <button class="tab-btn" onclick="openTab(event, 'test-${i}')">Test</button>
+                        <button class="tab-btn active" onclick="openTab(event, 'doc-${i}')"><i class="fas fa-book-open"></i> Guía</button>
+                        <button class="tab-btn" onclick="openTab(event, 'fc-${i}')"><i class="fas fa-brain"></i> Repaso</button>
+                        <button class="tab-btn" onclick="openTab(event, 'test-${i}')"><i class="fas fa-check-circle"></i> Test</button>
+                        <button class="tab-btn" onclick="openTab(event, 'av-${i}')"><i class="fas fa-volume-up"></i> Audio</button>
                     </div>
 
-                    <div id="doc-${i}" class="tab-content active">
-                        <div style="background:#fff3cd; padding:10px; border-radius:5px; margin-bottom:15px;">
-                            📌 <strong>Resumen:</strong> ${item.resumen}
+                    <div id="doc-${i}" class="tab-content active doc-content">
+                        <div style="background:#eef6fc; padding:15px; border-radius:8px; border-left:4px solid var(--primary); margin-bottom:20px;">
+                            <strong><i class="fas fa-info-circle"></i> Resumen:</strong> ${item.resumen}
                         </div>
                         ${item.contenido_html}
                         <br>
-                        ${item.link_fuente ? `<a href="${item.link_fuente}" target="_blank" class="btn-download">📄 Ver PDF Original</a>` : ''}
-                        <br><br>
-                        ${audioHTML}
+                        ${item.link_fuente ? `<a href="${item.link_fuente}" target="_blank" class="btn-download"><i class="fas fa-file-pdf"></i> Descargar Protocolo Oficial</a>` : ''}
                     </div>
 
                     <div id="fc-${i}" class="tab-content">
-                        <div id="fc-deck-${i}"></div>
+                        <div id="fc-app-${i}"></div>
                     </div>
 
                     <div id="test-${i}" class="tab-content">
-                        <div id="quiz-deck-${i}"></div>
+                        <div id="quiz-app-${i}"></div>
+                    </div>
+
+                    <div id="av-${i}" class="tab-content">
+                        ${audioHTML}
                     </div>
                 </div>
             </div>`;
 
-            // Iniciar componentes
+            // Iniciar Apps
             setTimeout(() => {
                 if(item.flashcards) initFC(i, item.flashcards);
                 if(item.test) initTest(i, item.test);
@@ -125,7 +179,6 @@
         });
     }
 
-    // --- UTILIDADES ---
     function openTab(evt, id) {
         const p = evt.target.closest('.card-body');
         p.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
@@ -134,66 +187,75 @@
         evt.target.classList.add('active');
     }
 
-    // --- FLASHCARDS LOGIC ---
+    // --- FLASHCARDS ENGINE ---
     function initFC(idx, cards) {
-        let curr = 0;
-        const container = document.getElementById(`fc-deck-${idx}`);
-        
-        const draw = () => {
-            if(!cards.length) return;
+        if(!cards.length) return;
+        const container = document.getElementById(`fc-app-${idx}`);
+        window[`fc_state_${idx}`] = { current: 0, total: cards.length };
+
+        const renderCard = () => {
+            const cur = window[`fc_state_${idx}`].current;
             container.innerHTML = `
-                <div class="fc-scene" onclick="this.querySelector('.fc-card').classList.toggle('is-flipped')">
+                <div class="fc-deck" onclick="this.querySelector('.fc-card').classList.toggle('flipped')">
                     <div class="fc-card">
-                        <div class="fc-face fc-front">${cards[curr].front}</div>
-                        <div class="fc-face fc-back">${cards[curr].back}</div>
+                        <div class="fc-face fc-front">
+                            <i class="fas fa-question-circle fa-2x" style="opacity:0.2; margin-bottom:15px;"></i>
+                            ${cards[cur].front}
+                        </div>
+                        <div class="fc-face fc-back">
+                            <i class="fas fa-lightbulb fa-2x" style="margin-bottom:15px;"></i>
+                            ${cards[cur].back}
+                        </div>
                     </div>
                 </div>
-                <div style="text-align:center">
-                    <button onclick="window.changeFC(${idx}, -1)" style="padding:10px">❮</button>
-                    <span style="margin:0 15px"> ${curr + 1} / ${cards.length} </span>
-                    <button onclick="window.changeFC(${idx}, 1)" style="padding:10px">❯</button>
+                <div class="fc-controls">
+                    <button class="fc-btn" onclick="navFC(${idx}, -1)"><i class="fas fa-arrow-left"></i></button>
+                    <span style="font-weight:600; color:#555;">${cur + 1} / ${cards.length}</span>
+                    <button class="fc-btn" onclick="navFC(${idx}, 1)"><i class="fas fa-arrow-right"></i></button>
                 </div>
             `;
         };
         
-        window[`fc_data_${idx}`] = { cards, curr };
-        window.changeFC = (i, dir) => {
-            let d = window[`fc_data_${i}`];
-            d.curr += dir;
-            if(d.curr < 0) d.curr = d.cards.length - 1;
-            if(d.curr >= d.cards.length) d.curr = 0;
-            const wrap = document.getElementById(`fc-deck-${i}`);
-            wrap.querySelector('.fc-front').innerText = d.cards[d.curr].front;
-            wrap.querySelector('.fc-back').innerText = d.cards[d.curr].back;
-            wrap.querySelector('.fc-card').classList.remove('is-flipped');
-            wrap.querySelector('span').innerText = `${d.curr + 1} / ${d.cards.length}`;
+        window.navFC = (i, dir) => {
+            let s = window[`fc_state_${i}`];
+            s.current += dir;
+            if(s.current < 0) s.current = s.total - 1;
+            if(s.current >= s.total) s.current = 0;
+            renderCard(); 
         };
-        draw();
+        renderCard();
     }
 
-    // --- TEST LOGIC ---
+    // --- TEST ENGINE ---
     function initTest(idx, questions) {
-        const container = document.getElementById(`quiz-deck-${idx}`);
-        container.innerHTML = questions.map((q, qId) => `
-            <div style="margin-bottom:20px">
-                <p><strong>${qId + 1}. ${q.pregunta}</strong></p>
-                ${q.respuestas.map((r, rId) => `
-                    <div class="opt" id="q${idx}-${qId}-${rId}" onclick="check(${idx}, ${qId}, ${rId}, ${q.correcta})">${r}</div>
-                `).join('')}
-            </div>
-        `).join('');
+        const container = document.getElementById(`quiz-app-${idx}`);
+        let html = '';
+        
+        questions.forEach((q, qId) => {
+            html += `<div style="margin-bottom:30px;">
+                        <p style="font-weight:600; font-size:1.1rem; margin-bottom:10px;">${qId + 1}. ${q.pregunta}</p>
+                        ${q.respuestas.map((r, rId) => `
+                            <div class="quiz-opt" id="q${idx}-${qId}-${rId}" onclick="checkAns(${idx}, ${qId}, ${rId}, ${q.correcta})">
+                                ${r}
+                            </div>
+                        `).join('')}
+                     </div>`;
+        });
+        container.innerHTML = html;
 
-        window.check = (i, q, r, c) => {
+        window.checkAns = (i, q, r, c) => {
             const el = document.getElementById(`q${i}-${q}-${r}`);
-            if(el.parentElement.querySelector('.correct') || el.parentElement.querySelector('.wrong')) return; 
-            
-            if(r === c) el.classList.add('correct');
-            else {
+            if(el.parentElement.querySelector('.correct') || el.parentElement.querySelector('.wrong')) return;
+
+            if(r === c) {
+                el.classList.add('correct');
+            } else {
                 el.classList.add('wrong');
                 document.getElementById(`q${i}-${q}-${c}`).classList.add('correct');
             }
         };
     }
 </script>
+
 </body>
 </html>
