@@ -9,6 +9,22 @@
         :root { --primary: #0a2e5c; --accent: #d4af37; --bg: #f4f7f9; --text: #333; --danger: #c0392b; --success: #27ae60; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; height: 100vh; display: flex; flex-direction: column; }
         
+        /* HEADER CON IMAGEN DE FONDO (EDIFICIO) */
+        .header-hero {
+            height: 150px;
+            background: linear-gradient(rgba(10,46,92,0.8), rgba(10,46,92,0.9)), url('jefatura.jpg') center/cover no-repeat;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-align: center;
+            padding: 0 20px;
+        }
+        .header-hero h1 { margin: 0; font-size: 2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .header-hero p { margin: 5px 0 0; opacity: 0.9; }
+
         /* LOGIN MODAL */
         #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary); z-index: 3000; display: flex; justify-content: center; align-items: center; }
         .login-box { background: white; padding: 40px; border-radius: 10px; width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
@@ -17,24 +33,22 @@
         .btn-login { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
         .btn-login:hover { background: #001a3b; }
 
-        /* LIGHTBOX */
+        /* LIGHTBOX CON ZOOM */
         #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center; flex-direction: column; overflow: hidden; }
         #lightbox-container { width: 90%; height: 80%; display: flex; justify-content: center; align-items: center; overflow: auto; border: 1px solid #555; background: #222; position: relative; }
         #lightbox-img { max-width: 100%; max-height: 100%; transition: transform 0.1s ease; transform-origin: center center; cursor: grab; }
-        #lightbox-caption { color: white; margin-top: 10px; font-size: 1.2rem; font-weight: bold; }
         #lightbox-controls { margin-top: 15px; display: flex; gap: 10px; align-items: center; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 20px; }
         #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; z-index: 2001; }
         input[type=range] { width: 200px; cursor: pointer; }
 
         /* LAYOUT PRINCIPAL */
         #main-app { display: none; height: 100%; display: flex; flex-direction: column; }
-        .top-bar { background: var(--primary); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .user-info { font-size: 0.9rem; }
-        .btn-logout { background: rgba(255,255,255,0.1); border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px; }
+        .top-bar { background: #fff; color: #333; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; font-size: 0.9rem; }
+        .btn-logout { background: #c0392b; border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px; }
 
         .content-area { flex: 1; display: flex; overflow: hidden; }
         
-        /* SIDEBAR MENU */
+        /* SIDEBAR */
         .sidebar { width: 250px; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; }
         .menu-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid #eee; transition: 0.2s; color: #555; font-weight: 500; }
         .menu-item:hover { background: #f8f9fa; color: var(--primary); }
@@ -45,6 +59,41 @@
         .viewport { flex: 1; padding: 30px; overflow-y: auto; }
         .view-section { display: none; animation: fadeIn 0.3s; }
         .view-section.active { display: block; }
+
+        /* MULTIMEDIA */
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .media-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; cursor: pointer; transition: transform 0.2s; }
+        .media-card:hover { transform: translateY(-5px); }
+        .media-card img { max-width: 100%; border-radius: 4px; height: 180px; object-fit: cover; }
+
+        /* FLASHCARDS */
+        .fc-container { perspective: 1000px; height: 300px; max-width: 600px; margin: 0 auto; cursor: pointer; position: relative; }
+        .fc-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .fc-flipped .fc-inner { transform: rotateY(180deg); }
+        .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; text-align: center; border-radius: 15px; font-size: 1.2rem; }
+        .fc-front { background: var(--primary); color: white; }
+        .fc-back { background: white; color: #333; border: 2px solid var(--primary); transform: rotateY(180deg); }
+        
+        .fc-controls { display: flex; justify-content: center; gap: 40px; margin-top: 50px; align-items: center; }
+        .btn-fc { padding: 15px 35px; cursor: pointer; color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.1s; min-width: 150px; }
+        .btn-fc:active { transform: scale(0.95); }
+        .btn-prev { background-color: #c0392b !important; }
+        .btn-next { background-color: #27ae60 !important; }
+
+        /* TEST */
+        .quiz-option { padding: 12px; margin: 8px 0; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; display: flex; align-items: center; }
+        .quiz-option::before { content: ''; display: inline-block; width: 18px; height: 18px; border: 2px solid #ccc; border-radius: 50%; margin-right: 15px; }
+        .quiz-option.selected { background: #f0f7ff; border-color: var(--primary); }
+        .quiz-option.selected::before { border-color: var(--primary); background: var(--primary); }
+        .quiz-option.correct { background: #d4edda; border-color: #28a745; }
+        .quiz-option.wrong { background: #f8d7da; border-color: #c0392b; }
+        
+        /* ADMIN TABLE */
+        .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
+        .admin-table th, .admin-table td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        .admin-table th { background: #f1f1f1; }
+        .import-area { width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; font-family: monospace; font-size: 12px; margin-top: 10px; }
+        .btn-action { padding: 10px 15px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
 
         /* DOC CONTENT */
         .doc-nav { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
@@ -57,63 +106,12 @@
         .doc-table th, .doc-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         .doc-table th { background: #f1f1f1; }
 
-        /* BIBLIOGRAFIA */
+        /* BIBLIO */
         .file-tree { list-style: none; padding-left: 0; }
         .file-node { margin-bottom: 15px; border: 1px solid #eee; border-radius: 6px; overflow: hidden; }
         .node-header { background: #f8f9fa; padding: 10px 15px; font-weight: bold; border-bottom: 1px solid #eee; }
         .file-item { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f1f1; background: white; }
         .file-item a { color: var(--primary); text-decoration: none; font-weight: 500; }
-        .file-item span { font-size: 0.85rem; color: #777; }
-
-        /* MULTIMEDIA */
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .media-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; cursor: pointer; transition: transform 0.2s; }
-        .media-card:hover { transform: translateY(-5px); }
-        .media-card img { max-width: 100%; border-radius: 4px; height: 180px; object-fit: cover; }
-
-        /* FLASHCARDS FIX (Solución Definitiva) */
-        .fc-container { perspective: 1000px; height: 350px; max-width: 600px; margin: 0 auto; cursor: pointer; position: relative; }
-        .fc-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        
-        .fc-flipped .fc-inner { transform: rotateY(180deg); }
-        
-        .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; text-align: center; border-radius: 15px; font-size: 1.3rem; box-sizing: border-box; }
-        
-        /* Forzar orden de visualización */
-        .fc-front { background: var(--primary); color: white; z-index: 2; transform: rotateY(0deg); }
-        .fc-back { background: white; color: #333; border: 3px solid var(--primary); transform: rotateY(180deg); z-index: 1; }
-        
-        .fc-controls { display: flex; justify-content: center; gap: 40px; margin-top: 50px; align-items: center; }
-        .btn-fc { padding: 15px 35px; cursor: pointer; color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.1s; min-width: 150px; }
-        .btn-fc:active { transform: scale(0.95); }
-        
-        .btn-prev { background-color: #c0392b !important; } /* Rojo */
-        .btn-next { background-color: #27ae60 !important; } /* Verde */
-
-        /* TEST CHECKBOX STYLE */
-        .q-block { margin-bottom: 25px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .quiz-option { 
-            padding: 12px; margin: 8px 0; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; 
-            display: flex; align-items: center; transition: all 0.2s;
-        }
-        .quiz-option::before {
-            content: ''; display: inline-block; width: 18px; height: 18px; 
-            border: 2px solid #ccc; border-radius: 50%; margin-right: 15px; flex-shrink: 0;
-            transition: all 0.2s;
-        }
-        .quiz-option.selected { background: #f0f7ff; border-color: var(--primary); }
-        .quiz-option.selected::before { border-color: var(--primary); background: var(--primary); box-shadow: inset 0 0 0 3px white; }
-        .quiz-option.correct { background: #d4edda; border-color: #28a745; }
-        .quiz-option.correct::before { border-color: #28a745; background: #28a745; }
-        .quiz-option.wrong { background: #f8d7da; border-color: #c0392b; }
-        .quiz-option.wrong::before { border-color: #c0392b; background: #c0392b; }
-        
-        /* ADMIN TABLE */
-        .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
-        .admin-table th, .admin-table td { padding: 12px; border: 1px solid #ddd; text-align: left; }
-        .admin-table th { background: #f1f1f1; }
-        .import-area { width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; font-family: monospace; font-size: 12px; margin-top: 10px; }
-        .btn-action { padding: 10px 15px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .hidden { display: none !important; }
@@ -131,13 +129,13 @@
             <input type="range" id="zoom-slider" min="1" max="5" step="0.1" value="1" oninput="App.zoomImage(this.value)">
             <span style="color:white"><i class="fas fa-search-plus"></i></span>
         </div>
-        <div id="lightbox-caption"></div>
     </div>
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2><i class="fas fa-university"></i> Formación Policial</h2>
-            <p style="color:#666;">Acceso Restringido NOJ Salamanca</p>
+            <img src="poli (2).png" style="width:80px; margin-bottom:15px; border-radius:50%; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+            <h2>Formación Policial</h2>
+            <p>Acceso Restringido NOJ Salamanca</p>
             <input type="text" id="username" placeholder="Usuario">
             <input type="password" id="password" placeholder="Contraseña">
             <button class="btn-login" onclick="App.login()">Entrar</button>
@@ -146,11 +144,17 @@
     </div>
 
     <div id="main-app" class="hidden">
+        
+        <div class="header-hero">
+            <h1><i class="fas fa-university"></i> Academia Virtual</h1>
+            <p>Nueva Oficina Judicial de Salamanca</p>
+        </div>
+
         <div class="top-bar">
-            <div style="font-weight:bold; font-size:1.2rem;"><i class="fas fa-shield-alt"></i> Academia Virtual</div>
-            <div class="user-info">
-                <span id="display-user">Usuario</span> | 
-                <span id="role-badge" style="background:rgba(255,255,255,0.2); padding:2px 6px; border-radius:4px; font-size:0.8rem;">Agente</span>
+            <div id="welcome-msg">Bienvenido al sistema</div>
+            <div>
+                <span id="display-user" style="font-weight:bold;"></span> | 
+                <span id="role-badge" style="background:#ddd; padding:2px 6px; border-radius:4px;"></span>
                 <button class="btn-logout" onclick="App.logout()"><i class="fas fa-sign-out-alt"></i> Salir</button>
             </div>
         </div>
@@ -158,7 +162,7 @@
         <div class="content-area">
             <div class="sidebar">
                 <div class="menu-item active" onclick="App.nav('temario')"><i class="fas fa-book"></i> Temario Oficial</div>
-                <div class="menu-item" onclick="App.nav('biblio')"><i class="fas fa-folder-open"></i> Documentación PDF</div>
+                <div class="menu-item" onclick="App.nav('biblio')"><i class="fas fa-folder-open"></i> Documentación</div>
                 <div class="menu-item" onclick="App.nav('media')"><i class="fas fa-photo-video"></i> Multimedia</div>
                 <div class="menu-item" onclick="App.nav('flashcards')"><i class="fas fa-brain"></i> Tarjetas Memoria</div>
                 <div class="menu-item" onclick="App.nav('test')"><i class="fas fa-clipboard-check"></i> Test Evaluación</div>
@@ -193,11 +197,10 @@
 
                 <div id="view-flashcards" class="view-section">
                     <h2 style="text-align:center">Entrenamiento de Memoria (50 Tarjetas)</h2>
-                    <p style="text-align:center; color:#666; margin-bottom:20px;">Pulsa en la tarjeta para ver la respuesta.</p>
                     <div id="fc-canvas"></div>
                     <div class="fc-controls">
                         <button class="btn-fc btn-prev" onclick="App.moveFC(-1)"><i class="fas fa-chevron-left"></i> Atrás</button>
-                        <span id="fc-counter" style="font-weight:bold; font-size:1.2rem; color:#555;">1 / 50</span>
+                        <span id="fc-counter" style="font-weight:bold; font-size:1.1rem; color:#555;">1 / 50</span>
                         <button class="btn-fc btn-next" onclick="App.moveFC(1)">Adelante <i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
@@ -219,8 +222,13 @@
                             <input type="text" id="new-user" placeholder="Usuario" style="width:100%; padding:8px; margin-bottom:5px;">
                             <input type="text" id="new-pass" placeholder="Contraseña" style="width:100%; padding:8px; margin-bottom:5px;">
                             <select id="new-role" style="width:100%; padding:8px; margin-bottom:5px;">
-                                <option value="ejecutiva">Escala Ejecutiva (Agente)</option>
-                                <option value="tecnica">Escala Técnica (Mando)</option>
+                                <option value="agente1">Agente (Nivel 1)</option>
+                                <option value="agente2">Agente (Nivel 2)</option>
+                                <option value="agente3">Agente (Nivel 3)</option>
+                                <option value="mdc">Mando Calle (MDC)</option>
+                                <option value="mdt">Mando Táctico (MDT)</option>
+                                <option value="mut">Mando Técnico (MUT)</option>
+                                <option value="jef">Jefatura (JEF)</option>
                                 <option value="admin">Administrador</option>
                             </select>
                             <input type="text" id="new-boss" placeholder="Jefe Asignado (Usuario del Mando)" style="width:100%; padding:8px; margin-bottom:10px;">
@@ -229,14 +237,14 @@
 
                         <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); min-width:300px;">
                             <h3><i class="fas fa-file-import"></i> Importar Masivo (Excel)</h3>
-                            <p style="font-size:0.8rem; margin:0;">Formato: <b>Usuario | Clave | Rol | Jefe</b></p>
-                            <textarea id="import-data" class="import-area" placeholder="agente1    1234    ejecutiva    mando1"></textarea>
+                            <p style="font-size:0.8rem; margin:0;">Pegar: <b>Usuario | Clave | Rol | Jefe</b></p>
+                            <textarea id="import-data" class="import-area" placeholder="agente1    1234    agente1    mando1"></textarea>
                             <button class="btn-action" onclick="App.importUsers()"><i class="fas fa-save"></i> Importar Lista</button>
                             <p id="import-msg" style="color:green; font-weight:bold; font-size:0.9rem;"></p>
                         </div>
                     </div>
 
-                    <h3 id="list-title" style="margin-top:30px;">Resultados y Actividad</h3>
+                    <h3 style="margin-top:30px;">Resultados y Actividad</h3>
                     <table class="admin-table">
                         <thead><tr><th>Usuario</th><th>Fecha</th><th>Aciertos</th><th>Fallos</th><th>Nota</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
@@ -255,16 +263,17 @@
 const App = {
     data: null,
     user: null,
-    dbNameLogs: 'noj_logs_v5', // VERSION 5: FUERZA BORRADO ANTIGUO
+    dbNameLogs: 'noj_logs_v5', 
     dbNameUsers: 'noj_users_v5',
 
     init: async () => {
-        // Usuarios por defecto actualizados a las 3 escalas
+        // Usuarios por defecto (Reset si no existen)
         if(!localStorage.getItem(App.dbNameUsers)) {
             const defaultUsers = [
                 { u: 'admin', p: 'admin', r: 'admin', boss: '' },
-                { u: 'mando', p: 'mando', r: 'tecnica', boss: '' }, 
-                { u: 'agente', p: 'agente', r: 'ejecutiva', boss: 'mando' }
+                { u: 'jefe', p: 'jefe', r: 'jef', boss: '' }, // Ve todo
+                { u: 'mando', p: 'mando', r: 'mdc', boss: '' }, // Mando de Calle
+                { u: 'agente', p: 'agente', r: 'agente1', boss: 'mando' } // Agente de 'mando'
             ];
             localStorage.setItem(App.dbNameUsers, JSON.stringify(defaultUsers));
         }
@@ -299,22 +308,23 @@ const App = {
             document.getElementById('login-overlay').classList.add('hidden');
             document.getElementById('main-app').classList.remove('hidden');
             document.getElementById('display-user').innerText = found.u.toUpperCase();
+            document.getElementById('role-badge').innerText = found.r.toUpperCase();
             
-            let roleName = "Agente";
-            if(found.r === 'admin') roleName = "ADMINISTRADOR";
-            if(found.r === 'tecnica') roleName = "MANDO TÉCNICO";
-            document.getElementById('role-badge').innerText = roleName;
-            
-            // LOGICA DE ROLES (Admin vs Tecnica vs Ejecutiva)
-            if(found.r === 'admin') {
+            // LOGICA DE ROLES
+            // Admin y Jefatura ven menú "Gestión"
+            if(['admin', 'jef', 'mdc', 'mdt', 'mut'].includes(found.r)) {
                 document.getElementById('menu-admin').classList.remove('hidden');
-                App.renderAdminPanel(true); // Full access
-            } else if (found.r === 'tecnica') {
-                document.getElementById('menu-admin').classList.remove('hidden');
-                document.getElementById('menu-admin').innerHTML = '<i class="fas fa-chart-line"></i> Revisión Equipo'; // Renombrar menú
-                App.renderAdminPanel(false); // Acceso limitado (solo lectura de su equipo)
+                
+                if(found.r === 'admin') {
+                    App.renderAdminPanel(true); // Full access
+                } else if (found.r === 'jef') {
+                    App.renderAdminPanel(true, true); // Read-only Global
+                } else {
+                    // Mandos (mdc, mdt, mut)
+                    document.getElementById('menu-admin').innerHTML = '<i class="fas fa-users"></i> Mi Equipo';
+                    App.renderAdminPanel(false); // Solo ven su equipo
+                }
             }
-            // Ejecutiva no ve nada (default hidden)
         } else {
             document.getElementById('login-msg').innerText = "Credenciales incorrectas.";
         }
@@ -354,7 +364,7 @@ const App = {
             if(parts.length >= 2) {
                 const u = parts[0].trim();
                 const p = parts[1].trim();
-                const r = parts[2] ? parts[2].trim().toLowerCase() : 'ejecutiva';
+                const r = parts[2] ? parts[2].trim().toLowerCase() : 'agente1';
                 const b = parts[3] ? parts[3].trim() : '';
                 
                 if(!users.find(x => x.u === u)) {
@@ -370,27 +380,26 @@ const App = {
         }
     },
 
-    renderAdminPanel: (isFullAdmin) => {
+    renderAdminPanel: (isGlobal, isReadOnly = false) => {
         const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
         const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
         const tLogs = document.getElementById('admin-logs');
         tLogs.innerHTML = '';
 
-        // Si no es admin total (es decir, es Tecnica), ocultar herramientas de crear usuarios
-        if(!isFullAdmin) {
+        // Ocultar herramientas si no es Admin o si es Jef (Read Only)
+        if(!isGlobal || isReadOnly) {
             document.getElementById('admin-tools').style.display = 'none';
             document.getElementById('admin-footer').style.display = 'none';
-            document.getElementById('admin-title').innerText = "Resultados de mi Equipo Asignado";
-            document.getElementById('list-title').innerText = "Logs de Actividad";
+            if(!isGlobal) document.getElementById('admin-title').innerText = "Resultados de mi Equipo Asignado";
         }
 
         let visibleCount = 0;
         logs.forEach(l => {
             let show = false;
-            if(isFullAdmin) {
-                show = true; // Admin ve todo
+            if(isGlobal) {
+                show = true; // Admin y Jef ven todo
             } else {
-                // Lógica Tecnica: Mostrar solo si el usuario del log tiene como 'boss' al usuario actual
+                // Mandos: Solo ven si el usuario del log tiene como 'boss' al usuario actual
                 const logUser = users.find(u => u.u === l.user);
                 if(logUser && logUser.boss === App.user.name) show = true;
             }
@@ -401,7 +410,7 @@ const App = {
             }
         });
 
-        if(visibleCount === 0) tLogs.innerHTML = '<tr><td colspan="5">No hay actividad registrada en tu ámbito de responsabilidad.</td></tr>';
+        if(visibleCount === 0) tLogs.innerHTML = '<tr><td colspan="5">No hay actividad registrada en tu ámbito.</td></tr>';
     },
 
     saveResult: (score, total) => {
