@@ -259,328 +259,251 @@
         </div>
     </div>
 
+```javascript
 <script>
 const App = {
-    data: null,
-    user: null,
-    dbNameLogs: 'noj_logs_v5', 
-    dbNameUsers: 'noj_users_v5',
+    data: null, user: null,
+    dbNameLogs: 'noj_logs_v7', // Subimos versión para limpiar datos viejos
+    dbNameUsers: 'noj_users_v7',
 
     init: async () => {
-        // Usuarios por defecto (Reset si no existen)
+        // USUARIOS POR DEFECTO (Estructura Jerárquica)
         if(!localStorage.getItem(App.dbNameUsers)) {
-            const defaultUsers = [
+            const defaults = [
                 { u: 'admin', p: 'admin', r: 'admin', boss: '' },
-                { u: 'jefe', p: 'jefe', r: 'jef', boss: '' }, // Ve todo
-                { u: 'mando', p: 'mando', r: 'mdc', boss: '' }, // Mando de Calle
-                { u: 'agente', p: 'agente', r: 'agente1', boss: 'mando' } // Agente de 'mando'
+                { u: 'jefe', p: 'jefe', r: 'jef', boss: '' },       // Ve todo
+                { u: 'mando1', p: '1234', r: 'mdc', boss: '' },     // Mando Div Central
+                { u: 'mando2', p: '1234', r: 'mdt', boss: '' },     // Mando Div Territorial
+                { u: 'agente1', p: '1234', r: 'adc', boss: 'mando1' } // Agente DC (Jefe: mando1)
             ];
-            localStorage.setItem(App.dbNameUsers, JSON.stringify(defaultUsers));
+            localStorage.setItem(App.dbNameUsers, JSON.stringify(defaults));
         }
 
         try {
+            // Carga de datos
             const r = await fetch('database.json?t=' + Date.now());
-            if (!r.ok) throw new Error("Error HTTP " + r.status);
             const d = await r.json();
-            App.data = d[0]; 
+            App.data = d[0];
             
-            App.renderTemario();
-            App.renderBiblio();
-            App.renderMedia();
-            App.renderFC();
-            App.renderTest();
-        } catch(e) {
-            console.error(e);
-            alert("Error cargando base de datos. Verifica JSON.");
-        }
+            App.renderTemario(); App.renderBiblio(); App.renderMedia(); App.renderFC(); App.renderTest();
+        } catch(e) { console.error(e); alert("Error cargando base de datos."); }
     },
 
-    // --- AUTH ---
+    // --- AUTH & ROLES ---
     login: () => {
-        const uInput = document.getElementById('username').value.trim();
-        const pInput = document.getElementById('password').value.trim();
-        
+        const u = document.getElementById('username').value.trim();
+        const p = document.getElementById('password').value.trim();
         const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
-        const found = users.find(x => x.u === uInput && x.p === pInput);
+        const found = users.find(x => x.u === u && x.p === p);
 
         if(found) {
-            App.user = { name: found.u, role: found.r };
+            App.user = found;
             document.getElementById('login-overlay').classList.add('hidden');
             document.getElementById('main-app').classList.remove('hidden');
             document.getElementById('display-user').innerText = found.u.toUpperCase();
-            document.getElementById('role-badge').innerText = found.r.toUpperCase();
             
-            // LOGICA DE ROLES
-            // Admin y Jefatura ven menú "Gestión"
-            if(['admin', 'jef', 'mdc', 'mdt', 'mut'].includes(found.r)) {
-                document.getElementById('menu-admin').classList.remove('hidden');
+            // Lógica de visualización de Menú Admin
+            const rolesGestion = ['admin', 'jef', 'mdc', 'mdt', 'mut'];
+            
+            if(rolesGestion.includes(found.r)) {
+                const menuBtn = document.getElementById('menu-admin');
+                menuBtn.classList.remove('hidden');
                 
+                // Configurar qué ven en el panel
                 if(found.r === 'admin') {
-                    App.renderAdminPanel(true); // Full access
+                    App.renderAdminPanel(true, false); // Global + Edición
                 } else if (found.r === 'jef') {
-                    App.renderAdminPanel(true, true); // Read-only Global
+                    App.renderAdminPanel(true, true);  // Global + Solo Lectura
                 } else {
-                    // Mandos (mdc, mdt, mut)
-                    document.getElementById('menu-admin').innerHTML = '<i class="fas fa-users"></i> Mi Equipo';
-                    App.renderAdminPanel(false); // Solo ven su equipo
+                    // Mandos
+                    menuBtn.innerHTML = '<i class="fas fa-users"></i> Mi Equipo';
+                    App.renderAdminPanel(false, true); // Su Equipo + Solo Lectura
                 }
             }
         } else {
             document.getElementById('login-msg').innerText = "Credenciales incorrectas.";
         }
     },
-    logout: () => { location.reload(); },
+    logout: () => location.reload(),
 
-    // --- GESTION USUARIOS ---
-    addUser: () => {
-        const u = document.getElementById('new-user').value.trim();
-        const p = document.getElementById('new-pass').value.trim();
-        const r = document.getElementById('new-role').value;
-        const b = document.getElementById('new-boss').value.trim();
-        
-        if(!u || !p) return alert("Rellena usuario y contraseña");
-        
-        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
-        if(users.find(x => x.u === u)) return alert("Usuario ya existe");
-        
-        users.push({ u, p, r, boss: b });
-        localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
-        alert("Usuario creado correctamente");
-        document.getElementById('new-user').value = "";
-    },
-
-    importUsers: () => {
-        const raw = document.getElementById('import-data').value;
-        if(!raw.trim()) return;
-
-        const lines = raw.split('\n');
-        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
-        let count = 0;
-
-        lines.forEach(line => {
-            let parts = line.split(/\t+/); 
-            if(parts.length < 2) parts = line.split(/\s+/); 
-
-            if(parts.length >= 2) {
-                const u = parts[0].trim();
-                const p = parts[1].trim();
-                const r = parts[2] ? parts[2].trim().toLowerCase() : 'agente1';
-                const b = parts[3] ? parts[3].trim() : '';
-                
-                if(!users.find(x => x.u === u)) {
-                    users.push({ u, p, r, boss: b });
-                    count++;
-                }
-            }
-        });
-
-        if(count > 0) {
-            localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
-            document.getElementById('import-msg').innerText = `+${count} usuarios importados.`;
-        }
-    },
-
-    renderAdminPanel: (isGlobal, isReadOnly = false) => {
+    // --- PANEL DE GESTIÓN ---
+    renderAdminPanel: (isGlobal, isReadOnly) => {
         const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
         const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
         const tLogs = document.getElementById('admin-logs');
         tLogs.innerHTML = '';
 
-        // Ocultar herramientas si no es Admin o si es Jef (Read Only)
-        if(!isGlobal || isReadOnly) {
+        // Ocultar herramientas si es solo lectura (Jefes/Mandos)
+        if(isReadOnly) {
             document.getElementById('admin-tools').style.display = 'none';
             document.getElementById('admin-footer').style.display = 'none';
-            if(!isGlobal) document.getElementById('admin-title').innerText = "Resultados de mi Equipo Asignado";
         }
+        
+        if(!isGlobal) document.getElementById('admin-title').innerText = "Resultados de mi Equipo Asignado";
 
         let visibleCount = 0;
         logs.forEach(l => {
             let show = false;
-            if(isGlobal) {
-                show = true; // Admin y Jef ven todo
+            // Buscar datos del usuario del log
+            const userMeta = users.find(u => u.u === l.user);
+            const userBoss = userMeta ? userMeta.boss : '';
+            const userRole = userMeta ? userMeta.r : 'unknown';
+
+            if (isGlobal) {
+                show = true; // Admin y JEF ven todo
             } else {
-                // Mandos: Solo ven si el usuario del log tiene como 'boss' al usuario actual
-                const logUser = users.find(u => u.u === l.user);
-                if(logUser && logUser.boss === App.user.name) show = true;
+                // Mandos: Solo ven si el usuario tiene como jefe al usuario actual
+                if (userBoss === App.user.u) show = true;
             }
 
             if(show) {
                 visibleCount++;
-                tLogs.innerHTML += `<tr><td><b>${l.user}</b></td><td>${l.date}</td><td style="color:green">${l.score}/${l.total}</td><td style="color:red">${l.errors}</td><td><b>${((l.score/l.total)*10).toFixed(1)}</b></td></tr>`;
+                tLogs.innerHTML += `<tr>
+                    <td><b>${l.user}</b></td>
+                    <td><span style="font-size:0.8rem; background:#eee; padding:2px;">${userRole.toUpperCase()}</span></td>
+                    <td>${l.date}</td>
+                    <td style="color:green">${l.score}</td>
+                    <td style="color:red">${l.errors}</td>
+                    <td>${userBoss}</td>
+                </tr>`;
             }
         });
 
-        if(visibleCount === 0) tLogs.innerHTML = '<tr><td colspan="5">No hay actividad registrada en tu ámbito.</td></tr>';
+        if(visibleCount === 0) tLogs.innerHTML = '<tr><td colspan="6">Sin actividad registrada en su ámbito.</td></tr>';
     },
 
-    saveResult: (score, total) => {
-        const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
-        logs.push({
-            user: App.user.name,
-            date: new Date().toLocaleString(),
-            score: score,
-            total: total,
-            errors: total - score
+    // Funciones de gestión (Solo Admin las usará)
+    addUser: () => {
+        const u = document.getElementById('new-user').value.trim();
+        const p = document.getElementById('new-pass').value.trim();
+        const r = document.getElementById('new-role').value;
+        const b = document.getElementById('new-boss').value.trim();
+        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
+        if(users.find(x=>x.u===u)) return alert("Usuario existe");
+        users.push({u,p,r,boss:b});
+        localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
+        alert("Usuario creado");
+    },
+
+    importUsers: () => {
+        const raw = document.getElementById('import-data').value;
+        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
+        let c = 0;
+        raw.split('\n').forEach(l => {
+            let p = l.split(/\s+/);
+            if(p.length >= 2 && !users.find(x=>x.u===p[0])) {
+                users.push({u:p[0], p:p[1], r:p[2]||'adc', boss:p[3]||''});
+                c++;
+            }
         });
+        localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
+        document.getElementById('import-msg').innerText = `+${c} importados`;
+    },
+
+    clearLogs: () => {
+        if(confirm("¿Borrar todo?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(true, false); }
+    },
+
+    saveResult: (s, t) => {
+        const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
+        logs.push({ user: App.user.u, date: new Date().toLocaleDateString(), score: s, total: t, errors: t-s });
         localStorage.setItem(App.dbNameLogs, JSON.stringify(logs));
-        
-        // Si el usuario es admin, actualizamos el panel en tiempo real
-        if(App.user.role === 'admin') App.renderAdminPanel(true);
+        // Refrescar si es admin mirando el panel
+        if(App.user.r === 'admin') App.renderAdminPanel(true, false);
+    },
+
+    // --- FUNCIONALIDAD WEB (Navegación, Media, FC, Test) ---
+    nav: (id) => {
+        document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active'));
+        document.getElementById('view-'+id).classList.add('active');
     },
     
-    clearLogs: () => {
-        if(confirm("¿Borrar historial completo?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(true); }
+    // Lightbox corregido
+    openLightbox: (url, txt) => {
+        document.getElementById('lightbox-img').src = url;
+        document.getElementById('lightbox-caption').innerText = txt;
+        document.getElementById('lightbox').style.display = 'flex';
+        document.getElementById('zoom-slider').value = 1;
+        document.getElementById('lightbox-img').style.transform = "scale(1)";
     },
+    closeLightbox: () => document.getElementById('lightbox').style.display = 'none',
+    zoomImage: (v) => document.getElementById('lightbox-img').style.transform = `scale(${v})`,
 
-    // --- RENDERS ---
-    nav: (viewId) => {
-        document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-        document.getElementById('view-' + viewId).classList.add('active');
-        document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+    renderMedia: () => {
+        const c = document.getElementById('media-container');
+        c.innerHTML = '';
+        App.data.imagenes.forEach(img => {
+            c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${img.url}', '${img.nombre}')">
+                <img src="${img.url}" onerror="this.src='https://via.placeholder.com/300?text=Error+Imagen'">
+                <p>${img.nombre}</p></div>`;
+        });
+        document.getElementById('main-audio').src = App.data.audio_url;
     },
 
     renderTemario: () => {
-        if(!App.data || !App.data.secciones_temario) return;
-        const tabs = document.getElementById('doc-tabs');
-        const content = document.getElementById('doc-content');
-        tabs.innerHTML = ''; content.innerHTML = '';
-        App.data.secciones_temario.forEach((sec, i) => {
-            tabs.innerHTML += `<button class="doc-tab ${i===0?'active':''}" onclick="App.switchTab(${i})">${sec.titulo}</button>`;
-            content.innerHTML += `<div id="page-${i}" class="doc-page ${i===0?'active':''}">${sec.contenido}</div>`;
+        const t = document.getElementById('doc-tabs'), c = document.getElementById('doc-content');
+        t.innerHTML=''; c.innerHTML='';
+        App.data.secciones_temario.forEach((s,i) => {
+            t.innerHTML += `<button class="doc-tab ${i===0?'active':''}" onclick="App.tab(${i})">${s.titulo}</button>`;
+            c.innerHTML += `<div id="p${i}" class="doc-page ${i===0?'active':''}">${s.contenido}</div>`;
         });
     },
-
-    switchTab: (idx) => {
-        document.querySelectorAll('.doc-tab').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.doc-page').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.doc-tab')[idx].classList.add('active');
-        document.getElementById('page-' + idx).classList.add('active');
+    tab: (i) => {
+        document.querySelectorAll('.doc-tab').forEach(x=>x.classList.remove('active'));
+        document.querySelectorAll('.doc-page').forEach(x=>x.classList.remove('active'));
+        document.querySelectorAll('.doc-tab')[i].classList.add('active');
+        document.getElementById('p'+i).classList.add('active');
     },
-
     renderBiblio: () => {
-        const ul = document.getElementById('file-tree');
-        ul.innerHTML = '';
-        App.data.bibliografia.forEach(cat => {
-            let filesHtml = cat.archivos.map(f => `
-                <li class="file-item">
-                    <div><i class="fas fa-file-pdf" style="color:#c0392b"></i> <a href="${f.nombre}" target="_blank">${f.desc}</a></div>
-                    <span>${f.nombre}</span>
-                </li>`).join('');
-            ul.innerHTML += `<li class="file-node"><div class="node-header">${cat.nivel}</div><ul>${filesHtml}</ul></li>`;
+        document.getElementById('file-tree').innerHTML = '';
+        App.data.bibliografia.forEach(c => {
+            let l = c.archivos.map(f => `<li class="file-item"><a href="${f.nombre}" target="_blank">${f.desc}</a></li>`).join('');
+            document.getElementById('file-tree').innerHTML += `<li class="file-node"><div class="node-header">${c.nivel}</div><ul>${l}</ul></li>`;
         });
     },
-
-    renderMedia: () => {
-        const grid = document.getElementById('media-container');
-        grid.innerHTML = '';
-        App.data.imagenes.forEach(img => {
-            grid.innerHTML += `<div class="media-card" onclick="App.openLightbox('${img.url}', '${img.nombre}')">
-                <img src="${img.url}" alt="${img.nombre}" onerror="this.src='https://via.placeholder.com/300x200?text=Error+Carga+Imagen'">
-                <p><b>${img.nombre}</b> <br><small style="color:var(--primary)"><i class="fas fa-search-plus"></i> Clic para ampliar</small></p>
+    renderFC: () => { App.fcIndex = 0; App.drawFC(); },
+    drawFC: () => {
+        const c = App.data.flashcards[App.fcIndex];
+        document.getElementById('fc-canvas').innerHTML = `
+            <div class="fc-container" onclick="this.classList.toggle('fc-flipped')">
+                <div class="fc-inner">
+                    <div class="fc-face fc-front">${c.front}</div>
+                    <div class="fc-face fc-back">${c.back}</div>
+                </div>
             </div>`;
-        });
-        const audio = document.getElementById('main-audio');
-        if(audio) audio.src = App.data.audio_url;
+        document.getElementById('fc-counter').innerText = `${App.fcIndex+1} / ${App.data.flashcards.length}`;
     },
-
-    // --- LIGHTBOX ZOOM ---
-    openLightbox: (url, caption) => {
-        const img = document.getElementById('lightbox-img');
-        img.src = url;
-        img.style.transform = "scale(1)"; // Reset zoom
-        document.getElementById('zoom-slider').value = 1;
-        document.getElementById('lightbox-caption').innerText = caption;
-        document.getElementById('lightbox').style.display = 'flex';
-    },
-
-    closeLightbox: () => {
-        document.getElementById('lightbox').style.display = 'none';
-    },
-
-    zoomImage: (val) => {
-        document.getElementById('lightbox-img').style.transform = `scale(${val})`;
-    },
-
-    // --- FLASHCARDS ---
-    renderFC: () => {
-        const container = document.getElementById('fc-canvas');
-        App.fcIndex = 0;
-        App.drawFC = () => {
-            if(!App.data.flashcards || !App.data.flashcards.length) return;
-            const card = App.data.flashcards[App.fcIndex];
-            container.innerHTML = `
-                <div class="fc-container" onclick="this.classList.toggle('fc-flipped')">
-                    <div class="fc-inner">
-                        <div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${card.front}</div></div>
-                        <div class="fc-face fc-back"><div>${card.back}</div></div>
-                    </div>
-                </div>`;
-            // Actualizar contador
-            document.getElementById('fc-counter').innerText = `${App.fcIndex + 1} / ${App.data.flashcards.length}`;
-        };
-        App.moveFC = (dir) => {
-            App.fcIndex += dir;
-            if(App.fcIndex < 0) App.fcIndex = App.data.flashcards.length - 1;
-            if(App.fcIndex >= App.data.flashcards.length) App.fcIndex = 0;
-            App.drawFC();
-        };
+    moveFC: (d) => {
+        App.fcIndex += d;
+        if(App.fcIndex < 0) App.fcIndex = App.data.flashcards.length-1;
+        if(App.fcIndex >= App.data.flashcards.length) App.fcIndex = 0;
         App.drawFC();
     },
-
-    // --- TEST ---
     renderTest: () => {
-        const div = document.getElementById('test-container');
-        div.innerHTML = App.data.test.map((q, i) => `
-            <div class="q-block" data-correct="${q.correcta}">
+        document.getElementById('test-container').innerHTML = App.data.test.map((q,i) => `
+            <div class="q-block" data-c="${q.correcta}">
                 <p><b>${i+1}. ${q.pregunta}</b></p>
-                ${q.respuestas.map((r, ri) => `<div class="quiz-option" onclick="App.selectOption(this)">${r}</div>`).join('')}
-            </div>
-        `).join('');
+                ${q.respuestas.map(r => `<div class="quiz-option" onclick="this.parentElement.querySelectorAll('.quiz-option').forEach(e=>e.classList.remove('selected')); this.classList.add('selected')">${r}</div>`).join('')}
+            </div>`).join('');
     },
-
-    selectOption: (el) => {
-        const parent = el.parentElement;
-        parent.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
-        el.classList.add('selected');
-    },
-
     submitTest: () => {
-        let score = 0;
-        const blocks = document.querySelectorAll('.q-block');
-        blocks.forEach(b => {
-            const selected = b.querySelector('.selected');
-            const correctIdx = parseInt(b.dataset.correct);
-            const options = b.querySelectorAll('.quiz-option');
-            
-            // Limpiar estilos previos
-            options.forEach(o => { o.classList.remove('correct', 'wrong'); });
-
-            if(selected) {
-                const selIdx = Array.from(options).indexOf(selected);
-                if(selIdx === correctIdx) {
-                    selected.classList.add('correct');
-                    score++;
-                } else {
-                    selected.classList.add('wrong');
-                    options[correctIdx].classList.add('correct'); // Mostrar solución
-                }
+        let s = 0;
+        const b = document.querySelectorAll('.q-block');
+        b.forEach(x => {
+            const sel = x.querySelector('.selected');
+            const opts = x.querySelectorAll('.quiz-option');
+            const corr = parseInt(x.dataset.c);
+            opts.forEach(o => o.classList.remove('correct','wrong'));
+            if(sel) {
+                if(Array.from(opts).indexOf(sel) === corr) { sel.classList.add('correct'); s++; }
+                else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); }
             }
         });
-
-        const resDiv = document.getElementById('test-result');
-        if(score > 10) {
-            resDiv.innerHTML = `<span style="color:green"><i class="fas fa-check-circle"></i> APROBADO: ${score} / ${blocks.length}</span>`;
-            resDiv.style.background = "#d4edda";
-        } else {
-            resDiv.innerHTML = `<span style="color:red"><i class="fas fa-times-circle"></i> SUSPENSO: ${score} / ${blocks.length} (Necesitas 11)</span>`;
-            resDiv.style.background = "#f8d7da";
-        }
-        
-        App.saveResult(score, blocks.length);
+        const res = document.getElementById('test-result');
+        if(s>10) { res.innerHTML = "APROBADO: "+s; res.style.background="#d4edda"; }
+        else { res.innerHTML = "SUSPENSO: "+s; res.style.background="#f8d7da"; }
+        App.saveResult(s, b.length);
     }
 };
-
 window.onload = App.init;
-</script>
-</body>
-</html>
+            </script>
