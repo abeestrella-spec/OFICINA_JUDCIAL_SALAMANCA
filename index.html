@@ -17,6 +17,12 @@
         .btn-login { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
         .btn-login:hover { background: #001a3b; }
 
+        /* LIGHTBOX (POP-UP IMAGENES) */
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; flex-direction: column; }
+        #lightbox img { max-width: 90%; max-height: 85%; border: 2px solid white; border-radius: 4px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        #lightbox-caption { color: white; margin-top: 15px; font-size: 1.2rem; font-weight: bold; }
+        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
+
         /* LAYOUT PRINCIPAL */
         #main-app { display: none; height: 100%; display: flex; flex-direction: column; }
         .top-bar { background: var(--primary); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
@@ -58,8 +64,9 @@
 
         /* MULTIMEDIA */
         .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .media-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-        .media-card img { max-width: 100%; border-radius: 4px; cursor: zoom-in; }
+        .media-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; cursor: pointer; transition: transform 0.2s; }
+        .media-card:hover { transform: translateY(-5px); }
+        .media-card img { max-width: 100%; border-radius: 4px; height: 180px; object-fit: cover; }
 
         /* FLASHCARDS */
         .fc-container { perspective: 1000px; height: 300px; max-width: 600px; margin: 0 auto; cursor: pointer; }
@@ -108,6 +115,12 @@
     </style>
 </head>
 <body>
+
+    <div id="lightbox" onclick="App.closeLightbox()">
+        <span id="lightbox-close">&times;</span>
+        <img id="lightbox-img" src="" alt="Zoom">
+        <div id="lightbox-caption"></div>
+    </div>
 
     <div id="login-overlay">
         <div class="login-box">
@@ -369,10 +382,23 @@ const App = {
         const grid = document.getElementById('media-container');
         grid.innerHTML = '';
         App.data.imagenes.forEach(img => {
-            grid.innerHTML += `<div class="media-card"><img src="${img.url}" alt="${img.nombre}"><p><b>${img.nombre}</b></p></div>`;
+            grid.innerHTML += `<div class="media-card" onclick="App.openLightbox('${img.url}', '${img.nombre}')">
+                <img src="${img.url}" alt="${img.nombre}">
+                <p><b>${img.nombre}</b> <br><small style="color:blue"><i class="fas fa-search-plus"></i> Clic para ampliar</small></p>
+            </div>`;
         });
         const audio = document.getElementById('main-audio');
         if(audio) audio.src = App.data.audio_url;
+    },
+
+    openLightbox: (url, caption) => {
+        document.getElementById('lightbox-img').src = url;
+        document.getElementById('lightbox-caption').innerText = caption;
+        document.getElementById('lightbox').style.display = 'flex';
+    },
+
+    closeLightbox: () => {
+        document.getElementById('lightbox').style.display = 'none';
     },
 
     renderFC: () => {
