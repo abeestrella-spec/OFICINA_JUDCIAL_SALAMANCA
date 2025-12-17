@@ -17,11 +17,14 @@
         .btn-login { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
         .btn-login:hover { background: #001a3b; }
 
-        /* LIGHTBOX (POP-UP IMAGENES) */
-        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; flex-direction: column; }
-        #lightbox img { max-width: 90%; max-height: 85%; border: 2px solid white; border-radius: 4px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
-        #lightbox-caption { color: white; margin-top: 15px; font-size: 1.2rem; font-weight: bold; }
-        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
+        /* LIGHTBOX CON ZOOM */
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center; flex-direction: column; overflow: hidden; }
+        #lightbox-container { width: 90%; height: 80%; display: flex; justify-content: center; align-items: center; overflow: auto; border: 1px solid #555; background: #222; position: relative; }
+        #lightbox-img { max-width: 100%; max-height: 100%; transition: transform 0.1s ease; transform-origin: center center; cursor: grab; }
+        #lightbox-caption { color: white; margin-top: 10px; font-size: 1.2rem; font-weight: bold; }
+        #lightbox-controls { margin-top: 15px; display: flex; gap: 10px; align-items: center; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 20px; }
+        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; z-index: 2001; }
+        input[type=range] { width: 200px; cursor: pointer; }
 
         /* LAYOUT PRINCIPAL */
         #main-app { display: none; height: 100%; display: flex; flex-direction: column; }
@@ -69,14 +72,17 @@
         .media-card img { max-width: 100%; border-radius: 4px; height: 180px; object-fit: cover; }
 
         /* FLASHCARDS */
-        .fc-container { perspective: 1000px; height: 300px; max-width: 600px; margin: 0 auto; cursor: pointer; }
+        .fc-container { perspective: 1000px; height: 300px; max-width: 600px; margin: 0 auto; cursor: pointer; position: relative; }
         .fc-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .fc-flipped .fc-inner { transform: rotateY(180deg); }
         .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; text-align: center; border-radius: 15px; font-size: 1.2rem; }
         .fc-front { background: var(--primary); color: white; }
         .fc-back { background: white; color: #333; border: 2px solid var(--primary); transform: rotateY(180deg); }
-        .fc-nav { text-align: center; margin-top: 20px; }
-        .btn-fc { padding: 10px 20px; cursor: pointer; background: #ddd; border: none; border-radius: 5px; }
+        
+        /* BOTONES FUERA DE LA TARJETA */
+        .fc-controls { display: flex; justify-content: center; gap: 30px; margin-top: 30px; align-items: center; }
+        .btn-fc { padding: 12px 30px; cursor: pointer; background: var(--primary); color: white; border: none; border-radius: 50px; font-size: 1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.1s; }
+        .btn-fc:active { transform: scale(0.95); }
 
         /* TEST CHECKBOX STYLE */
         .q-block { margin-bottom: 25px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
@@ -84,22 +90,15 @@
             padding: 12px; margin: 8px 0; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; 
             display: flex; align-items: center; transition: all 0.2s;
         }
-        
-        /* Círculo visual (Checkbox) */
         .quiz-option::before {
             content: ''; display: inline-block; width: 18px; height: 18px; 
             border: 2px solid #ccc; border-radius: 50%; margin-right: 15px; flex-shrink: 0;
             transition: all 0.2s;
         }
-        
-        /* Estado Seleccionado */
         .quiz-option.selected { background: #f0f7ff; border-color: var(--primary); }
         .quiz-option.selected::before { border-color: var(--primary); background: var(--primary); box-shadow: inset 0 0 0 3px white; }
-
-        /* Estados Finales */
         .quiz-option.correct { background: #d4edda; border-color: #28a745; }
         .quiz-option.correct::before { border-color: #28a745; background: #28a745; }
-        
         .quiz-option.wrong { background: #f8d7da; border-color: #c0392b; }
         .quiz-option.wrong::before { border-color: #c0392b; background: #c0392b; }
         
@@ -107,7 +106,7 @@
         .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
         .admin-table th, .admin-table td { padding: 12px; border: 1px solid #ddd; text-align: left; }
         .admin-table th { background: #f1f1f1; }
-        .import-area { width: 100%; height: 150px; padding: 10px; border: 1px solid #ccc; font-family: monospace; font-size: 12px; margin-top: 10px; }
+        .import-area { width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; font-family: monospace; font-size: 12px; margin-top: 10px; }
         .btn-action { padding: 10px 15px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -116,9 +115,16 @@
 </head>
 <body>
 
-    <div id="lightbox" onclick="App.closeLightbox()">
-        <span id="lightbox-close">&times;</span>
-        <img id="lightbox-img" src="" alt="Zoom">
+    <div id="lightbox">
+        <span id="lightbox-close" onclick="App.closeLightbox()">&times;</span>
+        <div id="lightbox-container">
+            <img id="lightbox-img" src="" alt="Zoom">
+        </div>
+        <div id="lightbox-controls">
+            <span style="color:white"><i class="fas fa-search-minus"></i></span>
+            <input type="range" id="zoom-slider" min="1" max="5" step="0.1" value="1" oninput="App.zoomImage(this.value)">
+            <span style="color:white"><i class="fas fa-search-plus"></i></span>
+        </div>
         <div id="lightbox-caption"></div>
     </div>
 
@@ -182,6 +188,11 @@
                 <div id="view-flashcards" class="view-section">
                     <h2 style="text-align:center">Entrenamiento de Memoria (50 Tarjetas)</h2>
                     <div id="fc-canvas"></div>
+                    <div class="fc-controls">
+                        <button class="btn-fc" onclick="App.moveFC(-1)"><i class="fas fa-chevron-left"></i> Anterior</button>
+                        <span id="fc-counter" style="font-weight:bold; font-size:1.1rem; color:#555;">1 / 50</span>
+                        <button class="btn-fc" onclick="App.moveFC(1)">Siguiente <i class="fas fa-chevron-right"></i></button>
+                    </div>
                 </div>
 
                 <div id="view-test" class="view-section">
@@ -195,21 +206,36 @@
                 <div id="view-admin" class="view-section">
                     <h2>Panel de Administración</h2>
                     
-                    <div style="background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); margin-bottom:20px;">
-                        <h3><i class="fas fa-file-import"></i> Importar Usuarios desde Excel</h3>
-                        <p>Copia columnas: <b>Usuario</b> | <b>Contraseña</b> | <b>Rol</b> (opcional)</p>
-                        <textarea id="import-data" class="import-area" placeholder="policia    policia123    user&#10;admin      admin123      admin"></textarea>
-                        <button class="btn-action" onclick="App.importUsers()"><i class="fas fa-save"></i> Importar Usuarios</button>
-                        <p id="import-msg" style="color:green; font-weight:bold;"></p>
+                    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+                        <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); min-width:300px;">
+                            <h3><i class="fas fa-user-plus"></i> Alta Rápida</h3>
+                            <input type="text" id="new-user" placeholder="Usuario" style="width:100%; padding:8px; margin-bottom:5px;">
+                            <input type="text" id="new-pass" placeholder="Contraseña" style="width:100%; padding:8px; margin-bottom:5px;">
+                            <select id="new-role" style="width:100%; padding:8px; margin-bottom:10px;">
+                                <option value="user">Agente (User)</option>
+                                <option value="admin">Mando (Admin)</option>
+                            </select>
+                            <button class="btn-action" onclick="App.addUser()"><i class="fas fa-plus"></i> Añadir</button>
+                        </div>
+
+                        <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); min-width:300px;">
+                            <h3><i class="fas fa-file-import"></i> Importar Masivo (Excel)</h3>
+                            <p style="font-size:0.8rem; margin:0;">Pegar columnas: <b>Usuario</b> | <b>Contraseña</b></p>
+                            <textarea id="import-data" class="import-area" placeholder="agente1    1234&#10;agente2    5678"></textarea>
+                            <button class="btn-action" onclick="App.importUsers()"><i class="fas fa-save"></i> Importar Lista</button>
+                            <p id="import-msg" style="color:green; font-weight:bold; font-size:0.9rem;"></p>
+                        </div>
                     </div>
 
-                    <h3>Usuarios Activos</h3>
-                    <table class="admin-table">
-                        <thead><tr><th>Usuario</th><th>Contraseña</th><th>Rol</th></tr></thead>
-                        <tbody id="users-list"></tbody>
-                    </table>
+                    <h3 style="margin-top:30px;">Listado de Usuarios</h3>
+                    <div style="max-height:200px; overflow-y:auto;">
+                        <table class="admin-table">
+                            <thead><tr><th>Usuario</th><th>Contraseña</th><th>Rol</th><th>Acción</th></tr></thead>
+                            <tbody id="users-list"></tbody>
+                        </table>
+                    </div>
 
-                    <h3 style="margin-top:30px;">Registro de Resultados</h3>
+                    <h3 style="margin-top:30px;">Actividad y Notas</h3>
                     <table class="admin-table">
                         <thead><tr><th>Usuario</th><th>Fecha</th><th>Aciertos</th><th>Fallos</th><th>Nota</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
@@ -252,7 +278,7 @@ const App = {
             App.renderTest();
         } catch(e) {
             console.error(e);
-            alert("Error cargando base de datos. Pulsa F12 para ver consola.");
+            alert("Error cargando base de datos. Verifica JSON.");
         }
     },
 
@@ -273,6 +299,8 @@ const App = {
             
             if(App.user.role === 'admin') {
                 document.getElementById('menu-admin').classList.remove('hidden');
+                // Auto-navegar a admin para que lo vea
+                App.nav('admin'); 
                 App.renderAdminPanel();
             }
         } else {
@@ -281,13 +309,33 @@ const App = {
     },
     logout: () => { location.reload(); },
 
-    // --- IMPORT & ADMIN ---
+    // --- GESTION USUARIOS ---
+    addUser: () => {
+        const u = document.getElementById('new-user').value.trim();
+        const p = document.getElementById('new-pass').value.trim();
+        const r = document.getElementById('new-role').value;
+        
+        if(!u || !p) return alert("Rellena usuario y contraseña");
+        
+        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
+        if(users.find(x => x.u === u)) return alert("Usuario ya existe");
+        
+        users.push({ u, p, r });
+        localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
+        App.renderAdminPanel();
+        alert("Usuario creado");
+        document.getElementById('new-user').value = "";
+        document.getElementById('new-pass').value = "";
+    },
+
     importUsers: () => {
         const raw = document.getElementById('import-data').value;
         if(!raw.trim()) return;
 
         const lines = raw.split('\n');
-        const newUsers = [];
+        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
+        let count = 0;
+
         lines.forEach(line => {
             let parts = line.split(/\t+/); 
             if(parts.length < 2) parts = line.split(/\s+/); 
@@ -295,15 +343,29 @@ const App = {
             if(parts.length >= 2) {
                 const u = parts[0].trim();
                 const p = parts[1].trim();
-                const r = (parts[2] && parts[2].trim().toLowerCase() === 'admin') ? 'admin' : 'user';
-                if(u && p) newUsers.push({ u, p, r });
+                // Evitar duplicados
+                if(!users.find(x => x.u === u)) {
+                    users.push({ u, p, r: 'user' });
+                    count++;
+                }
             }
         });
 
-        if(newUsers.length > 0 && confirm(`¿Importar ${newUsers.length} usuarios?`)) {
-            localStorage.setItem(App.dbNameUsers, JSON.stringify(newUsers));
+        if(count > 0) {
+            localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
             App.renderAdminPanel();
-            document.getElementById('import-msg').innerText = "Importado OK";
+            document.getElementById('import-msg').innerText = `+${count} usuarios importados.`;
+        } else {
+            alert("No se añadieron usuarios (formato incorrecto o duplicados).");
+        }
+    },
+
+    deleteUser: (idx) => {
+        if(confirm("¿Eliminar usuario?")) {
+            const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
+            users.splice(idx, 1);
+            localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
+            App.renderAdminPanel();
         }
     },
 
@@ -311,8 +373,13 @@ const App = {
         const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
         const tUsers = document.getElementById('users-list');
         tUsers.innerHTML = '';
-        users.forEach(x => {
-            tUsers.innerHTML += `<tr><td>${x.u}</td><td>****</td><td>${x.r}</td></tr>`;
+        users.forEach((x, i) => {
+            tUsers.innerHTML += `<tr>
+                <td>${x.u}</td>
+                <td>****</td>
+                <td>${x.r}</td>
+                <td><button onclick="App.deleteUser(${i})" style="color:red;border:none;background:none;cursor:pointer"><i class="fas fa-trash"></i></button></td>
+            </tr>`;
         });
 
         const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
@@ -337,7 +404,7 @@ const App = {
     },
     
     clearLogs: () => {
-        if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(); }
+        if(confirm("¿Borrar historial?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(); }
     },
 
     // --- RENDERS ---
@@ -383,16 +450,20 @@ const App = {
         grid.innerHTML = '';
         App.data.imagenes.forEach(img => {
             grid.innerHTML += `<div class="media-card" onclick="App.openLightbox('${img.url}', '${img.nombre}')">
-                <img src="${img.url}" alt="${img.nombre}">
-                <p><b>${img.nombre}</b> <br><small style="color:blue"><i class="fas fa-search-plus"></i> Clic para ampliar</small></p>
+                <img src="${img.url}" alt="${img.nombre}" onerror="this.src='https://via.placeholder.com/300x200?text=Error+Carga+Imagen'">
+                <p><b>${img.nombre}</b> <br><small style="color:var(--primary)"><i class="fas fa-search-plus"></i> Clic para ampliar</small></p>
             </div>`;
         });
         const audio = document.getElementById('main-audio');
         if(audio) audio.src = App.data.audio_url;
     },
 
+    // --- LIGHTBOX ZOOM ---
     openLightbox: (url, caption) => {
-        document.getElementById('lightbox-img').src = url;
+        const img = document.getElementById('lightbox-img');
+        img.src = url;
+        img.style.transform = "scale(1)"; // Reset zoom
+        document.getElementById('zoom-slider').value = 1;
         document.getElementById('lightbox-caption').innerText = caption;
         document.getElementById('lightbox').style.display = 'flex';
     },
@@ -401,10 +472,16 @@ const App = {
         document.getElementById('lightbox').style.display = 'none';
     },
 
+    zoomImage: (val) => {
+        document.getElementById('lightbox-img').style.transform = `scale(${val})`;
+    },
+
+    // --- FLASHCARDS ---
     renderFC: () => {
         const container = document.getElementById('fc-canvas');
         App.fcIndex = 0;
         App.drawFC = () => {
+            if(!App.data.flashcards || !App.data.flashcards.length) return;
             const card = App.data.flashcards[App.fcIndex];
             container.innerHTML = `
                 <div class="fc-container" onclick="this.classList.toggle('fc-flipped')">
@@ -412,12 +489,9 @@ const App = {
                         <div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${card.front}</div></div>
                         <div class="fc-face fc-back"><div>${card.back}</div></div>
                     </div>
-                </div>
-                <div class="fc-nav">
-                    <button class="btn-fc" onclick="App.moveFC(-1)">❮</button>
-                    <span style="margin:0 15px">${App.fcIndex + 1} / ${App.data.flashcards.length}</span>
-                    <button class="btn-fc" onclick="App.moveFC(1)">❯</button>
                 </div>`;
+            // Actualizar contador
+            document.getElementById('fc-counter').innerText = `${App.fcIndex + 1} / ${App.data.flashcards.length}`;
         };
         App.moveFC = (dir) => {
             App.fcIndex += dir;
@@ -428,6 +502,7 @@ const App = {
         App.drawFC();
     },
 
+    // --- TEST ---
     renderTest: () => {
         const div = document.getElementById('test-container');
         div.innerHTML = App.data.test.map((q, i) => `
