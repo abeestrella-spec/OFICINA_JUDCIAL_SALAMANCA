@@ -1,1 +1,51 @@
-
+[
+  {
+    "id": "oj_salamanca",
+    "titulo": "Nueva Oficina Judicial Salamanca (NOJ)",
+    "categoria": "judicial",
+    "meta": "LO 1/2025 | Vigor 31/12/2025",
+    "resumen": "Guía operativa Policial: Nuevo Tribunal de Instancia, entrega de atestados en SCG vs Guardia, y estructura de mandos.",
+    "link_fuente": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO.pdf",
+    "audio_url": "audio_oj_salamanca.mp3",
+    "contenido_html": "<h3>1. La Transformación (31/12/2025)</h3><p>Desaparecen los juzgados individuales. Nace el <strong>Tribunal de Instancia (TI)</strong> único, apoyado por la Oficina Judicial.</p><h3>2. ¿Dónde entrego el Atestado?</h3><ul><li><strong>ORDINARIO (Sin detenido):</strong> Al <strong>SCG (Servicio Común General)</strong>. <br><em>Horario: L-V 08:30 a 15:00.</em></li><li><strong>URGENTE (Con detenido / Entradas / H.Corpus):</strong> Directamente al <strong>Servicio de Guardia (GU)</strong>.</li></ul><h3>3. Estructura Clave</h3><p><strong>SCT (Tramitación):</strong> Lleva la instrucción y el juicio.<br><strong>SCEJ (Ejecución):</strong> Ejecuta la sentencia firme (busca y captura, multas).</p>",
+    "flashcards": [
+      { "front": "¿Fecha inicio Nueva Oficina Judicial Salamanca?", "back": "31 de diciembre de 2025" },
+      { "front": "¿Dónde se entregan atestados SIN detenido (Horario laboral)?", "back": "Servicio Común General (SCG)" },
+      { "front": "¿Dónde se entregan atestados CON detenido?", "back": "Servicio de Guardia (GU)" },
+      { "front": "¿Qué servicio ejecuta las sentencias firmes?", "back": "SCEJ (Servicio Común de Ejecución)" },
+      { "front": "¿Quién dirige cada Servicio Común?", "back": "Un Letrado de la Administración de Justicia (LAJ)" },
+      { "front": "¿Nivel 1 de organización interna?", "back": "Equipos" },
+      { "front": "¿Quién gestiona la violencia de género (instrucción)?", "back": "SCT - Grupo de Trabajo VSM" },
+      { "front": "¿Cómo se llama el nuevo tribunal único?", "back": "Tribunal de Instancia (TI)" },
+      { "front": "¿Quién resuelve errores materiales en un escrito?", "back": "Jefatura de Equipo" },
+      { "front": "¿Qué sustituye a los Juzgados de Paz?", "back": "Oficinas de Justicia en el Municipio (OJM)" }
+    ],
+    "test": [
+      {
+        "pregunta": "¿Cuál es el punto único de entrada de documentos ordinarios?",
+        "respuestas": ["Servicio de Guardia", "SCG (Servicio Común General)", "Decanato"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué haces con un detenido a las 02:00 AM?",
+        "respuestas": ["Lo llevas al SCG", "Lo llevas al Servicio de Guardia", "Esperas a las 08:30"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Quién gestiona la fase de Instrucción?",
+        "respuestas": ["SCT (Tramitación)", "SCEJ (Ejecución)", "SCG"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Cuándo entra en vigor el modelo?",
+        "respuestas": ["Enero 2025", "Diciembre 2025", "Enero 2026"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué servicio archiva las piezas de convicción?",
+        "respuestas": ["SCT", "SCG (Servicios Transversales)", "Policía Científica"],
+        "correcta": 1
+      }
+    ]
+  }
+]
