@@ -41,9 +41,12 @@
         .doc-nav { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
         .doc-tab { padding: 8px 15px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
         .doc-tab.active { background: var(--primary); color: white; }
-        .doc-page { display: none; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.8; }
+        .doc-page { display: none; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.8; color: #444; }
         .doc-page.active { display: block; }
         .doc-page h3 { color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-top: 0; }
+        .doc-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .doc-table th, .doc-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .doc-table th { background: #f1f1f1; }
 
         /* BIBLIOGRAFIA */
         .file-tree { list-style: none; padding-left: 0; }
@@ -69,16 +72,28 @@
         .btn-fc { padding: 10px 20px; cursor: pointer; background: #ddd; border: none; border-radius: 5px; }
 
         /* TEST */
-        .quiz-option { padding: 15px; margin: 10px 0; background: white; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; }
-        .quiz-option.selected { border: 2px solid var(--primary); background: #eef2f6; }
+        .q-block { margin-bottom: 25px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .quiz-option { padding: 12px; margin: 8px 0; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; display: flex; align-items: center; }
+        
+        /* CHECKPOINT STYLE */
+        .quiz-option::before {
+            content: ''; display: inline-block; width: 18px; height: 18px; 
+            border: 2px solid #ccc; border-radius: 50%; margin-right: 15px; flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .quiz-option.selected { background: #f0f7ff; border-color: var(--primary); }
+        .quiz-option.selected::before { border-color: var(--primary); background: radial-gradient(circle, var(--primary) 40%, white 45%); }
+
         .quiz-option.correct { background: #d4edda; border-color: #28a745; }
+        .quiz-option.correct::before { border-color: #28a745; background: #28a745; }
+        
         .quiz-option.wrong { background: #f8d7da; border-color: #c0392b; }
+        .quiz-option.wrong::before { border-color: #c0392b; background: #c0392b; }
         
         /* ADMIN TABLE */
         .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
         .admin-table th, .admin-table td { padding: 12px; border: 1px solid #ddd; text-align: left; }
         .admin-table th { background: #f1f1f1; }
-        
         .import-area { width: 100%; height: 150px; padding: 10px; border: 1px solid #ccc; font-family: monospace; font-size: 12px; margin-top: 10px; }
         .btn-action { padding: 10px 15px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
 
@@ -90,7 +105,7 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <h2>Formación Policial</h2>
+            <h2><i class="fas fa-university"></i> Formación Policial</h2>
             <p style="color:#666;">Acceso Restringido NOJ Salamanca</p>
             <input type="text" id="username" placeholder="Usuario">
             <input type="password" id="password" placeholder="Contraseña">
@@ -137,20 +152,25 @@
                     <div class="media-grid" id="media-container"></div>
                     <div style="margin-top:30px; background:white; padding:20px; border-radius:8px;">
                         <h3><i class="fas fa-podcast"></i> Audio Resumen Ejecutivo</h3>
-                        <audio id="main-audio" controls style="width:100%"></audio>
+                        <audio id="main-audio" controls style="width:100%">
+                            <source src="" type="audio/mp4">
+                            <source src="" type="audio/x-m4a">
+                            Error: Tu navegador no soporta el audio.
+                        </audio>
                     </div>
                 </div>
 
                 <div id="view-flashcards" class="view-section">
-                    <h2 style="text-align:center">Entrenamiento de Memoria</h2>
+                    <h2 style="text-align:center">Entrenamiento de Memoria (50 Tarjetas)</h2>
                     <div id="fc-canvas"></div>
                 </div>
 
                 <div id="view-test" class="view-section">
-                    <h2>Evaluación de Conocimientos</h2>
+                    <h2>Evaluación de Conocimientos (20 Preguntas)</h2>
+                    <p style="background:#eef; padding:10px; border-radius:5px;">Para aprobar necesitas <b>más de 10 aciertos</b>. La validación se realiza al pulsar "Finalizar".</p>
                     <div id="test-container"></div>
-                    <button onclick="App.submitTest()" style="margin-top:20px; padding:10px 20px; background:var(--primary); color:white; border:none; border-radius:5px; cursor:pointer;">Finalizar y Guardar Nota</button>
-                    <div id="test-result" style="margin-top:20px; font-weight:bold; font-size:1.2rem;"></div>
+                    <button onclick="App.submitTest()" style="margin-top:20px; padding:15px 30px; background:var(--primary); color:white; border:none; border-radius:5px; cursor:pointer; font-size:1.1rem; font-weight:bold;">Finalizar y Validar</button>
+                    <div id="test-result" style="margin-top:20px; font-weight:bold; font-size:1.4rem; text-align:center; padding:20px; border-radius:8px;"></div>
                 </div>
 
                 <div id="view-admin" class="view-section">
@@ -158,28 +178,25 @@
                     
                     <div style="background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); margin-bottom:20px;">
                         <h3><i class="fas fa-file-import"></i> Importar Usuarios desde Excel</h3>
-                        <p>Copia las celdas de tu Excel (Columnas: <b>Usuario</b> | <b>Contraseña</b> | <b>Rol</b>) y pégalas aquí debajo. <br>
-                        <i>Roles válidos: "admin" o "user". Si no pones rol, será "user".</i></p>
-                        <textarea id="import-data" class="import-area" placeholder="Ejemplo:
-policia    policia123    user
-jefe       jefe456       admin"></textarea>
-                        <button class="btn-action" onclick="App.importUsers()"><i class="fas fa-save"></i> Procesar e Importar</button>
+                        <p>Copia columnas: <b>Usuario</b> | <b>Contraseña</b> | <b>Rol</b> (opcional)</p>
+                        <textarea id="import-data" class="import-area" placeholder="policia    policia123    user&#10;admin      admin123      admin"></textarea>
+                        <button class="btn-action" onclick="App.importUsers()"><i class="fas fa-save"></i> Importar Usuarios</button>
                         <p id="import-msg" style="color:green; font-weight:bold;"></p>
                     </div>
 
-                    <h3>Listado de Usuarios Activos</h3>
+                    <h3>Usuarios Activos</h3>
                     <table class="admin-table">
                         <thead><tr><th>Usuario</th><th>Contraseña</th><th>Rol</th></tr></thead>
                         <tbody id="users-list"></tbody>
                     </table>
 
-                    <h3 style="margin-top:30px;">Registro de Resultados (Tests)</h3>
+                    <h3 style="margin-top:30px;">Registro de Resultados</h3>
                     <table class="admin-table">
                         <thead><tr><th>Usuario</th><th>Fecha</th><th>Aciertos</th><th>Fallos</th><th>Nota</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
                     </table>
                     <br>
-                    <button onclick="App.clearLogs()" style="background:#c0392b; color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Borrar Historial Resultados</button>
+                    <button onclick="App.clearLogs()" style="background:#c0392b; color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Borrar Historial</button>
                 </div>
 
             </div>
@@ -190,11 +207,10 @@ jefe       jefe456       admin"></textarea>
 const App = {
     data: null,
     user: null,
-    dbNameLogs: 'noj_logs',
-    dbNameUsers: 'noj_users',
+    dbNameLogs: 'noj_logs_v2',
+    dbNameUsers: 'noj_users_v2',
 
     init: async () => {
-        // Precargar usuarios por defecto si no existen
         if(!localStorage.getItem(App.dbNameUsers)) {
             const defaultUsers = [
                 { u: 'admin', p: 'admin', r: 'admin' },
@@ -204,13 +220,11 @@ const App = {
         }
 
         try {
-            // Timestamp para evitar caché antigua y "no ver la información"
             const r = await fetch('database.json?t=' + Date.now());
             if (!r.ok) throw new Error("Error HTTP " + r.status);
             const d = await r.json();
             App.data = d[0]; 
             
-            // Renderizar todo
             App.renderTemario();
             App.renderBiblio();
             App.renderMedia();
@@ -218,11 +232,11 @@ const App = {
             App.renderTest();
         } catch(e) {
             console.error(e);
-            alert("Error cargando el contenido. Asegúrate de haber subido 'database.json' correctamente.");
+            alert("Error cargando base de datos. Pulsa F12 para ver consola.");
         }
     },
 
-    // --- AUTH & USER MANAGEMENT ---
+    // --- AUTH ---
     login: () => {
         const uInput = document.getElementById('username').value.trim();
         const pInput = document.getElementById('password').value.trim();
@@ -232,7 +246,6 @@ const App = {
 
         if(found) {
             App.user = { name: found.u, role: found.r };
-            
             document.getElementById('login-overlay').classList.add('hidden');
             document.getElementById('main-app').classList.remove('hidden');
             document.getElementById('display-user').innerText = found.u.toUpperCase();
@@ -246,21 +259,18 @@ const App = {
             document.getElementById('login-msg').innerText = "Credenciales incorrectas.";
         }
     },
-
     logout: () => { location.reload(); },
 
-    // --- IMPORTAR EXCEL ---
+    // --- IMPORT & ADMIN ---
     importUsers: () => {
         const raw = document.getElementById('import-data').value;
         if(!raw.trim()) return;
 
         const lines = raw.split('\n');
         const newUsers = [];
-        
         lines.forEach(line => {
-            // Soporta pegar desde Excel (separado por tabulación) o espacios
             let parts = line.split(/\t+/); 
-            if(parts.length < 2) parts = line.split(/\s+/); // Intento con espacios si falla tab
+            if(parts.length < 2) parts = line.split(/\s+/); 
 
             if(parts.length >= 2) {
                 const u = parts[0].trim();
@@ -270,40 +280,26 @@ const App = {
             }
         });
 
-        if(newUsers.length > 0) {
-            if(confirm(`¿Importar ${newUsers.length} usuarios? Esto sobrescribirá la lista anterior.`)) {
-                localStorage.setItem(App.dbNameUsers, JSON.stringify(newUsers));
-                App.renderAdminPanel();
-                document.getElementById('import-msg').innerText = "¡Usuarios importados correctamente!";
-                document.getElementById('import-data').value = "";
-            }
-        } else {
-            alert("No se detectaron datos válidos. Copia columnas: Usuario | Clave");
+        if(newUsers.length > 0 && confirm(`¿Importar ${newUsers.length} usuarios?`)) {
+            localStorage.setItem(App.dbNameUsers, JSON.stringify(newUsers));
+            App.renderAdminPanel();
+            document.getElementById('import-msg').innerText = "Importado OK";
         }
     },
 
     renderAdminPanel: () => {
-        // Listar usuarios
         const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
         const tUsers = document.getElementById('users-list');
         tUsers.innerHTML = '';
         users.forEach(x => {
-            tUsers.innerHTML += `<tr><td>${x.u}</td><td>••••••</td><td>${x.r}</td></tr>`;
+            tUsers.innerHTML += `<tr><td>${x.u}</td><td>****</td><td>${x.r}</td></tr>`;
         });
 
-        // Listar logs
         const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
         const tLogs = document.getElementById('admin-logs');
         tLogs.innerHTML = logs.length ? '' : '<tr><td colspan="5">Sin registros</td></tr>';
         logs.forEach(l => {
-            tLogs.innerHTML += `
-                <tr>
-                    <td><b>${l.user}</b></td>
-                    <td>${l.date}</td>
-                    <td style="color:green">${l.score}</td>
-                    <td style="color:red">${l.errors}</td>
-                    <td><b>${((l.score/l.total)*10).toFixed(1)}</b></td>
-                </tr>`;
+            tLogs.innerHTML += `<tr><td><b>${l.user}</b></td><td>${l.date}</td><td style="color:green">${l.score}</td><td style="color:red">${l.errors}</td><td><b>${((l.score/l.total)*10).toFixed(1)}</b></td></tr>`;
         });
     },
 
@@ -319,29 +315,23 @@ const App = {
         localStorage.setItem(App.dbNameLogs, JSON.stringify(logs));
         if(App.user.role === 'admin') App.renderAdminPanel();
     },
-
+    
     clearLogs: () => {
-        if(confirm("¿Borrar historial?")) {
-            localStorage.removeItem(App.dbNameLogs);
-            App.renderAdminPanel();
-        }
+        if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(); }
     },
 
-    // --- NAVEGACIÓN Y RENDERS ---
+    // --- RENDERS ---
     nav: (viewId) => {
         document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
         document.getElementById('view-' + viewId).classList.add('active');
         document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-        // (Simple visual toggle logic skipped for brevity)
     },
 
     renderTemario: () => {
         if(!App.data || !App.data.secciones_temario) return;
         const tabs = document.getElementById('doc-tabs');
         const content = document.getElementById('doc-content');
-        
-        tabs.innerHTML = ''; content.innerHTML = ''; // Limpiar
-
+        tabs.innerHTML = ''; content.innerHTML = '';
         App.data.secciones_temario.forEach((sec, i) => {
             tabs.innerHTML += `<button class="doc-tab ${i===0?'active':''}" onclick="App.switchTab(${i})">${sec.titulo}</button>`;
             content.innerHTML += `<div id="page-${i}" class="doc-page ${i===0?'active':''}">${sec.contenido}</div>`;
@@ -374,7 +364,8 @@ const App = {
         App.data.imagenes.forEach(img => {
             grid.innerHTML += `<div class="media-card"><img src="${img.url}" alt="${img.nombre}"><p><b>${img.nombre}</b></p></div>`;
         });
-        document.getElementById('main-audio').src = App.data.audio_url;
+        const audio = document.getElementById('main-audio');
+        if(audio) audio.src = App.data.audio_url;
     },
 
     renderFC: () => {
@@ -390,9 +381,9 @@ const App = {
                     </div>
                 </div>
                 <div class="fc-nav">
-                    <button class="btn-fc" onclick="App.moveFC(-1)">❮ Anterior</button>
+                    <button class="btn-fc" onclick="App.moveFC(-1)">❮</button>
                     <span style="margin:0 15px">${App.fcIndex + 1} / ${App.data.flashcards.length}</span>
-                    <button class="btn-fc" onclick="App.moveFC(1)">Siguiente ❯</button>
+                    <button class="btn-fc" onclick="App.moveFC(1)">❯</button>
                 </div>`;
         };
         App.moveFC = (dir) => {
@@ -409,12 +400,12 @@ const App = {
         div.innerHTML = App.data.test.map((q, i) => `
             <div class="q-block" data-correct="${q.correcta}">
                 <p><b>${i+1}. ${q.pregunta}</b></p>
-                ${q.respuestas.map((r, ri) => `<div class="quiz-option" onclick="App.selectOption(this, ${i})">${r}</div>`).join('')}
+                ${q.respuestas.map((r, ri) => `<div class="quiz-option" onclick="App.selectOption(this)">${r}</div>`).join('')}
             </div>
         `).join('');
     },
 
-    selectOption: (el, qIdx) => {
+    selectOption: (el) => {
         const parent = el.parentElement;
         parent.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
         el.classList.add('selected');
@@ -427,7 +418,9 @@ const App = {
             const selected = b.querySelector('.selected');
             const correctIdx = parseInt(b.dataset.correct);
             const options = b.querySelectorAll('.quiz-option');
-            options.forEach(o => o.className = 'quiz-option'); // Reset
+            
+            // Limpiar estilos previos
+            options.forEach(o => { o.classList.remove('correct', 'wrong'); });
 
             if(selected) {
                 const selIdx = Array.from(options).indexOf(selected);
@@ -436,11 +429,20 @@ const App = {
                     score++;
                 } else {
                     selected.classList.add('wrong');
-                    options[correctIdx].classList.add('correct');
+                    options[correctIdx].classList.add('correct'); // Mostrar solución
                 }
             }
         });
-        document.getElementById('test-result').innerText = `Resultado: ${score} / ${blocks.length}`;
+
+        const resDiv = document.getElementById('test-result');
+        if(score > 10) {
+            resDiv.innerHTML = `<span style="color:green"><i class="fas fa-check-circle"></i> APROBADO: ${score} / ${blocks.length}</span>`;
+            resDiv.style.background = "#d4edda";
+        } else {
+            resDiv.innerHTML = `<span style="color:red"><i class="fas fa-times-circle"></i> SUSPENSO: ${score} / ${blocks.length} (Necesitas 11)</span>`;
+            resDiv.style.background = "#f8d7da";
+        }
+        
         App.saveResult(score, blocks.length);
     }
 };
