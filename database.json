@@ -1,6 +1,6 @@
 [
   {
-    "id": "noj_salamanca_literal",
+    "id": "noj_salamanca_master_final_links",
     "titulo": "Guía Práctica NOJ Salamanca",
     "audio_url": "audio.m4a",
     "imagenes": [
@@ -11,23 +11,23 @@
       {
         "nivel": "Normativa",
         "archivos": [
-          { "nombre": "OJ-PROTOCOLO-ACTUACION.pdf", "desc": "Protocolo Actuación" },
-          { "nombre": "Manual-Organizacion.pdf", "desc": "Manual Organización" }
+          { "nombre": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO (1).pdf", "desc": "Protocolo de Actuación" },
+          { "nombre": "Anexo-I-Manual-de-Organizacion-Salamanca-firmado.pdf", "desc": "Manual de Organización" }
         ]
       },
       {
-        "nivel": "Manuales",
+        "nivel": "Manuales Operativos",
         "archivos": [
-          { "nombre": "Manual-SCT.pdf", "desc": "Manual SCT" },
-          { "nombre": "Manual-SCG.pdf", "desc": "Manual SCG" },
-          { "nombre": "Manual-SCEJ.pdf", "desc": "Manual SCEJ" }
+          { "nombre": "Anexo-II-Manual-del-SCT-Salamanca-firmado.pdf", "desc": "Manual SCT (Tramitación)" },
+          { "nombre": "Anexo-III-Manual-del-SCG-Salamanca-firmado - copia.pdf", "desc": "Manual SCG (General)" },
+          { "nombre": "Anexo-IV-Manual-SCEJ-Salamanca-firmado - copia.pdf", "desc": "Manual SCEJ (Ejecución)" }
         ]
       }
     ],
     "secciones_temario": [
       {
         "titulo": "1. Introducción",
-        "contenido": "<h3>1. Introducción: La transformación del sistema judicial en Salamanca</h3><p>El presente documento tiene como finalidad servir de manual operativo y de referencia permanente para todos los miembros de la Policía Local de Salamanca, con independencia de su escala o destino funcional, ante la implantación del nuevo modelo de Oficina Judicial (OJ).</p><p>Este modelo, que entrará en vigor el 31 de diciembre de 2025, deriva de la Ley Orgánica 1/2025, y supone una modificación estructural profunda del funcionamiento de la Administración de Justicia. Se abandona definitivamente el esquema tradicional de juzgados individuales y aislados para pasar a un sistema integrado, centralizado y especializado de servicios comunes, orientado a:</p><ul><li>Incrementar la agilidad en la tramitación de los procedimientos.</li><li>Garantizar criterios homogéneos de actuación.</li><li>Optimizar los recursos humanos y materiales.</li><li>Facilitar la interoperabilidad digital entre operadores jurídicos.</li></ul><p>Para la Policía Local, este cambio tiene una repercusión directa y diaria: varían los puntos de entrada de la documentación, los interlocutores, los circuitos de tramitación y los responsables de cada fase del procedimiento. Un conocimiento preciso de esta arquitectura es indispensable para evitar errores, retrasos, devoluciones de atestados y disfunciones operativas.</p>"
+        "contenido": "<h3>1. Introducción: La transformación del sistema judicial en Salamanca</h3><p>El presente documento tiene como finalidad servir de manual operativo y de referencia permanente para todos los miembros de la Policía Local de Salamanca, con independencia de su escala o destino funcional, ante la implantación del nuevo modelo de Oficina Judicial (OJ).</p><p>Este modelo, que entrará en vigor el <strong>31 de diciembre de 2025</strong>, deriva de la Ley Orgánica 1/2025, y supone una modificación estructural profunda del funcionamiento de la Administración de Justicia. Se abandona definitivamente el esquema tradicional de juzgados individuales y aislados para pasar a un sistema integrado, centralizado y especializado de servicios comunes, orientado a:</p><ul><li>Incrementar la agilidad en la tramitación de los procedimientos.</li><li>Garantizar criterios homogéneos de actuación.</li><li>Optimizar los recursos humanos y materiales.</li><li>Facilitar la interoperabilidad digital entre operadores jurídicos.</li></ul><p>Para la Policía Local, este cambio tiene una repercusión directa y diaria: varían los puntos de entrada de la documentación, los interlocutores, los circuitos de tramitación y los responsables de cada fase del procedimiento. Un conocimiento preciso de esta arquitectura es indispensable para evitar errores, retrasos, devoluciones de atestados y disfunciones operativas.</p>"
       },
       {
         "titulo": "2. Visión General",
@@ -38,32 +38,32 @@
         "contenido": "<h3>2.2 Los Servicios Comunes: columna vertebral de la Oficina Judicial</h3><p>La Oficina Judicial se estructura en tres Servicios Comunes, que prestan apoyo tanto al Tribunal de Instancia como a la Audiencia Provincial. Cada uno tiene competencias exclusivas y claramente delimitadas.</p><table class='doc-table'><tr><th>Servicio Común</th><th>Acrónimo</th><th>Función principal</th></tr><tr><td>Servicio Común General</td><td><strong>SCG</strong></td><td>Punto único de entrada: recepción, registro, reparto, actos de comunicación y archivo</td></tr><tr><td>Servicio Común de Tramitación</td><td><strong>SCT</strong></td><td>Gestión integral de los procedimientos en fase declarativa (instrucción y enjuiciamiento)</td></tr><tr><td>Servicio Común de Ejecución</td><td><strong>SCEJ</strong></td><td>Ejecución de resoluciones judiciales firmes</td></tr></table><p>Este modelo elimina duplicidades y asegura que cada documento policial siga un circuito previsible y trazable.</p>"
       },
       {
-        "titulo": "3. Guía Operativa",
+        "titulo": "4. Guía Operativa",
         "contenido": "<h3>3. Guía operativa para la escala ejecutiva de la Policía Local</h3><p>Esta sección está orientada al personal operativo y de patrulla, que constituye el primer eslabón del procedimiento judicial. Se centra en las actuaciones más frecuentes y críticas.</p><h4>3.1 Inicio del procedimiento: destino correcto del atestado o informe policial</h4><p><strong>Principio fundamental:</strong> Todo documento policial tiene un único punto de entrada ordinario: el <strong>Servicio Común General (SCG)</strong>.</p><p><strong>Circuito ordinario del atestado:</strong></p><ul><li><strong>Presentación en el SCG:</strong> Preferentemente por vía telemática. El formato físico solo se utilizará cuando esté expresamente autorizado. <strong>Horario:</strong> lunes a viernes laborables, de 08:30 a 15:00 horas.</li><li><strong>Registro oficial:</strong> El SCG registra el documento en el sistema de gestión procesal. Se garantiza la trazabilidad y la validez procesal del atestado.</li><li><strong>Reparto competencial:</strong> El SCG asigna el asunto a la sección judicial competente.</li><li><strong>Remisión al SCT correspondiente:</strong> En materia penal, el atestado se remite al Servicio Común de Tramitación – Área Penal, que asume la instrucción.</li></ul><p><strong>Importancia operativa:</strong> Un atestado mal dirigido no se corrige en destino: se devuelve al circuito inicial. Los errores en el punto de entrada generan retrasos que afectan a medidas cautelares, citaciones y señalamientos.</p>"
       },
       {
-        "titulo": "3.2 Guardia (GU)",
+        "titulo": "5. Guardia (Urgencias)",
         "contenido": "<h4>3.2 Interacción con el Servicio de Guardia (GU)</h4><p>El Servicio de Guardia constituye una excepción al circuito ordinario y se activa exclusivamente para actuaciones urgentes e inaplazables.</p><p><strong>Documentación que debe remitirse directamente a Guardia:</strong></p><ul><li>Atestados con persona detenida.</li><li>Atestados con investigado citado para comparecer ante el juez de guardia.</li><li>Solicitudes urgentes: Entradas y registros, Intervenciones telefónicas, Medidas cautelares inmediatas.</li></ul><p><strong>Funcionamiento:</strong> El personal de guardia recepciona, registra y da curso inmediato a la actuación. El juez de guardia adopta decisiones en tiempo real. Posteriormente, el procedimiento se integra en el circuito ordinario del SCT.</p>"
       },
       {
-        "titulo": "4. Policía Judicial",
+        "titulo": "6. Policía Judicial",
         "contenido": "<h3>4. Manual avanzado para agentes de Policía Judicial</h3><p>Dirigido a unidades de investigación y policía judicial, este apartado detalla la estructura interna con la que se trabajará de forma continuada.</p><h4>4.1 Servicio Común de Tramitación (SCT) – Área Penal</h4><p>El SCT Penal gestiona los procedimientos penales desde el inicio hasta la firmeza de la resolución.</p><p><strong>Estructura interna:</strong></p><ul><li><strong>Equipos de Instrucción:</strong> Investigación penal. Diligencias, pruebas, medidas cautelares.</li><li><strong>Equipos de Enjuiciamiento:</strong> Apertura de juicio oral. Señalamientos y celebración de vistas. Sentencias.</li><li><strong>Grupos de trabajo:</strong> Delitos graves y menos graves. Delitos leves (tramitación y enjuiciamiento).</li></ul>"
       },
       {
-        "titulo": "4.2 Unidades Espec.",
+        "titulo": "7. Unidades Espec.",
         "contenido": "<h4>4.2 Unidades especializadas (S4M)</h4><ul><li><strong>Violencia sobre la Mujer:</strong> Grupo de Instrucción nº 3. Competencias: Instrucción penal, Delitos leves asociados, Órdenes de protección y medidas cautelares.</li><li><strong>Menores:</strong> Grupo específico del Equipo de Enjuiciamiento. Competencia integral: Desde Fiscalía de Menores hasta ejecución de medidas.</li><li><strong>Familia, Infancia y Capacidad (Área Civil):</strong> Internamientos no voluntarios. Custodias y regímenes de visitas. Medidas de protección a personas vulnerables. Intervención policial bajo mandato del LAJ.</li></ul>"
       },
       {
-        "titulo": "4.3 Ejecución (SCEJ)",
+        "titulo": "8. Ejecución (SCEJ)",
         "contenido": "<h4>4.3 Fase de ejecución: Servicio Común de Ejecución (SCEJ) – Área Penal</h4><p>Una vez firme la sentencia, la competencia pasa al SCEJ.</p><p><strong>Actuaciones con impacto policial:</strong></p><ul><li>Mandamientos de prisión.</li><li>Órdenes de búsqueda, captura e ingreso.</li><li>Mandamientos de libertad.</li><li>Ejecución de multas e indemnizaciones.</li><li>Embargos y averiguaciones patrimoniales.</li><li>Suspensión de penas y acumulaciones.</li></ul><h4>4.4 Gestión digital y comunicaciones</h4><p>La Oficina Judicial es íntegramente digital. La calidad del expediente depende del primer envío policial. <strong>Principios clave:</strong> Uso obligatorio de canales telemáticos. Datos completos, correctos y normalizados. Evitar duplicidades y anexos mal identificados.</p>"
       },
       {
-        "titulo": "5. Mandos",
+        "titulo": "9. Mandos",
         "contenido": "<h3>5. Pautas para la escala técnica y superior</h3><p>Este apartado se dirige a jefaturas y mandos, responsables de la coordinación estratégica.</p><h4>5.1 Estructura de mando de la Oficina Judicial</h4><ul><li><strong>Director/a del Servicio Común (LAJ):</strong> máxima autoridad funcional.</li><li><strong>Jefatura de Área (LAJ o GPA):</strong> coordinación por materias.</li><li><strong>Jefatura de Equipo (GPA, TPA o AJ):</strong> gestión directa operativa.</li></ul><h4>5.2 Coordinación institucional</h4><p><strong>Órganos relevantes:</strong> Comité de Dirección (órgano estratégico) y Comités de Coordinación (resolución de problemas operativos). Canales formales para elevar incidencias estructurales o recurrentes.</p><h4>5.3 Gestión de incidencias comunes</h4><table class='doc-table'><tr><th>Incidencia</th><th>Procedimiento</th></tr><tr><td>Reparto incorrecto</td><td>Devolución al equipo de inicio; corrección vía SCG</td></tr><tr><td>Errores en datos</td><td>Corrección por la Jefatura de Equipo tramitador</td></tr><tr><td>Documento sin registro</td><td>Remisión inmediata al SCG</td></tr></table>"
       },
       {
-        "titulo": "6-10. Protocolos",
-        "contenido": "<h3>6. Instrucción interna de Jefatura – Formato Circular</h3><p><strong>6.1 Naturaleza:</strong> Obligatorio y vinculante. <strong>6.2 Entrada en vigor:</strong> 31 de diciembre de 2025.</p><h4>7. Esquemas operativos de flujo</h4><ul><li><strong>Flujo general de atestado penal (no urgente):</strong> Actuación policial → Redacción → Remisión telemática → Servicio Común General (SCG) → Registro y reparto → SCT (Área Penal) → Instrucción.</li><li><strong>Flujo de actuación urgente (Servicio de Guardia):</strong> Hecho urgente → Atestado inmediato → Remisión directa a Servicio de Guardia → Registro en Guardia → Resolución judicial inmediata → Integración posterior en SCT.</li><li><strong>Flujo de ejecución penal:</strong> Sentencia firme → Servicio Común de Ejecución (SCEJ) → Mandamiento (prisión, libertad, embargo…) → Requerimiento a Policía Local → Ejecución material.</li></ul><h4>8. Adaptación por materias específicas</h4><ul><li><strong>Tráfico:</strong> Atestados delitos seguridad vial → SCG → SCT Penal. Juicios rápidos → Guardia.</li><li><strong>Violencia de Género:</strong> Atestados urgentes → Servicio de Guardia. Grupo de Instrucción nº 3 VSM.</li><li><strong>Menores:</strong> Atestados → SCG → SCT (Grupo de Menores).</li><li><strong>Contencioso:</strong> Denuncias administrativas judicializadas → SCG.</li></ul><h3>9. Versión de bolsillo para patrulla</h3><p>¿Tengo un atestado? No urgente → SCG. Detenido / urgente → Guardia. ¿Es ejecución de sentencia? Siempre SCEJ. Nunca enviar directamente a un juzgado.</p><h3>Cierre</h3><p>La correcta aplicación de esta instrucción es responsabilidad de toda la cadena de mando.</p>"
+        "titulo": "10. Protocolos y Flujos",
+        "contenido": "<h3>6. Instrucción interna de Jefatura – Formato Circular</h3><p><strong>6.1 Naturaleza:</strong> Obligatorio y vinculante. <strong>6.2 Entrada en vigor:</strong> 31 de diciembre de 2025.</p><h4>7. Esquemas operativos de flujo</h4><ul><li><strong>Flujo general de atestado penal (no urgente):</strong> Actuación policial → Redacción → Remisión telemática → Servicio Común General (SCG) → Registro y reparto → SCT (Área Penal) → Instrucción.</li><li><strong>Flujo de actuación urgente (Servicio de Guardia):</strong> Hecho urgente → Atestado inmediato → Remisión directa a Servicio de Guardia → Registro en Guardia → Resolución judicial inmediata → Integración posterior en SCT.</li><li><strong>Flujo de ejecución penal:</strong> Sentencia firme → Servicio Común de Ejecución (SCEJ) → Mandamiento (prisión, libertad, embargo…) → Requerimiento a Policía Local → Ejecución material.</li></ul><h4>8. Adaptación por materias específicas</h4><ul><li><strong>Tráfico:</strong> Atestados delitos seguridad vial → SCG → SCT Penal. Juicios rápidos → Guardia.</li><li><strong>Violencia de Género:</strong> Atestados urgentes → Servicio de Guardia. Grupo de Instrucción nº 3 VSM.</li><li><strong>Menores:</strong> Atestados → SCG → SCT (Grupo de Menores).</li><li><strong>Contencioso:</strong> Denuncias administrativas judicializadas → SCG.</li></ul><h3>9. Versión de bolsillo para patrulla</h3><p>¿Tengo un atestado? No urgente → SCG. Detenido / urgente → Guardia. ¿Es ejecución de sentencia? Siempre SCEJ. Nunca enviar directamente a un juzgado.</p><h3>10. Versión estratégica para mandos</h3><p>Canal único ordinario: SCG. Guardia solo para urgencias reales. SCT = fase declarativa. SCEJ = ejecución. Incidencias estructurales → Comité de Dirección.</p><p><strong>Cierre:</strong> La correcta aplicación de esta instrucción es responsabilidad de toda la cadena de mando. Su incumplimiento podrá generar responsabilidades disciplinarias por disfunción operativa o perjuicio procesal.</p>"
       }
     ],
     "flashcards": [
