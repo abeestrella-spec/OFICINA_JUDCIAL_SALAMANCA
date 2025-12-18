@@ -9,188 +9,337 @@
         :root { --primary: #0a2e5c; --accent: #d4af37; --bg: #f4f7f9; --text: #333; --danger: #c0392b; --success: #27ae60; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* --- PANTALLA DE LOGIN --- */
+        /* LOGIN (Sin formulario) */
         #login-screen { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            z-index: 5000; display: flex; justify-content: center; align-items: center; 
-            /* Fondo Jefatura */
-            background: linear-gradient(rgba(10,46,92,0.85), rgba(10,46,92,0.85)), url('jefatura.jpg') no-repeat center center fixed;
-            background-size: cover;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 5000;
+            background: linear-gradient(rgba(10,46,92,0.9), rgba(10,46,92,0.9)), url('jefatura.jpg') center/cover;
+            display: flex; justify-content: center; align-items: center;
         }
-        .login-card { 
-            background: white; padding: 40px; border-radius: 12px; width: 350px; 
-            text-align: center; box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
-        }
-        .login-logo { width: 100px; margin-bottom: 20px; } /* Solo poli (2).png */
+        .login-card { background: white; padding: 40px; border-radius: 10px; width: 320px; text-align: center; }
+        .login-card img { width: 80px; margin-bottom: 15px; }
+        .login-card input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing:border-box; }
+        .btn-enter { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px; }
         
-        .login-card input { 
-            width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; 
-            border-radius: 6px; box-sizing: border-box; font-size: 16px;
-        }
-        .btn-enter { 
-            background: var(--primary); color: white; border: none; padding: 14px; width: 100%; 
-            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 15px; 
-            transition: background 0.3s;
-        }
-        .btn-enter:hover { background: #001a3b; }
-
-        /* --- APLICACIÓN PRINCIPAL --- */
+        /* APP LAYOUT */
         #main-app { display: none; height: 100%; flex-direction: column; }
-        
-        /* CABECERA CON PIE175PLSA */
-        .app-header {
-            background: white; border-bottom: 4px solid var(--accent);
-            padding: 10px; text-align: center; flex-shrink: 0;
-        }
-        .app-header img { height: 80px; width: auto; max-width: 100%; }
-
-        .top-bar { 
-            background: var(--primary); color: white; padding: 8px 20px; 
-            display: flex; justify-content: space-between; align-items: center; 
-            font-size: 0.9rem; flex-shrink: 0; 
-        }
-        .btn-logout { background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-
+        .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid #d4af37; flex-shrink: 0; }
+        .app-header img { height: 70px; }
+        .top-bar { background: var(--primary); color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .btn-logout { background: #c0392b; border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
         .content-area { flex: 1; display: flex; overflow: hidden; }
-        
-        /* BARRA LATERAL CON ESCUDO */
-        .sidebar { 
-            width: 260px; background: white; border-right: 1px solid #ddd; 
-            display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto;
-        }
-        .sidebar-logo {
-            text-align: center; padding: 20px; border-bottom: 1px solid #eee; background: #fdfdfd;
-        }
-        .sidebar-logo img { width: 120px; height: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        .sidebar { width: 250px; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
+        .sidebar-logo { text-align: center; padding: 20px; border-bottom: 1px solid #eee; }
+        .sidebar-logo img { width: 100px; }
+        .menu-item { padding: 15px; cursor: pointer; border-bottom: 1px solid #eee; color: #555; }
+        .menu-item:hover, .menu-item.active { background: #f0f4f8; color: var(--primary); border-left: 4px solid var(--primary); }
+        .viewport { flex: 1; padding: 30px; overflow-y: auto; position: relative; }
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: fadeIn 0.3s; }
 
-        .menu-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid #eee; color: #555; font-weight: 500; }
-        .menu-item:hover, .menu-item.active { background: #f8f9fa; color: var(--primary); border-left: 4px solid var(--primary); }
-        .menu-item i { width: 25px; text-align: center; margin-right: 10px; }
-
-        .viewport { flex: 1; padding: 30px; overflow-y: auto; background: #f4f7f9; }
-        .view-section { display: none; animation: fadeIn 0.3s; }
-        .view-section.active { display: block; }
-
-        /* VISOR MULTIMEDIA */
-        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
-        #lightbox-container { width: 90%; height: 80%; background: #222; border: 1px solid #444; overflow: auto; display: flex; justify-content: center; position: relative; }
-        #lightbox-img { width: 100%; height: auto; transition: width 0.2s; transform-origin: top center; }
-        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
-        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
-        #lightbox-caption { color: white; margin-top: 10px; font-weight: bold; }
-        input[type=range] { width: 200px; cursor: pointer; }
-
-        /* UTILIDADES */
-        .hidden { display: none !important; }
-        .doc-tab { padding: 8px 15px; background: #e0e0e0; border: none; margin-right: 5px; cursor: pointer; }
-        .doc-tab.active { background: var(--primary); color: white; }
-        .doc-page { display: none; background: white; padding: 30px; margin-top: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .doc-page.active { display: block; }
-        
-        .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
-        .admin-table th, .admin-table td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-        .admin-table th { background: #eee; }
-        
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .media-card { background: white; padding: 10px; text-align: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .media-card img { max-width: 100%; height: 180px; object-fit: cover; }
-
-        .fc-container { perspective: 1000px; height: 300px; max-width: 600px; margin: 0 auto; cursor: pointer; }
-        .fc-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        /* FLASHCARDS FIX */
+        .fc-wrapper { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+        .fc-container { perspective: 1000px; height: 320px; width: 100%; max-width: 600px; cursor: pointer; position: relative; z-index: 1; }
+        .fc-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .fc-flipped .fc-inner { transform: rotateY(180deg); }
-        .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; border-radius: 10px; font-size: 1.2rem; background: white; border: 2px solid var(--primary); }
-        .fc-front { background: var(--primary); color: white; z-index: 2; }
+        .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; border-radius: 15px; font-size: 1.2rem; box-sizing: border-box; background: white; border: 2px solid var(--primary); }
+        .fc-front { background: var(--primary); color: white; z-index: 2; transform: rotateY(0deg); }
         .fc-back { transform: rotateY(180deg); color: #333; }
-        
-        .btn-fc { padding: 10px 30px; cursor: pointer; color: white; border: none; border-radius: 5px; font-weight: bold; margin: 20px 10px; }
+        .fc-controls { display: flex; gap: 20px; z-index: 10; margin-bottom: 50px; }
+        .btn-fc { padding: 12px 30px; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; width: 120px; }
         .btn-prev { background: #c0392b; }
         .btn-next { background: #27ae60; }
 
-        .quiz-option { padding: 12px; margin: 8px 0; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; display: flex; align-items: center; }
-        .quiz-option.selected { background: #f0f7ff; border-color: var(--primary); }
-        .quiz-option.correct { background: #d4edda; border-color: #28a745; }
-        .quiz-option.wrong { background: #f8d7da; border-color: #c0392b; }
-        
-        .import-area { width: 100%; height: 150px; padding: 10px; border: 1px solid #ccc; font-family: monospace; font-size: 11px; margin-top: 10px; }
-        .btn-action { padding: 10px 15px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+        /* TEST FIX */
+        .quiz-option { padding: 15px; margin: 10px 0; background: white; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; display: flex; align-items: center; position: relative; z-index: 5; }
+        .quiz-option:hover { background: #f9f9f9; }
+        .quiz-option.selected { background: #e3f2fd; border-color: var(--primary); }
+        .quiz-option.correct { background: #d4edda; border-color: green; }
+        .quiz-option.wrong { background: #f8d7da; border-color: red; }
 
+        /* VISOR MULTIMEDIA FIX */
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; }
+        #lightbox-container { width: 90%; height: 80%; background: #222; border: 1px solid #555; overflow: auto; display: flex; align-items: flex-start; justify-content: center; }
+        #lightbox-img { width: 100%; height: auto; transition: width 0.2s; }
+        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 30px; }
+        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
+
+        /* UTILS */
+        .hidden { display: none !important; }
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .media-card { background: white; padding: 10px; cursor: pointer; text-align: center; border-radius: 8px; }
+        .media-card img { max-width: 100%; height: 150px; object-fit: cover; }
+        .admin-table { width: 100%; border-collapse: collapse; background: white; }
+        .admin-table th, .admin-table td { padding: 10px; border: 1px solid #ddd; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div id="login-screen">
-        <div class="login-card">
-            <img src="poli (2).png" alt="Logo" class="login-logo">
-            <h2>Acceso Restringido</h2>
-            <p>NOJ Salamanca</p>
-            <input type="text" id="username" placeholder="Usuario">
-            <input type="password" id="password" placeholder="Contraseña">
-            <button class="btn-enter" onclick="App.login()">Entrar</button>
-            <p id="login-msg" style="color:red; margin-top:10px; font-size:0.9rem;"></p>
+    <div id="lightbox">
+        <span id="lightbox-close" onclick="App.closeLightbox()">&times;</span>
+        <div id="lightbox-container"><img id="lightbox-img" src=""></div>
+        <div id="lightbox-controls">
+            <span style="color:white"><i class="fas fa-search-minus"></i></span>
+            <input type="range" min="1" max="4" step="0.1" value="1" oninput="App.zoom(this.value)">
+            <span style="color:white"><i class="fas fa-search-plus"></i></span>
         </div>
+        <div id="lightbox-caption" style="color:white; margin-top:10px;"></div>
     </div>
 
-    <div id="password-screen" class="hidden" style="position:fixed; top:0; left:0; width:100%; height:100%; background:var(--primary); z-index:5001; display:flex; justify-content:center; align-items:center;">
+    <div id="login-screen">
         <div class="login-card">
-            <h2 style="color:var(--danger)">Seguridad</h2>
-            <p>Primer acceso. Cambie su contraseña.</p>
-            <input type="password" id="new-pass-1" placeholder="Nueva Contraseña">
-            <input type="password" id="new-pass-2" placeholder="Repita Contraseña">
-            <button class="btn-enter" onclick="App.changePassword()">Guardar y Acceder</button>
-            <p id="pass-msg" style="color:red; margin-top:10px;"></p>
+            <img src="poli.png" alt="Logo">
+            <h2>Acceso Restringido</h2>
+            <p>NOJ Salamanca</p>
+            <input type="text" id="user" placeholder="Usuario">
+            <input type="password" id="pass" placeholder="Contraseña">
+            <button class="btn-enter" onclick="App.login()">Entrar</button>
+            <p id="msg" style="color:red; margin-top:10px;"></p>
         </div>
     </div>
 
     <div id="main-app">
-        <div class="app-header">
-            <img src="pie175PLSA.jpg" alt="Cabecera">
-        </div>
-
+        <div class="app-header"><img src="pie.jpg" alt="Cabecera"></div>
         <div class="top-bar">
-            <div>
-                <span id="display-user" style="font-weight:bold;"></span> | 
-                <span id="role-badge" style="background:rgba(255,255,255,0.2); padding:2px 6px; border-radius:4px;"></span>
-            </div>
-            <button class="btn-logout" onclick="App.logout()">Cerrar Sesión</button>
+            <span id="user-display"></span>
+            <button class="btn-logout" onclick="location.reload()">Salir</button>
         </div>
-
         <div class="content-area">
             <div class="sidebar">
-                <div class="sidebar-logo">
-                    <img src="escudoPLSA.jpg" alt="Escudo">
-                </div>
-                <div class="menu-item active" onclick="App.nav('temario')"><i class="fas fa-book"></i> Temario</div>
+                <div class="sidebar-logo"><img src="escudo.jpg" alt="Escudo"></div>
+                <div class="menu-item" onclick="App.nav('temario')"><i class="fas fa-book"></i> Temario</div>
                 <div class="menu-item" onclick="App.nav('biblio')"><i class="fas fa-folder"></i> Documentación</div>
                 <div class="menu-item" onclick="App.nav('media')"><i class="fas fa-image"></i> Multimedia</div>
                 <div class="menu-item" onclick="App.nav('flashcards')"><i class="fas fa-brain"></i> Tarjetas</div>
                 <div class="menu-item" onclick="App.nav('test')"><i class="fas fa-check-circle"></i> Test</div>
                 <div class="menu-item hidden" id="menu-admin" onclick="App.nav('admin')"><i class="fas fa-users-cog"></i> Gestión</div>
             </div>
-
+            
             <div class="viewport">
                 <div id="view-temario" class="view-section active">
                     <h2>Guía Operativa</h2>
-                    <div id="doc-tabs" class="doc-nav"></div>
-                    <div id="doc-content"></div>
+                    <div id="doc-content" style="background:white; padding:20px; border-radius:8px;">Cargando...</div>
                 </div>
 
                 <div id="view-biblio" class="view-section">
                     <h2>Biblioteca</h2>
-                    <ul id="file-tree" style="list-style:none; padding:0;"></ul>
+                    <ul id="file-tree"></ul>
                 </div>
 
                 <div id="view-media" class="view-section">
                     <h2>Multimedia</h2>
-                    <div class="media-grid" id="media-container"></div>
-                    <div style="margin-top:30px; background:white; padding:20px; border-radius:8px;">
-                        <h3>Audio Resumen</h3>
+                    <div id="media-container" class="media-grid"></div>
+                    <div style="margin-top:20px; background:white; padding:20px;">
+                        <h3>Audio</h3>
                         <audio id="main-audio" controls style="width:100%"></audio>
                     </div>
                 </div>
 
                 <div id="view-flashcards" class="view-section">
-                    <h2 style="text-align:center">Entrenamiento (40 Aleatorias)</h2>
-                    <div id="fc-canvas"></div>
-                    <div style="text-align:center;">
-                        <button class="btn-fc btn-prev" onclick="App
+                    <h2 style="text-align:center">Entrenamiento</h2>
+                    <div class="fc-wrapper">
+                        <div id="fc-canvas" class="fc-container"></div>
+                        <div class="fc-controls">
+                            <button class="btn-fc btn-prev" onclick="App.moveFC(-1)">Anterior</button>
+                            <span id="fc-count" style="align-self:center; font-weight:bold;"></span>
+                            <button class="btn-fc btn-next" onclick="App.moveFC(1)">Siguiente</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-test" class="view-section">
+                    <h2>Evaluación</h2>
+                    <div id="test-container"></div>
+                    <button class="btn-enter" style="width:auto; margin-top:20px;" onclick="App.submitTest()">Corregir</button>
+                    <div id="test-result" style="margin-top:20px; font-weight:bold; font-size:1.2rem;"></div>
+                </div>
+
+                <div id="view-admin" class="view-section">
+                    <h2>Panel de Gestión</h2>
+                    <textarea id="import-area" style="width:100%; height:100px; margin-bottom:10px;" placeholder="Pegar Excel aquí (Usuario | Clave | Rol | Jefe)"></textarea>
+                    <button class="btn-enter" style="width:auto; background:#27ae60;" onclick="App.importUsers()">Importar Usuarios</button>
+                    <hr>
+                    <table class="admin-table">
+                        <thead><tr><th>Usuario</th><th>Rol</th><th>Nota</th><th>Jefe</th></tr></thead>
+                        <tbody id="admin-logs"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+const App = {
+    data: null, user: null, 
+    dbU: 'noj_users_v18', dbL: 'noj_logs_v18', // RESETEO COMPLETO
+
+    init: async () => {
+        if(!localStorage.getItem(App.dbU)) {
+            const defs = [
+                { u:'master', p:'master', r:'master', boss:'' },
+                { u:'admin', p:'admin', r:'admin', boss:'' }
+            ];
+            localStorage.setItem(App.dbU, JSON.stringify(defs));
+        }
+
+        try {
+            const r = await fetch('database.json?t='+Date.now());
+            const d = await r.json();
+            App.data = d[0];
+            
+            // ALEATORIEDAD REAL
+            if(App.data.flashcards) App.data.flashcards = App.shuffle(App.data.flashcards);
+            if(App.data.test) App.data.test = App.shuffle(App.data.test).slice(0, 20);
+
+            // RENDER INICIAL
+            document.getElementById('doc-content').innerHTML = App.data.secciones_temario.map(s=>`<h3>${s.titulo}</h3>${s.contenido}`).join('<hr>');
+            
+            const bib = document.getElementById('file-tree');
+            App.data.bibliografia.forEach(c => {
+                bib.innerHTML += `<li><strong>${c.nivel}</strong><ul>${c.archivos.map(f=>`<li><a href="${f.nombre}" target="_blank">${f.desc}</a></li>`).join('')}</ul></li>`;
+            });
+
+            const med = document.getElementById('media-container');
+            App.data.imagenes.forEach(i => {
+                med.innerHTML += `<div class="media-card" onclick="App.openLB('${i.url}','${i.nombre}')"><img src="${i.url}"><p>${i.nombre}</p></div>`;
+            });
+            document.getElementById('main-audio').src = App.data.audio_url;
+
+            App.renderFC();
+            App.renderTest();
+
+        } catch(e) { console.error(e); alert("Error cargando base de datos. Verifica JSON."); }
+    },
+
+    shuffle: (a) => { for(let i=a.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; },
+
+    login: () => {
+        const u = document.getElementById('user').value.trim();
+        const p = document.getElementById('pass').value.trim();
+        const users = JSON.parse(localStorage.getItem(App.dbU));
+        const found = users.find(x => x.u === u && x.p === p);
+
+        if(found) {
+            App.user = found;
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'flex';
+            document.getElementById('user-display').innerText = u.toUpperCase();
+            
+            if(['admin','master','jef','mdc','mdt','mut'].includes(found.r)) {
+                document.getElementById('menu-admin').classList.remove('hidden');
+                App.renderAdmin();
+            }
+        } else {
+            document.getElementById('msg').innerText = "Credenciales incorrectas";
+        }
+    },
+
+    renderFC: () => { App.fcI=0; App.drawFC(); },
+    drawFC: () => {
+        if(!App.data.flashcards.length) return;
+        const c = App.data.flashcards[App.fcI];
+        document.getElementById('fc-canvas').innerHTML = `
+            <div class="fc-inner">
+                <div class="fc-face fc-front">${c.front}</div>
+                <div class="fc-face fc-back">${c.back}</div>
+            </div>`;
+        document.getElementById('fc-canvas').onclick = function() { this.classList.toggle('fc-flipped'); };
+        document.getElementById('fc-count').innerText = `${App.fcI+1}/${App.data.flashcards.length}`;
+    },
+    moveFC: (d) => {
+        App.fcI += d;
+        if(App.fcI < 0) App.fcI = App.data.flashcards.length - 1;
+        if(App.fcI >= App.data.flashcards.length) App.fcI = 0;
+        document.getElementById('fc-canvas').classList.remove('fc-flipped');
+        App.drawFC();
+    },
+
+    renderTest: () => {
+        const div = document.getElementById('test-container');
+        div.innerHTML = App.data.test.map((q,i) => `
+            <div class="q-block" data-correct="${q.correcta}">
+                <p><b>${i+1}. ${q.pregunta}</b></p>
+                ${q.respuestas.map(r => `<div class="quiz-option" onclick="App.selOpt(this)">${r}</div>`).join('')}
+            </div>
+        `).join('');
+    },
+    selOpt: (el) => {
+        el.parentElement.querySelectorAll('.quiz-option').forEach(e => e.classList.remove('selected'));
+        el.classList.add('selected');
+    },
+    submitTest: () => {
+        let s = 0;
+        const blocks = document.querySelectorAll('.q-block');
+        blocks.forEach(b => {
+            const sel = b.querySelector('.selected');
+            const corr = parseInt(b.dataset.correct);
+            const opts = b.querySelectorAll('.quiz-option');
+            opts.forEach(o => o.classList.remove('correct','wrong'));
+            if(sel) {
+                const idx = Array.from(opts).indexOf(sel);
+                if(idx === corr) { sel.classList.add('correct'); s++; }
+                else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); }
+            }
+        });
+        document.getElementById('test-result').innerText = `Nota: ${s} / ${blocks.length}`;
+        const logs = JSON.parse(localStorage.getItem(App.dbL)||'[]');
+        logs.push({u:App.user.u, d:new Date().toLocaleDateString(), s:s, f:blocks.length-s});
+        localStorage.setItem(App.dbL, JSON.stringify(logs));
+        if(App.user.r === 'admin' || App.user.r === 'master') App.renderAdmin();
+    },
+
+    importUsers: () => {
+        const raw = document.getElementById('import-area').value;
+        const users = JSON.parse(localStorage.getItem(App.dbU));
+        const map = {'AGENTE (DC)':'adc','AGENTE (DT)':'adt','AGENTE (UT)':'aut','MANDO (DC)':'mdc','MANDO (DT)':'mdt','MANDO (UT)':'mut','JEFATURA':'jef','ADMIN':'admin','MASTER':'master'};
+        let c=0;
+        raw.split('\n').forEach(l => {
+            let p = l.split(/\t+/); if(p.length<2) p=l.split(/\s+/);
+            if(p.length>=2) {
+                let r = map[p[2]] || 'adc';
+                if(!users.find(x=>x.u===p[0])) {
+                    users.push({u:p[0], p:p[1], r:r, boss:p[3]||''});
+                    c++;
+                }
+            }
+        });
+        localStorage.setItem(App.dbU, JSON.stringify(users));
+        alert(c + " importados.");
+        App.renderAdmin();
+    },
+    
+    renderAdmin: () => {
+        const logs = JSON.parse(localStorage.getItem(App.dbL)||'[]');
+        const users = JSON.parse(localStorage.getItem(App.dbU));
+        const t = document.getElementById('admin-logs'); t.innerHTML='';
+        
+        logs.forEach(l => {
+            let show = false;
+            const uData = users.find(x => x.u === l.u);
+            const boss = uData ? uData.boss : '';
+            
+            if(['admin','master','jef'].includes(App.user.r)) show = true;
+            else if(boss === App.user.u) show = true;
+
+            if(show) t.innerHTML += `<tr><td>${l.u}</td><td>${uData?uData.r:'?'}</td><td>${l.d}</td><td>${l.s}</td><td>${l.f}</td><td>${boss}</td></tr>`;
+        });
+    },
+
+    nav: (id) => { 
+        document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active'));
+        document.getElementById('view-'+id).classList.add('active');
+    },
+    
+    openLB: (url, txt) => {
+        document.getElementById('lightbox-img').src = url;
+        document.getElementById('lightbox-img').style.width = "100%";
+        document.getElementById('lightbox-caption').innerText = txt;
+        document.getElementById('lightbox').style.display = 'flex';
+    },
+    closeLightbox: () => document.getElementById('lightbox').style.display='none',
+    zoom: (v) => document.getElementById('lightbox-img').style.width = (v*100) + "%"
+};
+window.onload = App.init;
+</script>
+</body>
+</html>
