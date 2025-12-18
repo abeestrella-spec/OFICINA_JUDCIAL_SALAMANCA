@@ -20,8 +20,9 @@
         .login-card img { width: 100px; margin-bottom: 20px; }
         .login-card input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing:border-box; font-size: 16px; }
         .btn-enter { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 15px; }
-        
-        /* LAYOUT */
+        .btn-enter:hover { background: #001a3b; }
+
+        /* APP LAYOUT */
         #main-app { display: none; height: 100%; flex-direction: column; }
         .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid #d4af37; flex-shrink: 0; }
         .app-header img { height: 80px; width: auto; max-width: 100%; } 
@@ -39,10 +40,10 @@
         .menu-item i { width: 25px; text-align: center; margin-right: 10px; }
 
         .viewport { flex: 1; padding: 30px; overflow-y: auto; background: #f4f7f9; position: relative; }
-        .view-section { display: none; animation: fadeIn 0.3s; }
-        .view-section.active { display: block; }
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: fadeIn 0.3s; }
 
-        /* TEMARIO */
+        /* TEMARIO (2 FILAS) */
         .doc-nav { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 20px; }
         .doc-tab { padding: 10px; background: #e0e0e0; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.8rem; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .doc-tab.active { background: var(--primary); color: white; }
@@ -51,21 +52,6 @@
         .doc-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .doc-table th, .doc-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
         .doc-table th { background: #f1f1f1; }
-
-        /* MULTIMEDIA GRID */
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .media-card { background: white; padding: 15px; cursor: pointer; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .media-card:hover { transform: translateY(-5px); border: 2px solid var(--primary); }
-        .media-card img { max-width: 100%; height: 200px; object-fit: cover; border-radius: 4px; }
-        .media-card p { font-weight: bold; margin-top: 10px; color: var(--primary); }
-
-        /* VISOR (ZOOM + SCROLL FIXED) */
-        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
-        #lightbox-container { width: 90%; height: 80%; background: #222; border: 1px solid #555; overflow: auto; display: flex; align-items: flex-start; justify-content: center; position: relative; }
-        #lightbox-img { width: 100%; height: auto; max-width: none !important; transition: width 0.2s ease; transform-origin: top center; }
-        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
-        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 4rem; cursor: pointer; z-index: 10001; }
-        input[type=range] { width: 300px; cursor: pointer; }
 
         /* FLASHCARDS */
         .fc-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
@@ -87,27 +73,38 @@
         .quiz-option.correct { background: #d4edda; border-color: green; }
         .quiz-option.wrong { background: #f8d7da; border-color: red; }
 
-        /* ADMIN */
+        /* VISOR MULTIMEDIA (ZOOM REAL + SCROLL) */
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
+        #lightbox-container { width: 90%; height: 80%; background: #222; border: 1px solid #555; overflow: auto; display: flex; align-items: flex-start; justify-content: center; }
+        #lightbox-img { width: 100%; height: auto; max-width: none !important; transition: width 0.2s ease; transform-origin: top center; }
+        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
+        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 4rem; cursor: pointer; z-index: 10001; }
+        input[type=range] { width: 250px; cursor: pointer; }
+
+        /* ADMIN & UTILS */
         .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; font-size: 0.9rem; }
         .admin-table th, .admin-table td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         .admin-table th { background: #eee; }
         .import-area { width: 100%; height: 100px; padding: 10px; margin-top: 10px; font-family: monospace; font-size: 11px; }
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .media-card { background: white; padding: 15px; cursor: pointer; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .media-card:hover { transform: translateY(-5px); }
+        .media-card img { max-width: 100%; height: 180px; object-fit: cover; border-radius: 4px; }
         .hidden { display: none !important; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="lightbox">
         <span id="lightbox-close" onclick="App.closeLightbox()">&times;</span>
-        <div id="lightbox-container">
-            <img id="lightbox-img" src="">
-        </div>
+        <div id="lightbox-container"><img id="lightbox-img" src=""></div>
         <div id="lightbox-controls">
             <span style="color:white"><i class="fas fa-search-minus"></i></span>
             <input type="range" min="1" max="5" step="0.1" value="1" oninput="App.zoom(this.value)">
             <span style="color:white"><i class="fas fa-search-plus"></i></span>
         </div>
-        <div id="lightbox-caption" style="color:white; margin-top:10px; font-weight:bold;"></div>
+        <div id="lightbox-caption" style="color:white; margin-top:10px;"></div>
     </div>
 
     <div id="login-screen">
@@ -158,12 +155,12 @@
                 </div>
 
                 <div id="view-biblio" class="view-section">
-                    <h2>Biblioteca Digital</h2>
+                    <h2>Biblioteca</h2>
                     <ul id="file-tree" style="list-style:none; padding:0;"></ul>
                 </div>
 
                 <div id="view-media" class="view-section">
-                    <h2>Recursos Visuales</h2>
+                    <h2>Multimedia</h2>
                     <div id="media-container" class="media-grid"></div>
                     <div style="margin-top:20px; background:white; padding:20px; border-radius:8px;">
                         <h3>Audio Resumen</h3>
@@ -192,19 +189,38 @@
 
                 <div id="view-admin" class="view-section">
                     <h2>Panel de Gestión</h2>
+                    
                     <div id="admin-tools">
                         <div style="background:white; padding:20px; border-radius:8px; margin-bottom:20px;">
                             <h3>Añadir Usuario</h3>
                             <input type="text" id="new-u" placeholder="Usuario" style="width:100%; padding:8px; margin-bottom:5px;">
                             <input type="text" id="new-p" placeholder="Clave" style="width:100%; padding:8px; margin-bottom:5px;">
+                            
                             <select id="new-r" style="width:100%; padding:8px; margin-bottom:5px;">
-                                <optgroup label="Agentes"><option value="adc">Agente DC</option><option value="adt">Agente DT</option><option value="aut">Agente UT</option></optgroup>
-                                <optgroup label="Mandos"><option value="mdc">Mando MDC</option><option value="mdt">Mando MDT</option><option value="mut">Mando MUT</option></optgroup>
-                                <optgroup label="Dirección"><option value="jef">Jefatura</option><option value="admin">Admin</option><option value="master">MASTER</option></optgroup>
+                                <optgroup label="Agentes">
+                                    <option value="adc">Agente DC</option>
+                                    <option value="adt">Agente DT</option>
+                                    <option value="aut">Agente UT</option>
+                                </optgroup>
+                                <optgroup label="Mandos">
+                                    <option value="mdc">Mando Calle (MDC)</option>
+                                    <option value="mdt">Mando Territorial (MDT)</option>
+                                    <option value="mut">Mando Técnico (MUT)</option>
+                                </optgroup>
+                                <optgroup label="Dirección">
+                                    <option value="jef">Jefatura (JEF)</option>
+                                    <option value="admin">Administrador</option>
+                                    <option value="master">MASTER</option>
+                                </optgroup>
                             </select>
-                            <select id="new-b" style="width:100%; padding:8px; margin-bottom:10px; background:#f0f7ff;"><option value="">-- Asignar Mando --</option></select>
+                            
+                            <select id="new-b" style="width:100%; padding:8px; margin-bottom:10px; background:#f0f7ff;">
+                                <option value="">-- Asignar Mando Responsable --</option>
+                            </select>
+                            
                             <button class="btn-enter" onclick="App.addUser()">Crear Usuario</button>
                         </div>
+                        
                         <div style="background:white; padding:20px; border-radius:8px; margin-bottom:20px;">
                             <h3>Importar Excel</h3>
                             <textarea id="import-data" class="import-area" placeholder="Usuario | Clave | Rol | Jefe"></textarea>
@@ -212,15 +228,23 @@
                             <p id="import-msg" style="color:green; font-weight:bold;"></p>
                         </div>
                     </div>
+
                     <h3>Resultados Académicos</h3>
                     <table class="admin-table">
                         <thead><tr><th>Usuario</th><th>Rol</th><th>Fecha</th><th>Nota</th><th>Fallos</th><th>Mando Asignado</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
                     </table>
+                    
                     <div id="security-box" style="margin-top:30px; display:none;">
                         <h3 style="color:#c0392b"><i class="fas fa-shield-alt"></i> Auditoría de Seguridad</h3>
-                        <div style="max-height:200px; overflow-y:auto; border:1px solid #ccc;"><table class="admin-table" style="margin:0;"><thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Detalle</th></tr></thead><tbody id="sec-logs"></tbody></table></div>
+                        <div style="max-height:200px; overflow-y:auto; border:1px solid #ccc;">
+                            <table class="admin-table" style="margin:0;">
+                                <thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Detalle</th></tr></thead>
+                                <tbody id="sec-logs"></tbody>
+                            </table>
+                        </div>
                     </div>
+                    
                     <button class="btn-enter" style="background:#c0392b; width:auto; margin-top:20px;" onclick="App.clearLogs()">Borrar Historial</button>
                 </div>
             </div>
@@ -228,7 +252,7 @@
     </div>
 
 <script>
-// --- BASE DE DATOS INCRUSTADA PARA EVITAR ERRORES DE CARGA ---
+// --- DATOS INCRUSTADOS PARA EVITAR ERRORES DE CARGA EXTERNA ---
 const DB = {
     "imagenes": [
       { "nombre": "Infografía Estructura", "url": "estructura.png" },
@@ -239,8 +263,8 @@ const DB = {
       {
         "nivel": "Normativa",
         "archivos": [
-          { "nombre": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO (1).pdf", "desc": "Protocolo de Actuación" },
-          { "nombre": "Anexo-I-Manual-de-Organizacion-Salamanca-firmado.pdf", "desc": "Manual de Organización" }
+          { "nombre": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO (1).pdf", "desc": "Protocolo Actuación" },
+          { "nombre": "Anexo-I-Manual-de-Organizacion-Salamanca-firmado.pdf", "desc": "Manual Organización" }
         ]
       },
       {
@@ -290,32 +314,32 @@ const DB = {
       { "front": "¿Forma preferente de presentación de atestados?", "back": "Telemática" },
       { "front": "¿Quién gestiona los juicios por delitos leves?", "back": "Grupos de Trabajo de Delitos Leves (SCT)" },
       { "front": "¿Quién coordina un Área dentro de un servicio?", "back": "Jefatura de Área (LAJ o GPA)" },
-      { "front": "¿Función principal del SCG?", "back": "Registro, reparto, actos de comunicación, archivo y depósito" },
-      { "front": "¿Qué equipo del SCG realiza notificaciones en calle?", "back": "Equipo 2: Servicios Transversales (Actos de Comunicación)" },
-      { "front": "¿Quién gestiona el Depósito de Efectos Judiciales?", "back": "SCG - Equipo 2" },
-      { "front": "¿Qué grupo gestiona el Apud-Acta?", "back": "Grupo de Trabajo de Apud-Actas (Equipo 1 SCG)" },
-      { "front": "¿Qué significa SCT?", "back": "Servicio Común de Tramitación" },
-      { "front": "¿El SCT de la Audiencia Provincial es independiente?", "back": "Sí, existe un SCT para el TI y otro para la AP" },
-      { "front": "¿Qué significa SCEJ?", "back": "Servicio Común de Ejecución" },
-      { "front": "¿Quién tramita las subastas judiciales?", "back": "SCEJ" },
-      { "front": "¿Quién gestiona la Cuenta de Depósitos y Consignaciones?", "back": "SCEJ" },
-      { "front": "¿Qué significa OJM?", "back": "Oficinas de Justicia en el Municipio (Sustituyen Juzgados Paz)" },
-      { "front": "¿Dónde se publicita el protocolo?", "back": "Punto de Acceso General de la Administración de Justicia (PAGAJ)" },
-      { "front": "¿Quién cuida la aplicación de protección de datos?", "back": "El titular de la Dirección de cada servicio común" },
-      { "front": "¿Normativa de protección de datos aplicable?", "back": "LOPJ, Reglamento (UE) 2016/679 y LO 3/2018" },
-      { "front": "¿Carácter del protocolo?", "back": "Normativo, flexible y dinámico" },
-      { "front": "¿Sistema para videoconferencias?", "back": "EVID" },
-      { "front": "¿Frecuencia control cuentas consignación?", "back": "Trimestral" },
-      { "front": "¿Quién propone el régimen de sustituciones en SCT?", "back": "La Jefatura de Área" },
-      { "front": "¿Horario atención al público general?", "back": "09:00 a 14:00 (Verificar protocolo específico)" },
-      { "front": "¿A quién se comunica la entrada en vigor?", "back": "Sala Gobierno TSJ, Fiscalía, Colegios, Gerencia, etc." },
-      { "front": "¿Nivel 4 de organización interna?", "back": "Unidades Funcionales" },
-      { "front": "¿Nivel 1 de organización interna?", "back": "Equipos" },
-      { "front": "¿Quién firma el protocolo?", "back": "Secretario Coordinador Provincial y Secretario de Gobierno TSJ" },
-      { "front": "¿Ubicación personal funcionario?", "back": "Puestos de trabajo próximos por equipos" },
-      { "front": "¿Quién gestiona el Archivo Judicial de Gestión?", "back": "SCG - Equipo 2" },
-      { "front": "¿Registro electrónico habilitado?", "back": "Registro SIR" },
-      { "front": "¿Objetivo de las OJM?", "back": "Acercar la justicia al ciudadano en municipios sin sede TI" },
+      { "front": "PDF: (Anexo III) ¿Función principal del SCG?", "back": "Registro, reparto, actos de comunicación, archivo y depósito" },
+      { "front": "PDF: (Anexo III) ¿Qué equipo del SCG realiza notificaciones en calle?", "back": "Equipo 2: Servicios Transversales (Actos de Comunicación)" },
+      { "front": "PDF: (Anexo III) ¿Quién gestiona el Depósito de Efectos Judiciales?", "back": "SCG - Equipo 2" },
+      { "front": "PDF: (Anexo III) ¿Qué grupo gestiona el Apud-Acta?", "back": "Grupo de Trabajo de Apud-Actas (Equipo 1 SCG)" },
+      { "front": "PDF: (Anexo II) ¿Qué significa SCT?", "back": "Servicio Común de Tramitación" },
+      { "front": "PDF: (Anexo II) ¿El SCT de la Audiencia Provincial es independiente?", "back": "Sí, existe un SCT para el TI y otro para la AP" },
+      { "front": "PDF: (Anexo IV) ¿Qué significa SCEJ?", "back": "Servicio Común de Ejecución" },
+      { "front": "PDF: (Anexo IV) ¿Quién tramita las subastas judiciales?", "back": "SCEJ" },
+      { "front": "PDF: (Anexo IV) ¿Quién gestiona la Cuenta de Depósitos y Consignaciones?", "back": "SCEJ" },
+      { "front": "PDF: (Protocolo) ¿Qué significa OJM?", "back": "Oficinas de Justicia en el Municipio (Sustituyen Juzgados Paz)" },
+      { "front": "PDF: (Protocolo) ¿Dónde se publicita el protocolo?", "back": "Punto de Acceso General de la Administración de Justicia (PAGAJ)" },
+      { "front": "PDF: (Anexo I) ¿Quién cuida la aplicación de protección de datos?", "back": "El titular de la Dirección de cada servicio común" },
+      { "front": "PDF: (Anexo I) ¿Normativa de protección de datos aplicable?", "back": "LOPJ, Reglamento (UE) 2016/679 y LO 3/2018" },
+      { "front": "PDF: (Protocolo) Carácter del protocolo", "back": "Normativo, flexible y dinámico" },
+      { "front": "PDF: (Anexo IV) Sistema para videoconferencias", "back": "EVID" },
+      { "front": "PDF: (Anexo I) ¿Frecuencia control cuentas consignación?", "back": "Trimestral" },
+      { "front": "PDF: (Anexo II) ¿Quién propone el régimen de sustituciones en SCT?", "back": "La Jefatura de Área" },
+      { "front": "PDF: (Anexo III) ¿Horario atención al público general?", "back": "09:00 a 14:00 (Verificar protocolo específico)" },
+      { "front": "PDF: (Protocolo) ¿A quién se comunica la entrada en vigor?", "back": "Sala Gobierno TSJ, Fiscalía, Colegios, Gerencia, etc." },
+      { "front": "PDF: (Anexo I) ¿Nivel 4 de organización interna?", "back": "Unidades Funcionales" },
+      { "front": "PDF: (Anexo I) ¿Nivel 1 de organización interna?", "back": "Equipos" },
+      { "front": "PDF: (Protocolo) ¿Quién firma el protocolo?", "back": "Secretario Coordinador Provincial y Secretario de Gobierno TSJ" },
+      { "front": "PDF: (Anexo II) Ubicación personal funcionario", "back": "Puestos de trabajo próximos por equipos" },
+      { "front": "PDF: (Anexo III) ¿Quién gestiona el Archivo Judicial de Gestión?", "back": "SCG - Equipo 2" },
+      { "front": "PDF: (Anexo IV) ¿Registro electrónico habilitado?", "back": "Registro SIR" },
+      { "front": "PDF: ¿Objetivo de las OJM?", "back": "Acercar la justicia al ciudadano en municipios sin sede TI" },
       { "front": "¿Quién dirige técnico-procesalmente la oficina?", "back": "El Letrado de la Admon. de Justicia (LAJ)" },
       { "front": "¿Qué es la UPAD?", "back": "Unidad Procesal de Apoyo Directo al Juez" },
       { "front": "¿Qué es un SCP?", "back": "Servicio Común Procesal (Transversal)" },
@@ -640,6 +664,224 @@ const DB = {
       { "pregunta": "¿Dónde se ubica físicamente el SCG de Salamanca?", "respuestas": ["En la Comisaría Provincial", "En la sede principal de los Juzgados (Plaza Colón/Gran Vía)", "En el Ayuntamiento"], "correcta": 1 },
       { "pregunta": "¿Quién gestiona el turno de oficio?", "respuestas": ["El Colegio de Abogados", "El Juez Decano", "El SCG"], "correcta": 0 }
     ]
-  }
-]
-    
+};
+
+const App = {
+    data: DB, 
+    user: null,
+    dbUsers: 'noj_users_v32', dbLogs: 'noj_logs_v32', dbSec: 'noj_sec_v32',
+
+    init: async () => {
+        document.addEventListener('keyup', (e) => {
+            if(e.key === 'Enter' && !document.getElementById('login-screen').classList.contains('hidden')) App.login();
+        });
+
+        if(!localStorage.getItem(App.dbUsers)) {
+            const defs = [
+                { u:'master', p:'master', r:'master', boss:'', change:true },
+                { u:'admin', p:'admin', r:'admin', boss:'', change:true },
+                { u:'jefatura', p:'jefatura', r:'jef', boss:'', change:true },
+                { u:'mandodc', p:'1234', r:'mdc', boss:'', change:true },
+                { u:'mandodt', p:'1234', r:'mdt', boss:'', change:true },
+                { u:'mandout', p:'1234', r:'mut', boss:'', change:true },
+                { u:'agentedc', p:'1234', r:'adc', boss:'mandodc', change:true }
+            ];
+            localStorage.setItem(App.dbUsers, JSON.stringify(defs));
+            App.logSec('SYSTEM', 'Init V32');
+        }
+
+        // ALEATORIEDAD
+        if(App.data.flashcards) App.data.flashcards = App.shuffle(App.data.flashcards).slice(0, 30);
+        if(App.data.test) App.data.test = App.shuffle(App.data.test).slice(0, 20);
+
+        App.renderTemario();
+        App.renderBiblio(); 
+        App.renderMedia(); 
+        App.renderFC(); 
+        App.renderTest();
+    },
+
+    shuffle: (a) => { for(let i=a.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; },
+
+    logSec: (act, det) => {
+        const l = JSON.parse(localStorage.getItem(App.dbSec)||'[]');
+        l.unshift({d: new Date().toLocaleString(), u: App.user?App.user.u:'GUEST', a:act, t:det});
+        if(l.length>100) l.pop();
+        localStorage.setItem(App.dbSec, JSON.stringify(l));
+    },
+
+    login: () => {
+        const u = document.getElementById('user').value.trim();
+        const p = document.getElementById('pass').value.trim();
+        const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        const found = users.find(x => x.u === u && x.p === p);
+
+        if(found) {
+            App.user = found;
+            if(found.change) {
+                document.getElementById('login-screen').style.display='none';
+                document.getElementById('password-screen').classList.remove('hidden');
+                return;
+            }
+            App.enterApp();
+        } else {
+            document.getElementById('msg').innerText = "Credenciales incorrectas";
+            App.logSec('LOGIN_FAIL', u);
+        }
+    },
+
+    changePassword: () => {
+        const p1 = document.getElementById('new-pass-1').value;
+        const p2 = document.getElementById('new-pass-2').value;
+        if(p1.length<4 || p1!==p2) return document.getElementById('pass-msg').innerText = "Error contraseña";
+        const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        const idx = users.findIndex(x => x.u === App.user.u);
+        users[idx].p = p1; users[idx].change = false;
+        localStorage.setItem(App.dbUsers, JSON.stringify(users));
+        App.user.p = p1;
+        App.logSec('PASS_CHANGE', App.user.u);
+        document.getElementById('password-screen').classList.add('hidden');
+        App.enterApp();
+    },
+
+    enterApp: () => {
+        document.getElementById('login-screen').style.display='none';
+        document.getElementById('main-app').style.display='flex';
+        document.getElementById('user-display').innerText = App.user.u.toUpperCase();
+        App.logSec('LOGIN_OK', App.user.u);
+        if(['admin','master','jef','mdc','mdt','mut'].includes(App.user.r)) {
+            document.getElementById('menu-admin').classList.remove('hidden');
+            App.renderAdmin();
+        }
+    },
+    logout: () => location.reload(),
+
+    renderTemario: () => {
+        const t = document.getElementById('doc-tabs'), c = document.getElementById('doc-content');
+        t.innerHTML=''; c.innerHTML='';
+        App.data.secciones_temario.forEach((s,i) => {
+            t.innerHTML += `<button class="doc-tab ${i===0?'active':''}" onclick="App.tab(${i})">${s.titulo}</button>`;
+            c.innerHTML += `<div id="p${i}" class="doc-page ${i===0?'active':''}">${s.contenido}</div>`;
+        });
+    },
+    tab: (i) => {
+        document.querySelectorAll('.doc-tab').forEach(x=>x.classList.remove('active'));
+        document.querySelectorAll('.doc-page').forEach(x=>x.classList.remove('active'));
+        document.querySelectorAll('.doc-tab')[i].classList.add('active');
+        document.getElementById('p'+i).classList.add('active');
+    },
+
+    renderBiblio: () => { 
+        document.getElementById('file-tree').innerHTML = ''; 
+        App.data.bibliografia.forEach(c => { 
+            let l = c.archivos.map(f => `<li><a href="${f.nombre}" target="_blank">${f.desc}</a></li>`).join(''); 
+            document.getElementById('file-tree').innerHTML += `<li><strong>${c.nivel}</strong><ul>${l}</ul></li>`; 
+        }); 
+    },
+
+    renderMedia: () => {
+        const c = document.getElementById('media-container'); c.innerHTML='';
+        App.data.imagenes.forEach(i => c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${i.url}','${i.nombre}')"><img src="${i.url}" onerror="this.src='https://via.placeholder.com/300?text=Error+Imagen'"><p>${i.nombre}</p></div>`);
+        document.getElementById('main-audio').src = App.data.audio_url;
+    },
+
+    openLightbox: (url, txt) => {
+        const img = document.getElementById('lightbox-img');
+        img.src = url;
+        img.style.width = "100%"; 
+        document.getElementById('zoom-slider').value = 1;
+        document.getElementById('lightbox-caption').innerText = txt;
+        document.getElementById('lightbox').style.display = 'flex';
+    },
+    closeLightbox: () => document.getElementById('lightbox').style.display='none',
+    zoom: (v) => document.getElementById('lightbox-img').style.width = (v * 100) + "%",
+
+    renderFC: () => { App.fcI=0; App.drawFC(); },
+    drawFC: () => {
+        if(!App.data.flashcards || !App.data.flashcards.length) return;
+        const c = App.data.flashcards[App.fcI];
+        document.getElementById('fc-canvas').innerHTML = `<div class="fc-inner"><div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div><div class="fc-face fc-back"><div>${c.back}</div></div></div>`;
+        document.getElementById('fc-canvas').onclick = function() { this.classList.toggle('fc-flipped'); };
+        document.getElementById('fc-count').innerText = `${App.fcI+1}/${App.data.flashcards.length}`;
+    },
+    moveFC: (d) => {
+        App.fcI += d; if(App.fcI < 0) App.fcI = App.data.flashcards.length - 1;
+        if(App.fcI >= App.data.flashcards.length) App.fcI = 0;
+        document.getElementById('fc-canvas').classList.remove('fc-flipped'); App.drawFC();
+    },
+
+    renderTest: () => {
+        const div = document.getElementById('test-container');
+        div.innerHTML = App.data.test.map((q,i) => `<div class="q-block" data-correct="${q.correcta}"><p><b>${i+1}. ${q.pregunta}</b></p>${q.respuestas.map(r => `<div class="quiz-option" onclick="App.selOpt(this)">${r}</div>`).join('')}</div>`).join('');
+    },
+    selOpt: (el) => {
+        el.parentElement.querySelectorAll('.quiz-option').forEach(e => e.classList.remove('selected'));
+        el.classList.add('selected');
+    },
+    submitTest: () => {
+        let s = 0; const blocks = document.querySelectorAll('.q-block');
+        blocks.forEach(b => {
+            const sel = b.querySelector('.selected'); const corr = parseInt(b.dataset.correct); const opts = b.querySelectorAll('.quiz-option');
+            opts.forEach(o => o.classList.remove('correct','wrong'));
+            if(sel) { if(Array.from(opts).indexOf(sel) === corr) { sel.classList.add('correct'); s++; } else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); } }
+        });
+        document.getElementById('test-result').innerText = `Nota: ${s} / ${blocks.length}`;
+        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
+        logs.push({u:App.user.u, d:new Date().toLocaleDateString(), s:s, f:blocks.length-s});
+        localStorage.setItem(App.dbLogs, JSON.stringify(logs));
+        if(['admin','master'].includes(App.user.r)) App.renderAdmin();
+    },
+
+    renderAdmin: () => {
+        const global = ['admin','master'].includes(App.user.r); const jefatura = App.user.r === 'jef'; const readonly = !global;
+        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]'); const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        const t = document.getElementById('admin-logs'); t.innerHTML='';
+        
+        if(readonly) document.getElementById('admin-tools').style.display='none';
+        else {
+            const bs = document.getElementById('new-b'); bs.innerHTML = '<option value="">-- Asignar Jefe --</option>';
+            users.filter(u => ['mdc','mdt','mut','jef','admin','master'].includes(u.r)).forEach(b => { bs.innerHTML += `<option value="${b.u}">${b.u} (${b.r})</option>`; });
+        }
+
+        if(global) {
+            document.getElementById('security-box').style.display='block';
+            const sl = JSON.parse(localStorage.getItem(App.dbSec)||'[]'); const st = document.getElementById('sec-logs'); st.innerHTML='';
+            sl.forEach(s => st.innerHTML += `<tr><td>${s.d}</td><td>${s.u}</td><td>${s.a}</td><td>${s.t}</td></tr>`);
+        } else { document.getElementById('security-box').style.display='none'; }
+
+        logs.forEach(l => {
+            let show = false; const uData = users.find(x => x.u === l.u); const boss = uData ? uData.boss : '';
+            if(global || jefatura) show = true; else if(boss === App.user.u) show = true;
+            if(show) t.innerHTML += `<tr><td>${l.u}</td><td>${uData?uData.r.toUpperCase():'?'}</td><td>${l.d}</td><td style="color:${l.s>10?'green':'red'}">${l.s}</td><td>${l.f}</td><td>${boss}</td></tr>`;
+        });
+    },
+
+    addUser: () => {
+        const u = document.getElementById('new-u').value; const p = document.getElementById('new-p').value; const r = document.getElementById('new-r').value; const b = document.getElementById('new-b').value;
+        const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        if(users.find(x=>x.u===u)) return alert("Existe");
+        users.push({u,p,r,boss:b, change:true}); localStorage.setItem(App.dbUsers, JSON.stringify(users));
+        App.logSec('CREATE_USER', u); App.renderAdmin(); alert("Creado");
+    },
+
+    importUsers: () => {
+        const raw = document.getElementById('import-data').value; const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        const map = {'AGENTE (DC)':'adc','AGENTE (DT)':'adt','AGENTE (UT)':'aut','MANDO (DC)':'mdc','MANDO (DT)':'mdt','MANDO (UT)':'mut','JEFATURA':'jef','ADMIN':'admin','MASTER':'master'};
+        let c=0;
+        raw.split('\n').forEach(l => {
+            let p = l.split(/\t+/); if(p.length<2) p=l.split(/\s+/);
+            if(p.length>=2) {
+                let r = map[p[2]] || 'adc';
+                if(!users.find(x=>x.u===p[0])) { users.push({u:p[0], p:p[1], r:r, boss:p[3]||'', change:true}); c++; }
+            }
+        });
+        localStorage.setItem(App.dbUsers, JSON.stringify(users)); document.getElementById('import-msg').innerText = `+${c}`; App.logSec('IMPORT', c); App.renderAdmin();
+    },
+
+    clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(); }},
+    nav: (id) => { document.querySelectorAll('.view-section').forEach(x=>x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); }
+};
+window.onload = App.init;
+</script>
+</body>
+</html>
