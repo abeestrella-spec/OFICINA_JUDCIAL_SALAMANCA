@@ -533,15 +533,28 @@ const App = {
     clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(); }},
     nav: (id) => { document.querySelectorAll('.view-section').forEach(x=>x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); },
     
-    // VISOR
-    openLB: (url, txt) => {
-        const i = document.getElementById('lightbox-img'); i.src = url; i.style.width = "100%";
+  // --- FUNCIÓN DE VISOR CORREGIDA ---
+    openLightbox: (url, txt) => {
+        const img = document.getElementById('lightbox-img');
+        img.src = url;
+        
+        // Reiniciamos el zoom al 100% al abrir
+        img.style.width = "100%"; 
         document.getElementById('zoom-slider').value = 1;
+        
         document.getElementById('lightbox-caption').innerText = txt;
         document.getElementById('lightbox').style.display = 'flex';
     },
-    closeLightbox: () => document.getElementById('lightbox').style.display='none',
-    zoom: (v) => document.getElementById('lightbox-img').style.width = (v*100) + "%",
+
+    closeLightbox: () => {
+        document.getElementById('lightbox').style.display = 'none';
+    },
+
+    zoomImage: (val) => {
+        // Cambiamos el ANCHO real en porcentaje. 
+        // 1 = 100%, 4 = 400%. Esto fuerza al navegador a mostrar barras de scroll.
+        document.getElementById('lightbox-img').style.width = (val * 100) + "%";
+    },
 
     // FLASHCARDS
     renderFC: () => { App.fcI=0; App.drawFC(); },
