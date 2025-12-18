@@ -20,8 +20,7 @@
         .login-card img { width: 100px; margin-bottom: 20px; }
         .login-card input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing:border-box; font-size: 16px; }
         .btn-enter { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 15px; }
-        .btn-enter:hover { background: #001a3b; }
-
+        
         /* APP LAYOUT */
         #main-app { display: none; height: 100%; flex-direction: column; }
         .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid #d4af37; flex-shrink: 0; }
@@ -40,8 +39,8 @@
         .menu-item i { width: 25px; text-align: center; margin-right: 10px; }
 
         .viewport { flex: 1; padding: 30px; overflow-y: auto; background: #f4f7f9; position: relative; }
-        .view-section { display: none; }
-        .view-section.active { display: block; animation: fadeIn 0.3s; }
+        .view-section { display: none; animation: fadeIn 0.3s; }
+        .view-section.active { display: block; }
 
         /* TEMARIO (2 FILAS) */
         .doc-nav { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 20px; }
@@ -73,13 +72,30 @@
         .quiz-option.correct { background: #d4edda; border-color: green; }
         .quiz-option.wrong { background: #f8d7da; border-color: red; }
 
-        /* VISOR MULTIMEDIA (ZOOM REAL + SCROLL) */
-        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
-        #lightbox-container { width: 90%; height: 80%; background: #222; border: 1px solid #555; overflow: auto; display: flex; align-items: flex-start; justify-content: center; }
-        #lightbox-img { width: 100%; height: auto; max-width: none !important; transition: width 0.2s ease; transform-origin: top center; }
+        /* --- VISOR MULTIMEDIA CORREGIDO (ZOOM REAL + SCROLL) --- */
+        #lightbox { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.98); z-index: 99999; 
+            flex-direction: column; align-items: center; justify-content: center; 
+        }
+        
+        #lightbox-container { 
+            width: 90%; height: 80%; 
+            background: #222; border: 1px solid #555; 
+            overflow: auto; /* IMPORTANTE: Esto activa el scroll cuando la imagen crece */
+            display: flex; align-items: flex-start; justify-content: center; 
+        }
+        
+        #lightbox-img { 
+            width: 100%; height: auto; 
+            max-width: none !important; /* IMPORTANTE: Permite que la imagen crezca más que la pantalla */
+            transition: width 0.2s ease; 
+            transform-origin: top center; 
+        }
+        
         #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
-        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 4rem; cursor: pointer; z-index: 10001; }
-        input[type=range] { width: 250px; cursor: pointer; }
+        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 4rem; cursor: pointer; z-index: 100000; }
+        input[type=range] { width: 300px; cursor: pointer; }
 
         /* ADMIN & UTILS */
         .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; font-size: 0.9rem; }
@@ -252,7 +268,7 @@
     </div>
 
 <script>
-// --- DATOS INCRUSTADOS PARA EVITAR ERRORES DE CARGA EXTERNA ---
+// --- DATOS INCRUSTADOS PARA EVITAR ERRORES DE CARGA ---
 const DB = {
     "imagenes": [
       { "nombre": "Infografía Estructura", "url": "estructura.png" },
@@ -669,13 +685,14 @@ const DB = {
 const App = {
     data: DB, 
     user: null,
-    dbUsers: 'noj_users_v32', dbLogs: 'noj_logs_v32', dbSec: 'noj_sec_v32',
+    dbUsers: 'noj_users_v40', dbLogs: 'noj_logs_v40', dbSec: 'noj_sec_v40',
 
     init: async () => {
         document.addEventListener('keyup', (e) => {
             if(e.key === 'Enter' && !document.getElementById('login-screen').classList.contains('hidden')) App.login();
         });
 
+        // 1. CREACIÓN AUTOMÁTICA DE USUARIOS POR DEFECTO
         if(!localStorage.getItem(App.dbUsers)) {
             const defs = [
                 { u:'master', p:'master', r:'master', boss:'', change:true },
@@ -684,10 +701,12 @@ const App = {
                 { u:'mandodc', p:'1234', r:'mdc', boss:'', change:true },
                 { u:'mandodt', p:'1234', r:'mdt', boss:'', change:true },
                 { u:'mandout', p:'1234', r:'mut', boss:'', change:true },
-                { u:'agentedc', p:'1234', r:'adc', boss:'mandodc', change:true }
+                { u:'agentedc', p:'1234', r:'adc', boss:'mandodc', change:true },
+                { u:'agentedt', p:'1234', r:'adt', boss:'mandodt', change:true },
+                { u:'agenteut', p:'1234', r:'aut', boss:'mandout', change:true }
             ];
             localStorage.setItem(App.dbUsers, JSON.stringify(defs));
-            App.logSec('SYSTEM', 'Init V32');
+            App.logSec('SYSTEM', 'Init Base Datos');
         }
 
         // ALEATORIEDAD
@@ -785,6 +804,7 @@ const App = {
         document.getElementById('main-audio').src = App.data.audio_url;
     },
 
+    // --- VISOR MULTIMEDIA CORREGIDO (ZOOM WIDTH% + SCROLL) ---
     openLightbox: (url, txt) => {
         const img = document.getElementById('lightbox-img');
         img.src = url;
@@ -832,6 +852,7 @@ const App = {
         if(['admin','master'].includes(App.user.r)) App.renderAdmin();
     },
 
+    // --- PANEL GESTIÓN Y PERMISOS ---
     renderAdmin: () => {
         const global = ['admin','master'].includes(App.user.r); const jefatura = App.user.r === 'jef'; const readonly = !global;
         const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]'); const users = JSON.parse(localStorage.getItem(App.dbUsers));
@@ -859,7 +880,7 @@ const App = {
     addUser: () => {
         const u = document.getElementById('new-u').value; const p = document.getElementById('new-p').value; const r = document.getElementById('new-r').value; const b = document.getElementById('new-b').value;
         const users = JSON.parse(localStorage.getItem(App.dbUsers));
-        if(users.find(x=>x.u===u)) return alert("Existe");
+        if(users.find(x=>x.u===u)) return alert("Usuario ya existe");
         users.push({u,p,r,boss:b, change:true}); localStorage.setItem(App.dbUsers, JSON.stringify(users));
         App.logSec('CREATE_USER', u); App.renderAdmin(); alert("Creado");
     },
@@ -875,7 +896,7 @@ const App = {
                 if(!users.find(x=>x.u===p[0])) { users.push({u:p[0], p:p[1], r:r, boss:p[3]||'', change:true}); c++; }
             }
         });
-        localStorage.setItem(App.dbUsers, JSON.stringify(users)); document.getElementById('import-msg').innerText = `+${c}`; App.logSec('IMPORT', c); App.renderAdmin();
+        localStorage.setItem(App.dbUsers, JSON.stringify(users)); document.getElementById('import-msg').innerText = `+${c} importados`; App.logSec('IMPORT', c); App.renderAdmin();
     },
 
     clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(); }},
