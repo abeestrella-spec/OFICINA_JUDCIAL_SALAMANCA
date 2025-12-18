@@ -1,28 +1,25 @@
 [
   {
-    "id": "noj_salamanca_master",
-    "titulo": "Guía Práctica: Nueva Oficina Judicial Salamanca",
-    "meta": "Vigor: 31/12/2025 | LO 1/2025",
-    "descripcion": "Manual de referencia esencial para la Policía Local sobre la estructura y operativa de la Nueva Oficina Judicial.",
+    "id": "noj_salamanca_final_v2",
+    "titulo": "Guía Práctica NOJ Salamanca",
     "audio_url": "audio.m4a",
     "imagenes": [
-      { "nombre": "Organigrama General", "url": "organigrama.jpg" },
+      { "nombre": "Infografía Estructura", "url": "estructura.png" },
       { "nombre": "Mapa Mental Protocolo", "url": "mapa.png" }
     ],
     "bibliografia": [
       {
-        "nivel": "Normativa y Protocolos",
+        "nivel": "Normativa",
         "archivos": [
-          { "nombre": "OJ-PROTOCOLO-ACTUACION.pdf", "desc": "Protocolo de Actuación" },
-          { "nombre": "Manual-Organizacion.pdf", "desc": "Manual de Organización" }
+          { "nombre": "OJ-PROTOCOLO.pdf", "desc": "Protocolo Actuación" },
+          { "nombre": "Manual-Organizacion.pdf", "desc": "Manual Organización" }
         ]
       },
       {
-        "nivel": "Manuales Operativos",
+        "nivel": "Manuales",
         "archivos": [
-          { "nombre": "Manual-SCT.pdf", "desc": "Manual SCT (Tramitación)" },
-          { "nombre": "Manual-SCG.pdf", "desc": "Manual SCG (General)" },
-          { "nombre": "Manual-SCEJ.pdf", "desc": "Manual SCEJ (Ejecución)" }
+          { "nombre": "Manual-SCT.pdf", "desc": "Manual SCT" },
+          { "nombre": "Manual-SCG.pdf", "desc": "Manual SCG" }
         ]
       }
     ],
@@ -61,11 +58,11 @@
       },
       {
         "titulo": "9. Mandos",
-        "contenido": "<h3>5. Pautas para la escala técnica y superior</h3><h4>5.1 Estructura de mando</h4><ul><li><strong>Director/a del Servicio (LAJ):</strong> Máxima autoridad funcional.</li><li><strong>Jefatura de Área (LAJ/GPA):</strong> Coordinación por materias.</li><li><strong>Jefatura de Equipo (GPA/TPA):</strong> Gestión directa operativa.</li></ul><h4>5.2 Coordinación</h4><p><strong>Comité de Dirección:</strong> Órgano estratégico para homogeneizar metodología.<br><strong>Comités de Coordinación:</strong> Resolución de problemas operativos diarios.</p>"
+        "contenido": "<h3>5. Pautas para la escala técnica y superior</h3><h4>5.1 Estructura de mando</h4><ul><li><strong>Director/a del Servicio (LAJ):</strong> Máxima autoridad funcional.</li><li><strong>Jefatura de Área (LAJ/GPA):</strong> Coordinación por materias.</li><li><strong>Jefatura de Equipo (GPA/TPA):</strong> Gestión directa operativa.</li></ul><h4>5.2 Coordinación</h4><p><strong>Comité de Dirección:</strong> Órgano estratégico para homogeneizar metodología.<br><strong>Comités de Coordinación:</strong> Resolución de problemas operativos diarios.</p><h4>5.3 Gestión de incidencias</h4><p>Errores de reparto o datos se resuelven a través de la Jefatura de Equipo correspondiente.</p>"
       },
       {
         "titulo": "10. Protocolos",
-        "contenido": "<h3>6. Instrucción interna y Flujos</h3><p>Obligatoria y vinculante. <strong>Principio:</strong> Punto único SCG (salvo urgencias) y preferencia telemática.</p><h4>Flujos Clave:</h4><ul><li><strong>Atestado NO urgente:</strong> Policía &rarr; SCG &rarr; Registro &rarr; SCT (Instrucción).</li><li><strong>Actuación Urgente:</strong> Detenido/Medida &rarr; Guardia (Directo) &rarr; Resolución inmediata.</li><li><strong>Ejecución:</strong> Sentencia firme &rarr; SCEJ &rarr; Mandamiento a Policía &rarr; Ejecución material.</li></ul><h4>Gestión de Incidencias:</h4><p>Reparto incorrecto &rarr; Devolver a equipo de inicio. Sin registrar &rarr; Remitir a SCG.</p>"
+        "contenido": "<h3>6. Instrucción interna y Flujos</h3><p>Obligatoria y vinculante. <strong>Principio:</strong> Punto único SCG (salvo urgencias) y preferencia telemática.</p><h4>7. Esquemas Operativos</h4><ul><li><strong>Atestado NO urgente:</strong> Policía &rarr; SCG &rarr; Registro &rarr; SCT (Instrucción).</li><li><strong>Actuación Urgente:</strong> Detenido/Medida &rarr; Guardia (Directo) &rarr; Resolución inmediata.</li><li><strong>Ejecución:</strong> Sentencia firme &rarr; SCEJ &rarr; Mandamiento a Policía &rarr; Ejecución material.</li></ul><h4>8. Materias Específicas</h4><ul><li><strong>Tráfico:</strong> Seguridad vial al SCG. Juicios rápidos a Guardia.</li><li><strong>Violencia Género:</strong> Urgentes a Guardia. Grupo Instrucción nº 3.</li><li><strong>Contencioso:</strong> Denuncias administrativas al SCG.</li></ul>"
       }
     ],
     "flashcards": [
@@ -94,32 +91,32 @@
       { "front": "¿Forma preferente de presentación de atestados?", "back": "Telemática" },
       { "front": "¿Quién gestiona los juicios por delitos leves?", "back": "Grupos de Trabajo de Delitos Leves (SCT)" },
       { "front": "¿Quién coordina un Área dentro de un servicio?", "back": "Jefatura de Área (LAJ o GPA)" },
-      { "front": "¿Función principal del SCG?", "back": "Registro, reparto, actos de comunicación, archivo y depósito" },
-      { "front": "¿Qué equipo del SCG realiza notificaciones en calle?", "back": "Equipo 2: Servicios Transversales (Actos de Comunicación)" },
-      { "front": "¿Quién gestiona el Depósito de Efectos Judiciales?", "back": "SCG - Equipo 2" },
-      { "front": "¿Qué grupo gestiona el Apud-Acta?", "back": "Grupo de Trabajo de Apud-Actas (Equipo 1 SCG)" },
-      { "front": "¿Qué significa SCT?", "back": "Servicio Común de Tramitación" },
-      { "front": "¿El SCT de la Audiencia Provincial es independiente?", "back": "Sí, existe un SCT para el TI y otro para la AP" },
-      { "front": "¿Qué significa SCEJ?", "back": "Servicio Común de Ejecución" },
-      { "front": "¿Quién tramita las subastas judiciales?", "back": "SCEJ" },
-      { "front": "¿Quién gestiona la Cuenta de Depósitos y Consignaciones?", "back": "SCEJ" },
-      { "front": "¿Qué significa OJM?", "back": "Oficinas de Justicia en el Municipio (Sustituyen Juzgados Paz)" },
-      { "front": "¿Dónde se publicita el protocolo?", "back": "Punto de Acceso General de la Administración de Justicia (PAGAJ)" },
-      { "front": "¿Quién cuida la aplicación de protección de datos?", "back": "El titular de la Dirección de cada servicio común" },
-      { "front": "¿Normativa de protección de datos aplicable?", "back": "LOPJ, Reglamento (UE) 2016/679 y LO 3/2018" },
-      { "front": "¿Carácter del protocolo?", "back": "Normativo, flexible y dinámico" },
-      { "front": "¿Sistema para videoconferencias?", "back": "EVID" },
-      { "front": "¿Frecuencia control cuentas consignación?", "back": "Trimestral" },
-      { "front": "¿Quién propone el régimen de sustituciones en SCT?", "back": "La Jefatura de Área" },
-      { "front": "¿Horario atención al público general?", "back": "09:00 a 14:00 (Verificar protocolo específico)" },
-      { "front": "¿A quién se comunica la entrada en vigor?", "back": "Sala Gobierno TSJ, Fiscalía, Colegios, Gerencia, etc." },
-      { "front": "¿Nivel 4 de organización interna?", "back": "Unidades Funcionales" },
-      { "front": "¿Nivel 1 de organización interna?", "back": "Equipos" },
-      { "front": "¿Quién firma el protocolo?", "back": "Secretario Coordinador Provincial y Secretario de Gobierno TSJ" },
-      { "front": "¿Ubicación personal funcionario?", "back": "Puestos de trabajo próximos por equipos" },
-      { "front": "¿Quién gestiona el Archivo Judicial de Gestión?", "back": "SCG - Equipo 2" },
-      { "front": "¿Registro electrónico habilitado?", "back": "Registro SIR" },
-      { "front": "¿Objetivo de las OJM?", "back": "Acercar la justicia al ciudadano en municipios sin sede TI" },
+      { "front": "PDF: (Anexo III) ¿Función principal del SCG?", "back": "Registro, reparto, actos de comunicación, archivo y depósito" },
+      { "front": "PDF: (Anexo III) ¿Qué equipo del SCG realiza notificaciones en calle?", "back": "Equipo 2: Servicios Transversales (Actos de Comunicación)" },
+      { "front": "PDF: (Anexo III) ¿Quién gestiona el Depósito de Efectos Judiciales?", "back": "SCG - Equipo 2" },
+      { "front": "PDF: (Anexo III) ¿Qué grupo gestiona el Apud-Acta?", "back": "Grupo de Trabajo de Apud-Actas (Equipo 1 SCG)" },
+      { "front": "PDF: (Anexo II) ¿Qué significa SCT?", "back": "Servicio Común de Tramitación" },
+      { "front": "PDF: (Anexo II) ¿El SCT de la Audiencia Provincial es independiente?", "back": "Sí, existe un SCT para el TI y otro para la AP" },
+      { "front": "PDF: (Anexo IV) ¿Qué significa SCEJ?", "back": "Servicio Común de Ejecución" },
+      { "front": "PDF: (Anexo IV) ¿Quién tramita las subastas judiciales?", "back": "SCEJ" },
+      { "front": "PDF: (Anexo IV) ¿Quién gestiona la Cuenta de Depósitos y Consignaciones?", "back": "SCEJ" },
+      { "front": "PDF: (Protocolo) ¿Qué significa OJM?", "back": "Oficinas de Justicia en el Municipio (Sustituyen Juzgados Paz)" },
+      { "front": "PDF: (Protocolo) ¿Dónde se publicita el protocolo?", "back": "Punto de Acceso General de la Administración de Justicia (PAGAJ)" },
+      { "front": "PDF: (Anexo I) ¿Quién cuida la aplicación de protección de datos?", "back": "El titular de la Dirección de cada servicio común" },
+      { "front": "PDF: (Anexo I) ¿Normativa de protección de datos aplicable?", "back": "LOPJ, Reglamento (UE) 2016/679 y LO 3/2018" },
+      { "front": "PDF: (Protocolo) Carácter del protocolo", "back": "Normativo, flexible y dinámico" },
+      { "front": "PDF: (Anexo IV) Sistema para videoconferencias", "back": "EVID" },
+      { "front": "PDF: (Anexo I) ¿Frecuencia control cuentas consignación?", "back": "Trimestral" },
+      { "front": "PDF: (Anexo II) ¿Quién propone el régimen de sustituciones en SCT?", "back": "La Jefatura de Área" },
+      { "front": "PDF: (Anexo III) ¿Horario atención al público general?", "back": "09:00 a 14:00 (Verificar protocolo específico)" },
+      { "front": "PDF: (Protocolo) ¿A quién se comunica la entrada en vigor?", "back": "Sala Gobierno TSJ, Fiscalía, Colegios, Gerencia, etc." },
+      { "front": "PDF: (Anexo I) ¿Nivel 4 de organización interna?", "back": "Unidades Funcionales" },
+      { "front": "PDF: (Anexo I) ¿Nivel 1 de organización interna?", "back": "Equipos" },
+      { "front": "PDF: (Protocolo) ¿Quién firma el protocolo?", "back": "Secretario Coordinador Provincial y Secretario de Gobierno TSJ" },
+      { "front": "PDF: (Anexo II) Ubicación personal funcionario", "back": "Puestos de trabajo próximos por equipos" },
+      { "front": "PDF: (Anexo III) ¿Quién gestiona el Archivo Judicial de Gestión?", "back": "SCG - Equipo 2" },
+      { "front": "PDF: (Anexo IV) ¿Registro electrónico habilitado?", "back": "Registro SIR" },
+      { "front": "PDF: ¿Objetivo de las OJM?", "back": "Acercar la justicia al ciudadano en municipios sin sede TI" },
       { "front": "¿Quién dirige técnico-procesalmente la oficina?", "back": "El Letrado de la Admon. de Justicia (LAJ)" },
       { "front": "¿Qué es la UPAD?", "back": "Unidad Procesal de Apoyo Directo al Juez" },
       { "front": "¿Qué es un SCP?", "back": "Servicio Común Procesal (Transversal)" },
@@ -169,8 +166,7 @@
       { "front": "¿Qué es la LOPJ?", "back": "Ley Orgánica del Poder Judicial" },
       { "front": "¿Qué es el EVID?", "back": "Sistema de Grabación de Vistas" },
       { "front": "¿Qué es la firma digital?", "back": "Autenticación electrónica de documentos" },
-      { "front": "¿Quién nombra a los peritos judiciales?", "back": "El órgano judicial (por listas o sorteo)" },
-      { "front": "¿Se pueden usar USB en equipos judiciales?", "back": "No, está prohibido por seguridad informática" }
+      { "front": "¿Quién nombra a los peritos judiciales?", "back": "El órgano judicial (por listas o sorteo)" }
     ],
     "test": [
       {
