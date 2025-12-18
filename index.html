@@ -9,10 +9,10 @@
         :root { --primary: #0a2e5c; --accent: #d4af37; --bg: #f4f7f9; --text: #333; --danger: #c0392b; --success: #27ae60; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; height: 100vh; display: flex; flex-direction: column; }
         
-        /* HEADER CON IMAGEN DE FONDO (EDIFICIO) */
+        /* HEADER HERO */
         .header-hero {
-            height: 150px;
-            background: linear-gradient(rgba(10,46,92,0.8), rgba(10,46,92,0.9)), url('jefatura.jpg') center/cover no-repeat;
+            height: 160px;
+            background: linear-gradient(rgba(10,46,92,0.85), rgba(10,46,92,0.85)), url('jefatura.jpg') center/cover no-repeat;
             color: white;
             display: flex;
             align-items: center;
@@ -25,58 +25,59 @@
         .header-hero h1 { margin: 0; font-size: 2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .header-hero p { margin: 5px 0 0; opacity: 0.9; }
 
-        /* LOGIN MODAL */
+        /* LOGIN */
         #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary); z-index: 3000; display: flex; justify-content: center; align-items: center; }
         .login-box { background: white; padding: 40px; border-radius: 10px; width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .login-box h2 { color: var(--primary); margin-top: 0; }
+        .login-box img { width: 100px; margin-bottom: 15px; }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
         .btn-login { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
         .btn-login:hover { background: #001a3b; }
 
-        /* LIGHTBOX CON ZOOM */
+        /* LIGHTBOX */
         #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center; flex-direction: column; overflow: hidden; }
         #lightbox-container { width: 90%; height: 80%; display: flex; justify-content: center; align-items: center; overflow: auto; border: 1px solid #555; background: #222; position: relative; }
         #lightbox-img { max-width: 100%; max-height: 100%; transition: transform 0.1s ease; transform-origin: center center; cursor: grab; }
+        #lightbox-caption { color: white; margin-top: 10px; font-size: 1.2rem; font-weight: bold; }
         #lightbox-controls { margin-top: 15px; display: flex; gap: 10px; align-items: center; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 20px; }
         #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; z-index: 2001; }
         input[type=range] { width: 200px; cursor: pointer; }
 
-        /* LAYOUT PRINCIPAL */
+        /* LAYOUT */
         #main-app { display: none; height: 100%; display: flex; flex-direction: column; }
         .top-bar { background: #fff; color: #333; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; font-size: 0.9rem; }
         .btn-logout { background: #c0392b; border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px; }
-
         .content-area { flex: 1; display: flex; overflow: hidden; }
-        
-        /* SIDEBAR */
         .sidebar { width: 250px; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; }
         .menu-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid #eee; transition: 0.2s; color: #555; font-weight: 500; }
         .menu-item:hover { background: #f8f9fa; color: var(--primary); }
         .menu-item.active { background: #eef2f6; color: var(--primary); border-left: 4px solid var(--primary); }
-        .menu-item i { width: 25px; text-align: center; margin-right: 10px; }
-
-        /* VIEWPORT */
         .viewport { flex: 1; padding: 30px; overflow-y: auto; }
         .view-section { display: none; animation: fadeIn 0.3s; }
         .view-section.active { display: block; }
 
-        /* MULTIMEDIA */
+        /* DOCS & MEDIA */
+        .doc-nav { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
+        .doc-tab { padding: 8px 15px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+        .doc-tab.active { background: var(--primary); color: white; }
+        .doc-page { display: none; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.8; color: #444; }
+        .doc-page.active { display: block; }
+        .doc-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .doc-table th, .doc-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .doc-table th { background: #f1f1f1; }
         .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .media-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; cursor: pointer; transition: transform 0.2s; }
         .media-card:hover { transform: translateY(-5px); }
         .media-card img { max-width: 100%; border-radius: 4px; height: 180px; object-fit: cover; }
 
         /* FLASHCARDS */
-        .fc-container { perspective: 1000px; height: 300px; max-width: 600px; margin: 0 auto; cursor: pointer; position: relative; }
+        .fc-container { perspective: 1000px; height: 350px; max-width: 600px; margin: 0 auto; cursor: pointer; position: relative; }
         .fc-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .fc-flipped .fc-inner { transform: rotateY(180deg); }
-        .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; text-align: center; border-radius: 15px; font-size: 1.2rem; }
-        .fc-front { background: var(--primary); color: white; }
-        .fc-back { background: white; color: #333; border: 2px solid var(--primary); transform: rotateY(180deg); }
-        
+        .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; text-align: center; border-radius: 15px; font-size: 1.3rem; box-sizing: border-box; }
+        .fc-front { background: var(--primary); color: white; transform: rotateY(0deg); z-index: 2; }
+        .fc-back { background: white; color: #333; border: 3px solid var(--primary); transform: rotateY(180deg); z-index: 1; }
         .fc-controls { display: flex; justify-content: center; gap: 40px; margin-top: 50px; align-items: center; }
-        .btn-fc { padding: 15px 35px; cursor: pointer; color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.1s; min-width: 150px; }
-        .btn-fc:active { transform: scale(0.95); }
+        .btn-fc { padding: 15px 35px; cursor: pointer; color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2); width: 150px; }
         .btn-prev { background-color: #c0392b !important; }
         .btn-next { background-color: #27ae60 !important; }
 
@@ -84,7 +85,7 @@
         .quiz-option { padding: 12px; margin: 8px 0; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; display: flex; align-items: center; }
         .quiz-option::before { content: ''; display: inline-block; width: 18px; height: 18px; border: 2px solid #ccc; border-radius: 50%; margin-right: 15px; }
         .quiz-option.selected { background: #f0f7ff; border-color: var(--primary); }
-        .quiz-option.selected::before { border-color: var(--primary); background: var(--primary); }
+        .quiz-option.selected::before { border-color: var(--primary); background: var(--primary); box-shadow: inset 0 0 0 3px white; }
         .quiz-option.correct { background: #d4edda; border-color: #28a745; }
         .quiz-option.wrong { background: #f8d7da; border-color: #c0392b; }
         
@@ -95,35 +96,15 @@
         .import-area { width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; font-family: monospace; font-size: 12px; margin-top: 10px; }
         .btn-action { padding: 10px 15px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
 
-        /* DOC CONTENT */
-        .doc-nav { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
-        .doc-tab { padding: 8px 15px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
-        .doc-tab.active { background: var(--primary); color: white; }
-        .doc-page { display: none; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.8; color: #444; }
-        .doc-page.active { display: block; }
-        .doc-page h3 { color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-top: 0; }
-        .doc-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .doc-table th, .doc-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        .doc-table th { background: #f1f1f1; }
-
-        /* BIBLIO */
-        .file-tree { list-style: none; padding-left: 0; }
-        .file-node { margin-bottom: 15px; border: 1px solid #eee; border-radius: 6px; overflow: hidden; }
-        .node-header { background: #f8f9fa; padding: 10px 15px; font-weight: bold; border-bottom: 1px solid #eee; }
-        .file-item { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f1f1; background: white; }
-        .file-item a { color: var(--primary); text-decoration: none; font-weight: 500; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .hidden { display: none !important; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="lightbox">
         <span id="lightbox-close" onclick="App.closeLightbox()">&times;</span>
-        <div id="lightbox-container">
-            <img id="lightbox-img" src="" alt="Zoom">
-        </div>
+        <div id="lightbox-container"><img id="lightbox-img" src="" alt="Zoom"></div>
         <div id="lightbox-controls">
             <span style="color:white"><i class="fas fa-search-minus"></i></span>
             <input type="range" id="zoom-slider" min="1" max="5" step="0.1" value="1" oninput="App.zoomImage(this.value)">
@@ -133,30 +114,28 @@
 
     <div id="login-overlay">
         <div class="login-box">
-            <img src="poli (2).png" style="width:80px; margin-bottom:15px; border-radius:50%; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+            <img src="poli (2).png" alt="Logo">
             <h2>Formación Policial</h2>
             <p>Acceso Restringido NOJ Salamanca</p>
             <input type="text" id="username" placeholder="Usuario">
             <input type="password" id="password" placeholder="Contraseña">
             <button class="btn-login" onclick="App.login()">Entrar</button>
-            <p id="login-msg" style="color:red; font-size:0.9rem; margin-top:10px;"></p>
+            <p id="login-msg" style="color:red; margin-top:10px;"></p>
         </div>
     </div>
 
     <div id="main-app" class="hidden">
-        
         <div class="header-hero">
             <h1><i class="fas fa-university"></i> Academia Virtual</h1>
             <p>Nueva Oficina Judicial de Salamanca</p>
         </div>
 
         <div class="top-bar">
-            <div id="welcome-msg">Bienvenido al sistema</div>
             <div>
                 <span id="display-user" style="font-weight:bold;"></span> | 
                 <span id="role-badge" style="background:#ddd; padding:2px 6px; border-radius:4px;"></span>
-                <button class="btn-logout" onclick="App.logout()"><i class="fas fa-sign-out-alt"></i> Salir</button>
             </div>
+            <button class="btn-logout" onclick="App.logout()">Salir</button>
         </div>
 
         <div class="content-area">
@@ -166,13 +145,12 @@
                 <div class="menu-item" onclick="App.nav('media')"><i class="fas fa-photo-video"></i> Multimedia</div>
                 <div class="menu-item" onclick="App.nav('flashcards')"><i class="fas fa-brain"></i> Tarjetas Memoria</div>
                 <div class="menu-item" onclick="App.nav('test')"><i class="fas fa-clipboard-check"></i> Test Evaluación</div>
-                <div class="menu-item hidden" id="menu-admin" onclick="App.nav('admin')"><i class="fas fa-users-cog"></i> Gestión Usuarios</div>
+                <div class="menu-item hidden" id="menu-admin" onclick="App.nav('admin')"><i class="fas fa-users-cog"></i> Gestión</div>
             </div>
 
             <div class="viewport">
-                
                 <div id="view-temario" class="view-section active">
-                    <h2 style="border-bottom:1px solid #ddd; padding-bottom:10px;">Guía Práctica Operativa</h2>
+                    <h2>Guía Práctica Operativa</h2>
                     <div id="doc-tabs" class="doc-nav"></div>
                     <div id="doc-content"></div>
                 </div>
@@ -186,110 +164,115 @@
                     <h2>Recursos Visuales y Audio</h2>
                     <div class="media-grid" id="media-container"></div>
                     <div style="margin-top:30px; background:white; padding:20px; border-radius:8px;">
-                        <h3><i class="fas fa-podcast"></i> Audio Resumen Ejecutivo</h3>
-                        <audio id="main-audio" controls style="width:100%">
-                            <source src="" type="audio/mp4">
-                            <source src="" type="audio/x-m4a">
-                            Error: Tu navegador no soporta el audio.
-                        </audio>
+                        <h3>Audio Resumen Ejecutivo</h3>
+                        <audio id="main-audio" controls style="width:100%"></audio>
                     </div>
                 </div>
 
                 <div id="view-flashcards" class="view-section">
-                    <h2 style="text-align:center">Entrenamiento de Memoria (50 Tarjetas)</h2>
+                    <h2 style="text-align:center">Entrenamiento (40 Tarjetas Aleatorias)</h2>
                     <div id="fc-canvas"></div>
                     <div class="fc-controls">
-                        <button class="btn-fc btn-prev" onclick="App.moveFC(-1)"><i class="fas fa-chevron-left"></i> Atrás</button>
-                        <span id="fc-counter" style="font-weight:bold; font-size:1.1rem; color:#555;">1 / 50</span>
-                        <button class="btn-fc btn-next" onclick="App.moveFC(1)">Adelante <i class="fas fa-chevron-right"></i></button>
+                        <button class="btn-fc btn-prev" onclick="App.moveFC(-1)"><i class="fas fa-arrow-left"></i> Atrás</button>
+                        <span id="fc-counter" style="font-weight:bold; font-size:1.2rem; color:#555;"></span>
+                        <button class="btn-fc btn-next" onclick="App.moveFC(1)">Adelante <i class="fas fa-arrow-right"></i></button>
                     </div>
                 </div>
 
                 <div id="view-test" class="view-section">
-                    <h2>Evaluación de Conocimientos (20 Preguntas)</h2>
-                    <p style="background:#eef; padding:10px; border-radius:5px;">Para aprobar necesitas <b>más de 10 aciertos</b>. Selecciona una opción por pregunta y pulsa finalizar.</p>
+                    <h2>Evaluación (20 Preguntas Aleatorias)</h2>
+                    <p style="background:#eef; padding:10px;">Para aprobar necesitas <b>más de 10 aciertos</b>.</p>
                     <div id="test-container"></div>
-                    <button onclick="App.submitTest()" style="margin-top:20px; padding:15px 30px; background:var(--primary); color:white; border:none; border-radius:5px; cursor:pointer; font-size:1.1rem; font-weight:bold;">Finalizar y Validar</button>
-                    <div id="test-result" style="margin-top:20px; font-weight:bold; font-size:1.4rem; text-align:center; padding:20px; border-radius:8px;"></div>
+                    <button onclick="App.submitTest()" style="margin-top:20px; padding:15px; width:100%; background:var(--primary); color:white; border:none; cursor:pointer;">Finalizar y Validar</button>
+                    <div id="test-result" style="margin-top:20px; font-weight:bold; text-align:center; font-size:1.4rem;"></div>
                 </div>
 
                 <div id="view-admin" class="view-section">
                     <h2 id="admin-title">Panel de Control</h2>
-                    
                     <div id="admin-tools" style="display:flex; gap:20px; flex-wrap:wrap;">
-                        <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); min-width:300px;">
-                            <h3><i class="fas fa-user-plus"></i> Alta Rápida</h3>
-                            <input type="text" id="new-user" placeholder="Usuario" style="width:100%; padding:8px; margin-bottom:5px;">
-                            <input type="text" id="new-pass" placeholder="Contraseña" style="width:100%; padding:8px; margin-bottom:5px;">
-                            <select id="new-role" style="width:100%; padding:8px; margin-bottom:5px;">
-                                <option value="agente1">Agente (Nivel 1)</option>
-                                <option value="agente2">Agente (Nivel 2)</option>
-                                <option value="agente3">Agente (Nivel 3)</option>
-                                <option value="mdc">Mando Calle (MDC)</option>
-                                <option value="mdt">Mando Táctico (MDT)</option>
-                                <option value="mut">Mando Técnico (MUT)</option>
-                                <option value="jef">Jefatura (JEF)</option>
-                                <option value="admin">Administrador</option>
-                            </select>
-                            <input type="text" id="new-boss" placeholder="Jefe Asignado (Usuario del Mando)" style="width:100%; padding:8px; margin-bottom:10px;">
-                            <button class="btn-action" onclick="App.addUser()"><i class="fas fa-plus"></i> Añadir</button>
-                        </div>
-
-                        <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1); min-width:300px;">
-                            <h3><i class="fas fa-file-import"></i> Importar Masivo (Excel)</h3>
-                            <p style="font-size:0.8rem; margin:0;">Pegar: <b>Usuario | Clave | Rol | Jefe</b></p>
-                            <textarea id="import-data" class="import-area" placeholder="agente1    1234    agente1    mando1"></textarea>
-                            <button class="btn-action" onclick="App.importUsers()"><i class="fas fa-save"></i> Importar Lista</button>
-                            <p id="import-msg" style="color:green; font-weight:bold; font-size:0.9rem;"></p>
+                        <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+                            <h3>Gestión de Usuarios</h3>
+                            <div style="margin-bottom:15px;">
+                                <input type="text" id="new-user" placeholder="Usuario" style="padding:8px;">
+                                <input type="text" id="new-pass" placeholder="Clave" style="padding:8px;">
+                                <select id="new-role" style="padding:8px;">
+                                    <option value="adc">Agente DC</option>
+                                    <option value="adt">Agente DT</option>
+                                    <option value="aut">Agente UT</option>
+                                    <option value="mdc">Mando Calle (MDC)</option>
+                                    <option value="mdt">Mando Ter (MDT)</option>
+                                    <option value="mut">Mando Tec (MUT)</option>
+                                    <option value="jef">Jefatura (JEF)</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                                <input type="text" id="new-boss" placeholder="Jefe Asignado" style="padding:8px;">
+                                <button onclick="App.addUser()" style="padding:8px; background:green; color:white; border:none;">+</button>
+                            </div>
+                            <p>Importar Excel (Usuario | Clave | Rol | Jefe):</p>
+                            <textarea id="import-data" class="import-area"></textarea>
+                            <button class="btn-action" onclick="App.importUsers()">Importar</button>
+                            <p id="import-msg" style="color:green"></p>
                         </div>
                     </div>
-
-                    <h3 style="margin-top:30px;">Resultados y Actividad</h3>
+                    <h3 id="logs-title" style="margin-top:30px;">Resultados y Actividad</h3>
                     <table class="admin-table">
-                        <thead><tr><th>Usuario</th><th>Fecha</th><th>Aciertos</th><th>Fallos</th><th>Nota</th></tr></thead>
+                        <thead><tr><th>Usuario</th><th>Rol</th><th>Fecha</th><th>Aciertos</th><th>Fallos</th><th>Jefe</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
                     </table>
-                    
                     <div id="admin-footer" style="margin-top:20px;">
-                        <button onclick="App.clearLogs()" style="background:#c0392b; color:white; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Borrar Historial Completo</button>
+                        <button onclick="App.clearLogs()" style="background:#c0392b; color:white; border:none; padding:10px;">Borrar Historial</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
-```javascript
 <script>
 const App = {
     data: null, user: null,
-    dbNameLogs: 'noj_logs_v7', // Subimos versión para limpiar datos viejos
-    dbNameUsers: 'noj_users_v7',
+    dbNameLogs: 'noj_logs_v9', // Nueva versión DB para forzar limpieza
+    dbNameUsers: 'noj_users_v9',
 
     init: async () => {
-        // USUARIOS POR DEFECTO (Estructura Jerárquica)
+        // --- 1. USUARIOS POR DEFECTO ---
         if(!localStorage.getItem(App.dbNameUsers)) {
             const defaults = [
                 { u: 'admin', p: 'admin', r: 'admin', boss: '' },
-                { u: 'jefe', p: 'jefe', r: 'jef', boss: '' },       // Ve todo
-                { u: 'mando1', p: '1234', r: 'mdc', boss: '' },     // Mando Div Central
-                { u: 'mando2', p: '1234', r: 'mdt', boss: '' },     // Mando Div Territorial
-                { u: 'agente1', p: '1234', r: 'adc', boss: 'mando1' } // Agente DC (Jefe: mando1)
+                { u: 'jefe', p: 'jefe', r: 'jef', boss: '' },
+                { u: 'mando_central', p: '1234', r: 'mdc', boss: '' },
+                { u: 'agente_central', p: '1234', r: 'adc', boss: 'mando_central' }
             ];
             localStorage.setItem(App.dbNameUsers, JSON.stringify(defaults));
         }
 
         try {
-            // Carga de datos
             const r = await fetch('database.json?t=' + Date.now());
             const d = await r.json();
             App.data = d[0];
-            
+
+            // --- 2. ALEATORIEDAD (SHUFFLE) ---
+            // Barajar Flashcards y cortar a 40
+            if(App.data.flashcards) {
+                App.data.flashcards = App.shuffle(App.data.flashcards).slice(0, 40);
+            }
+            // Barajar Test y cortar a 20
+            if(App.data.test) {
+                App.data.test = App.shuffle(App.data.test).slice(0, 20);
+            }
+
             App.renderTemario(); App.renderBiblio(); App.renderMedia(); App.renderFC(); App.renderTest();
-        } catch(e) { console.error(e); alert("Error cargando base de datos."); }
+        } catch(e) { alert("Error cargando base de datos."); }
     },
 
-    // --- AUTH & ROLES ---
+    // ALGORITMO FISHER-YATES (Para barajar)
+    shuffle: (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    },
+
     login: () => {
         const u = document.getElementById('username').value.trim();
         const p = document.getElementById('password').value.trim();
@@ -301,23 +284,17 @@ const App = {
             document.getElementById('login-overlay').classList.add('hidden');
             document.getElementById('main-app').classList.remove('hidden');
             document.getElementById('display-user').innerText = found.u.toUpperCase();
-            
-            // Lógica de visualización de Menú Admin
-            const rolesGestion = ['admin', 'jef', 'mdc', 'mdt', 'mut'];
-            
-            if(rolesGestion.includes(found.r)) {
-                const menuBtn = document.getElementById('menu-admin');
-                menuBtn.classList.remove('hidden');
+            document.getElementById('role-badge').innerText = found.r.toUpperCase();
+
+            // LOGICA PERMISOS
+            if (['admin', 'jef', 'mdc', 'mdt', 'mut'].includes(found.r)) {
+                document.getElementById('menu-admin').classList.remove('hidden');
                 
-                // Configurar qué ven en el panel
-                if(found.r === 'admin') {
-                    App.renderAdminPanel(true, false); // Global + Edición
-                } else if (found.r === 'jef') {
-                    App.renderAdminPanel(true, true);  // Global + Solo Lectura
-                } else {
-                    // Mandos
-                    menuBtn.innerHTML = '<i class="fas fa-users"></i> Mi Equipo';
-                    App.renderAdminPanel(false, true); // Su Equipo + Solo Lectura
+                if (found.r === 'admin') App.renderAdminPanel(true, false);
+                else if (found.r === 'jef') App.renderAdminPanel(true, true);
+                else {
+                    document.getElementById('menu-admin').innerHTML = '<i class="fas fa-users"></i> Mi Equipo';
+                    App.renderAdminPanel(false, true);
                 }
             }
         } else {
@@ -326,53 +303,37 @@ const App = {
     },
     logout: () => location.reload(),
 
-    // --- PANEL DE GESTIÓN ---
     renderAdminPanel: (isGlobal, isReadOnly) => {
         const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
         const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
         const tLogs = document.getElementById('admin-logs');
         tLogs.innerHTML = '';
 
-        // Ocultar herramientas si es solo lectura (Jefes/Mandos)
         if(isReadOnly) {
             document.getElementById('admin-tools').style.display = 'none';
             document.getElementById('admin-footer').style.display = 'none';
         }
-        
-        if(!isGlobal) document.getElementById('admin-title').innerText = "Resultados de mi Equipo Asignado";
+        if(!isGlobal) document.getElementById('admin-title').innerText = "Resultados de mi Equipo";
 
-        let visibleCount = 0;
         logs.forEach(l => {
             let show = false;
-            // Buscar datos del usuario del log
-            const userMeta = users.find(u => u.u === l.user);
-            const userBoss = userMeta ? userMeta.boss : '';
-            const userRole = userMeta ? userMeta.r : 'unknown';
+            const uData = users.find(u => u.u === l.user);
+            const boss = uData ? uData.boss : '';
+            const role = uData ? uData.r : '';
 
-            if (isGlobal) {
-                show = true; // Admin y JEF ven todo
-            } else {
-                // Mandos: Solo ven si el usuario tiene como jefe al usuario actual
-                if (userBoss === App.user.u) show = true;
-            }
+            if (isGlobal) show = true;
+            else if (boss === App.user.u) show = true;
 
             if(show) {
-                visibleCount++;
                 tLogs.innerHTML += `<tr>
-                    <td><b>${l.user}</b></td>
-                    <td><span style="font-size:0.8rem; background:#eee; padding:2px;">${userRole.toUpperCase()}</span></td>
-                    <td>${l.date}</td>
-                    <td style="color:green">${l.score}</td>
-                    <td style="color:red">${l.errors}</td>
-                    <td>${userBoss}</td>
+                    <td><b>${l.user}</b></td><td>${role}</td><td>${l.date}</td>
+                    <td style="color:green">${l.score}</td><td style="color:red">${l.errors}</td><td>${boss}</td>
                 </tr>`;
             }
         });
-
-        if(visibleCount === 0) tLogs.innerHTML = '<tr><td colspan="6">Sin actividad registrada en su ámbito.</td></tr>';
     },
 
-    // Funciones de gestión (Solo Admin las usará)
+    // Funciones Admin
     addUser: () => {
         const u = document.getElementById('new-user').value.trim();
         const p = document.getElementById('new-pass').value.trim();
@@ -382,9 +343,8 @@ const App = {
         if(users.find(x=>x.u===u)) return alert("Usuario existe");
         users.push({u,p,r,boss:b});
         localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
-        alert("Usuario creado");
+        alert("Creado");
     },
-
     importUsers: () => {
         const raw = document.getElementById('import-data').value;
         const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
@@ -399,26 +359,21 @@ const App = {
         localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
         document.getElementById('import-msg').innerText = `+${c} importados`;
     },
-
     clearLogs: () => {
-        if(confirm("¿Borrar todo?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(true, false); }
+        if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(true, false); }
     },
-
     saveResult: (s, t) => {
         const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
         logs.push({ user: App.user.u, date: new Date().toLocaleDateString(), score: s, total: t, errors: t-s });
         localStorage.setItem(App.dbNameLogs, JSON.stringify(logs));
-        // Refrescar si es admin mirando el panel
         if(App.user.r === 'admin') App.renderAdminPanel(true, false);
     },
 
-    // --- FUNCIONALIDAD WEB (Navegación, Media, FC, Test) ---
+    // Funciones UI
     nav: (id) => {
         document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active'));
         document.getElementById('view-'+id).classList.add('active');
     },
-    
-    // Lightbox corregido
     openLightbox: (url, txt) => {
         document.getElementById('lightbox-img').src = url;
         document.getElementById('lightbox-caption').innerText = txt;
@@ -434,12 +389,11 @@ const App = {
         c.innerHTML = '';
         App.data.imagenes.forEach(img => {
             c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${img.url}', '${img.nombre}')">
-                <img src="${img.url}" onerror="this.src='https://via.placeholder.com/300?text=Error+Imagen'">
+                <img src="${img.url}" onerror="this.src='https://via.placeholder.com/300?text=Error'">
                 <p>${img.nombre}</p></div>`;
         });
         document.getElementById('main-audio').src = App.data.audio_url;
     },
-
     renderTemario: () => {
         const t = document.getElementById('doc-tabs'), c = document.getElementById('doc-content');
         t.innerHTML=''; c.innerHTML='';
@@ -463,12 +417,13 @@ const App = {
     },
     renderFC: () => { App.fcIndex = 0; App.drawFC(); },
     drawFC: () => {
+        if(!App.data.flashcards.length) return;
         const c = App.data.flashcards[App.fcIndex];
         document.getElementById('fc-canvas').innerHTML = `
             <div class="fc-container" onclick="this.classList.toggle('fc-flipped')">
                 <div class="fc-inner">
-                    <div class="fc-face fc-front">${c.front}</div>
-                    <div class="fc-face fc-back">${c.back}</div>
+                    <div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div>
+                    <div class="fc-face fc-back"><div>${c.back}</div></div>
                 </div>
             </div>`;
         document.getElementById('fc-counter').innerText = `${App.fcIndex+1} / ${App.data.flashcards.length}`;
@@ -480,6 +435,7 @@ const App = {
         App.drawFC();
     },
     renderTest: () => {
+        if(!App.data.test.length) return;
         document.getElementById('test-container').innerHTML = App.data.test.map((q,i) => `
             <div class="q-block" data-c="${q.correcta}">
                 <p><b>${i+1}. ${q.pregunta}</b></p>
@@ -507,3 +463,5 @@ const App = {
 };
 window.onload = App.init;
 </script>
+</body>
+</html>
