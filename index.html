@@ -26,7 +26,7 @@
         .header-hero h1 { margin: 0; font-size: 2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .header-hero p { margin: 5px 0 0; opacity: 0.9; }
 
-        /* LOGIN & PASSWORD CHANGE MODAL */
+        /* LOGIN & PASSWORD CHANGE */
         .overlay-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary); z-index: 3000; display: flex; justify-content: center; align-items: center; }
         .login-box { background: white; padding: 40px; border-radius: 10px; width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         .login-box img { width: 100px; margin-bottom: 15px; }
@@ -35,7 +35,7 @@
         .btn-login:hover { background: #001a3b; }
         .hidden { display: none !important; }
 
-        /* VISOR MULTIMEDIA CORREGIDO (ZOOM + SCROLL) */
+        /* VISOR MULTIMEDIA (ZOOM + SCROLL) */
         #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
         #lightbox-container { width: 90%; height: 80%; background: #222; border: 1px solid #444; overflow: auto; display: flex; align-items: flex-start; justify-content: center; position: relative; }
         #lightbox-img { width: 100%; max-width: none; height: auto; transition: width 0.2s ease; transform-origin: top center; }
@@ -99,9 +99,7 @@
         .import-area { width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; font-family: monospace; font-size: 12px; margin-top: 10px; }
         .btn-action { padding: 10px 15px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
         
-        .sec-log-row { font-family: monospace; font-size: 0.9rem; }
         .log-danger { color: #c0392b; }
-        .log-success { color: #27ae60; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
@@ -134,7 +132,7 @@
     <div id="password-change-overlay" class="overlay-screen hidden">
         <div class="login-box">
             <h2 style="color:var(--danger)"><i class="fas fa-lock"></i> Seguridad</h2>
-            <p>Es su primer acceso. Por seguridad, debe cambiar su contraseña.</p>
+            <p>Primer acceso. Cambie su contraseña.</p>
             <input type="password" id="new-pass-1" placeholder="Nueva Contraseña">
             <input type="password" id="new-pass-2" placeholder="Repita Contraseña">
             <button class="btn-login" onclick="App.changePassword()">Guardar y Acceder</button>
@@ -231,21 +229,21 @@
                         
                         <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
                             <h3>Importar Excel</h3>
-                            <p style="font-size:0.8rem; margin:0;">Usuario | Clave | Rol | Jefe</p>
+                            <p style="font-size:0.8rem; margin:0;">Pegar columnas: <b>Usuario | Clave | Rol | Jefe</b></p>
                             <textarea id="import-data" class="import-area"></textarea>
                             <button class="btn-action" onclick="App.importUsers()">Importar</button>
                             <p id="import-msg" style="color:green"></p>
                         </div>
                     </div>
 
-                    <h3 id="logs-title" style="margin-top:30px;">Resultados y Actividad</h3>
+                    <h3 id="logs-title" style="margin-top:30px;">Resultados Académicos</h3>
                     <table class="admin-table">
                         <thead><tr><th>Usuario</th><th>Rol</th><th>Fecha</th><th>Aciertos</th><th>Fallos</th><th>Jefe</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
                     </table>
 
                     <div id="security-module" style="margin-top:40px;">
-                        <h3 style="color:#c0392b"><i class="fas fa-shield-alt"></i> Registro de Seguridad (Auditoría)</h3>
+                        <h3 style="color:#c0392b"><i class="fas fa-shield-alt"></i> Logs de Seguridad (MASTER/ADMIN)</h3>
                         <div style="max-height:200px; overflow-y:auto; border:1px solid #ddd;">
                             <table class="admin-table" style="margin-top:0;">
                                 <thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Detalle</th></tr></thead>
@@ -265,22 +263,19 @@
 <script>
 const App = {
     data: null, user: null,
-    dbNameLogs: 'noj_logs_v12', 
-    dbNameUsers: 'noj_users_v12',
-    dbSec: 'noj_sec_v12', // LOGS SEGURIDAD
+    dbNameLogs: 'noj_logs_v13', 
+    dbNameUsers: 'noj_users_v13',
+    dbSec: 'noj_sec_v13', 
 
     init: async () => {
-        // --- USUARIOS POR DEFECTO ---
+        // USUARIOS CRÍTICOS INICIALES
         if(!localStorage.getItem(App.dbNameUsers)) {
             const defaults = [
                 { u: 'master', p: 'master', r: 'master', boss: '', mustChangePass: true },
-                { u: 'admin', p: 'admin', r: 'admin', boss: '', mustChangePass: true },
-                { u: 'jefe', p: 'jefe', r: 'jef', boss: '', mustChangePass: true },
-                { u: 'mando1', p: '1234', r: 'mdc', boss: '', mustChangePass: true },
-                { u: 'agente1', p: '1234', r: 'adc', boss: 'mando1', mustChangePass: true }
+                { u: 'admin', p: 'admin', r: 'admin', boss: '', mustChangePass: true }
             ];
             localStorage.setItem(App.dbNameUsers, JSON.stringify(defaults));
-            App.logSecurity('SYSTEM', 'Inicialización de Base de Datos de Usuarios');
+            App.logSecurity('SYSTEM', 'Inicialización Base Datos V13');
         }
 
         try {
@@ -288,23 +283,21 @@ const App = {
             const d = await r.json();
             App.data = d[0];
 
-            // SHUFFLE AL INICIO
             if(App.data.flashcards) App.data.flashcards = App.shuffle(App.data.flashcards).slice(0, 40);
             if(App.data.test) App.data.test = App.shuffle(App.data.test).slice(0, 20);
 
             App.renderTemario(); App.renderBiblio(); App.renderMedia(); App.renderFC(); App.renderTest();
-        } catch(e) { console.error(e); alert("Error base datos"); }
+        } catch(e) { console.error(e); alert("Error DB"); }
     },
 
     shuffle: (a) => {
         for(let i=a.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a;
     },
 
-    // --- SEGURIDAD ---
     logSecurity: (action, detail) => {
         const logs = JSON.parse(localStorage.getItem(App.dbSec) || '[]');
         logs.unshift({ date: new Date().toLocaleString(), user: App.user ? App.user.u : 'GUEST', action, detail });
-        if(logs.length > 100) logs.pop(); // Mantener solo 100 registros
+        if(logs.length > 150) logs.pop();
         localStorage.setItem(App.dbSec, JSON.stringify(logs));
     },
 
@@ -316,18 +309,15 @@ const App = {
 
         if(found) {
             App.user = found;
-            
-            // CHECK PASSWORD FORCE CHANGE
             if(found.mustChangePass) {
                 document.getElementById('login-overlay').classList.add('hidden');
                 document.getElementById('password-change-overlay').classList.remove('hidden');
                 return;
             }
-
             App.completeLogin();
         } else {
             document.getElementById('login-msg').innerText = "Credenciales incorrectas.";
-            App.logSecurity('LOGIN_FAIL', `Intento fallido usuario: ${u}`);
+            App.logSecurity('LOGIN_FAIL', `Fallo: ${u}`);
         }
     },
 
@@ -335,7 +325,7 @@ const App = {
         const p1 = document.getElementById('new-pass-1').value;
         const p2 = document.getElementById('new-pass-2').value;
         if(p1.length < 4) return document.getElementById('pass-msg').innerText = "Mínimo 4 caracteres";
-        if(p1 !== p2) return document.getElementById('pass-msg').innerText = "Las contraseñas no coinciden";
+        if(p1 !== p2) return document.getElementById('pass-msg').innerText = "No coinciden";
 
         const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
         const idx = users.findIndex(x => x.u === App.user.u);
@@ -343,9 +333,8 @@ const App = {
         users[idx].mustChangePass = false;
         localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
         
-        App.user.p = p1; // Update session
-        App.logSecurity('PASS_CHANGE', `Usuario ${App.user.u} cambió contraseña`);
-        
+        App.user.p = p1; 
+        App.logSecurity('PASS_CHANGE', `Usuario ${App.user.u} activado`);
         document.getElementById('password-change-overlay').classList.add('hidden');
         App.completeLogin();
     },
@@ -356,22 +345,26 @@ const App = {
         document.getElementById('display-user').innerText = App.user.u.toUpperCase();
         document.getElementById('role-badge').innerText = App.user.r.toUpperCase();
         
-        App.logSecurity('LOGIN_SUCCESS', `Acceso correcto: ${App.user.u}`);
+        App.logSecurity('LOGIN_OK', `Acceso: ${App.user.u}`);
 
-        if (['admin', 'master', 'jef', 'mdc', 'mdt', 'mut'].includes(App.user.r)) {
+        const roles = ['admin', 'master', 'jef', 'mdc', 'mdt', 'mut'];
+        if (roles.includes(App.user.r)) {
             document.getElementById('menu-admin').classList.remove('hidden');
             
-            if (App.user.r === 'admin' || App.user.r === 'master') App.renderAdminPanel(true, false);
-            else if (App.user.r === 'jef') App.renderAdminPanel(true, true);
-            else {
+            if (['admin', 'master'].includes(App.user.r)) {
+                App.renderAdminPanel(true, false); // ADMIN/MASTER: Todo + Edición
+            } else if (App.user.r === 'jef') {
+                App.renderAdminPanel(true, true); // JEF: Todo + Solo Lectura
+            } else {
+                // MANDOS: Su equipo + Solo Lectura
                 document.getElementById('menu-admin').innerHTML = '<i class="fas fa-users"></i> Mi Equipo';
-                App.renderAdminPanel(false, true);
+                App.renderAdminPanel(false, true); 
             }
         }
     },
     logout: () => location.reload(),
 
-    // --- ADMIN PANEL ---
+    // --- PANEL LOGICA DE VISIBILIDAD ---
     renderAdminPanel: (isGlobal, isReadOnly) => {
         const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
         const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
@@ -379,27 +372,24 @@ const App = {
         const tLogs = document.getElementById('admin-logs');
         tLogs.innerHTML = '';
 
-        // TOOLS DISPLAY
         if(isReadOnly) {
             document.getElementById('admin-tools').style.display = 'none';
             document.getElementById('admin-footer').style.display = 'none';
         } else {
-            // POPULATE BOSS SELECTOR
+            // Llenar desplegable jefes
             const bossSelect = document.getElementById('new-boss');
-            bossSelect.innerHTML = '<option value="">-- Sin Jefe --</option>';
-            const bosses = users.filter(u => ['mdc','mdt','mut','jef','admin','master'].includes(u.r));
-            bosses.forEach(b => {
-                bossSelect.innerHTML += `<option value="${b.u}">${b.u} (${b.r.toUpperCase()})</option>`;
-            });
+            bossSelect.innerHTML = '<option value="">-- Asignar Jefe --</option>';
+            users.filter(u => ['mdc','mdt','mut','jef','admin','master'].includes(u.r))
+                 .forEach(b => bossSelect.innerHTML += `<option value="${b.u}">${b.u}</option>`);
         }
 
-        // SECURITY MODULE DISPLAY (Solo Admin y Master)
-        if(App.user.r === 'admin' || App.user.r === 'master') {
+        // SEGURIDAD SOLO PARA MASTER Y ADMIN
+        if(['admin', 'master'].includes(App.user.r)) {
             document.getElementById('security-module').style.display = 'block';
             const tSec = document.getElementById('security-logs');
             tSec.innerHTML = '';
             secLogs.forEach(s => {
-                let color = s.action.includes('FAIL') ? 'red' : 'black';
+                let color = s.action.includes('FAIL') ? 'red' : '#333';
                 tSec.innerHTML += `<tr style="color:${color}"><td>${s.date}</td><td>${s.user}</td><td>${s.action}</td><td>${s.detail}</td></tr>`;
             });
         } else {
@@ -412,18 +402,60 @@ const App = {
             let show = false;
             const uData = users.find(u => u.u === l.user);
             const boss = uData ? uData.boss : '';
-            const role = uData ? uData.r : '';
-
+            
             if (isGlobal) show = true;
             else if (boss === App.user.u) show = true;
 
             if(show) {
                 tLogs.innerHTML += `<tr>
-                    <td><b>${l.user}</b></td><td>${role}</td><td>${l.date}</td>
+                    <td><b>${l.user}</b></td><td>${uData ? uData.r : '?'}</td><td>${l.date}</td>
                     <td style="color:green">${l.score}</td><td style="color:red">${l.errors}</td><td>${boss}</td>
                 </tr>`;
             }
         });
+    },
+
+    // --- IMPORTAR EXCEL (CONVERTIDOR DE TEXTO A CÓDIGO) ---
+    importUsers: () => {
+        const raw = document.getElementById('import-data').value;
+        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
+        let c = 0;
+        
+        // Mapeo de nombres del Excel a códigos internos
+        const roleMap = {
+            'AGENTE (DC)': 'adc', 'AGENTE (DT)': 'adt', 'AGENTE (UT)': 'aut',
+            'MANDO (DC)': 'mdc', 'MANDO (DT)': 'mdt', 'MANDO (UT)': 'mut',
+            'JEFATURA': 'jef', 'ADMIN': 'admin', 'MASTER': 'master'
+        };
+
+        const lines = raw.split('\n');
+        lines.forEach(l => {
+            let p = l.split(/\t+/); // Detectar tabuladores del Excel
+            if(p.length < 2) p = l.split(/\s+/); // Fallback espacios
+
+            if(p.length >= 2) {
+                let u = p[0].trim();
+                let pass = p[1].trim();
+                let roleStr = p[2] ? p[2].trim() : 'adc';
+                let bossStr = p[3] ? p[3].trim() : '';
+
+                // Convertir rol si está en el mapa, sino usar tal cual
+                let finalRole = roleMap[roleStr] || roleStr.toLowerCase();
+                
+                // Mapear jefes del Excel a códigos si es necesario (Asumo que el Excel trae el nombre del Mando directamente)
+                let finalBoss = bossStr; 
+                if(roleMap[bossStr]) { /* Si el jefe viene como ROL en vez de usuario, cuidado aqui */ }
+
+                if(!users.find(x => x.u === u)) {
+                    users.push({ u: u, p: pass, r: finalRole, boss: finalBoss, mustChangePass: true });
+                    c++;
+                }
+            }
+        });
+        localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
+        App.logSecurity('IMPORT', `Importados ${c} usuarios`);
+        alert(`Procesado. ${c} usuarios nuevos.`);
+        App.renderAdminPanel(true, false);
     },
 
     addUser: () => {
@@ -432,26 +464,21 @@ const App = {
         const r = document.getElementById('new-role').value;
         const b = document.getElementById('new-boss').value;
         const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
-        
-        if(!u || !p) return alert("Rellenar campos");
-        if(users.find(x=>x.u===u)) return alert("Usuario existe");
-        
+        if(users.find(x=>x.u===u)) return alert("Usuario ya existe");
         users.push({u,p,r,boss:b, mustChangePass:true});
         localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
-        App.logSecurity('USER_CREATE', `Creado usuario: ${u} (Rol: ${r})`);
-        alert("Usuario creado. Se pedirá cambio de contraseña.");
+        App.logSecurity('CREATE', `Usuario ${u} creado`);
+        alert("Usuario creado. Deberá cambiar contraseña.");
         App.renderAdminPanel(true, false);
     },
 
-    // --- OTHER FUNCTIONS ---
-    nav: (id) => {
-        document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active'));
-        document.getElementById('view-'+id).classList.add('active');
-    },
+    clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(true, false); }},
+    
+    // --- UI HELPERS ---
+    nav: (id) => { document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); },
     openLightbox: (url, txt) => {
         const img = document.getElementById('lightbox-img');
-        img.src = url;
-        img.style.width = "100%"; 
+        img.src = url; img.style.width = "100%"; 
         document.getElementById('zoom-slider').value = 1;
         document.getElementById('lightbox-caption').innerText = txt;
         document.getElementById('lightbox').style.display = 'flex';
@@ -459,101 +486,28 @@ const App = {
     closeLightbox: () => document.getElementById('lightbox').style.display = 'none',
     zoomImage: (val) => { document.getElementById('lightbox-img').style.width = (val * 100) + "%"; },
 
+    // --- RENDERS ---
     renderMedia: () => {
-        const c = document.getElementById('media-container');
-        c.innerHTML = '';
+        const c = document.getElementById('media-container'); c.innerHTML = '';
         App.data.imagenes.forEach(img => {
-            c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${img.url}', '${img.nombre}')">
-                <img src="${img.url}" onerror="this.src='https://via.placeholder.com/300'">
-                <p>${img.nombre}</p></div>`;
+            c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${img.url}', '${img.nombre}')"><img src="${img.url}" onerror="this.src='https://via.placeholder.com/300'"><p>${img.nombre}</p></div>`;
         });
         document.getElementById('main-audio').src = App.data.audio_url;
     },
     renderTemario: () => {
-        const t = document.getElementById('doc-tabs'), c = document.getElementById('doc-content');
-        t.innerHTML=''; c.innerHTML='';
+        const t = document.getElementById('doc-tabs'), c = document.getElementById('doc-content'); t.innerHTML=''; c.innerHTML='';
         App.data.secciones_temario.forEach((s,i) => {
             t.innerHTML += `<button class="doc-tab ${i===0?'active':''}" onclick="App.tab(${i})">${s.titulo}</button>`;
             c.innerHTML += `<div id="p${i}" class="doc-page ${i===0?'active':''}">${s.contenido}</div>`;
         });
     },
-    tab: (i) => {
-        document.querySelectorAll('.doc-tab').forEach(x=>x.classList.remove('active'));
-        document.querySelectorAll('.doc-page').forEach(x=>x.classList.remove('active'));
-        document.querySelectorAll('.doc-tab')[i].classList.add('active');
-        document.getElementById('p'+i).classList.add('active');
-    },
-    renderBiblio: () => {
-        document.getElementById('file-tree').innerHTML = '';
-        App.data.bibliografia.forEach(c => {
-            let l = c.archivos.map(f => `<li class="file-item"><a href="${f.nombre}" target="_blank">${f.desc}</a></li>`).join('');
-            document.getElementById('file-tree').innerHTML += `<li class="file-node"><div class="node-header">${c.nivel}</div><ul>${l}</ul></li>`;
-        });
-    },
+    tab: (i) => { document.querySelectorAll('.doc-tab').forEach(x=>x.classList.remove('active')); document.querySelectorAll('.doc-page').forEach(x=>x.classList.remove('active')); document.querySelectorAll('.doc-tab')[i].classList.add('active'); document.getElementById('p'+i).classList.add('active'); },
+    renderBiblio: () => { document.getElementById('file-tree').innerHTML = ''; App.data.bibliografia.forEach(c => { let l = c.archivos.map(f => `<li class="file-item"><a href="${f.nombre}" target="_blank">${f.desc}</a></li>`).join(''); document.getElementById('file-tree').innerHTML += `<li class="file-node"><div class="node-header">${c.nivel}</div><ul>${l}</ul></li>`; }); },
     renderFC: () => { App.fcIndex = 0; App.drawFC(); },
-    drawFC: () => {
-        if(!App.data.flashcards.length) return;
-        const c = App.data.flashcards[App.fcIndex];
-        document.getElementById('fc-canvas').innerHTML = `
-            <div class="fc-container" onclick="this.classList.toggle('fc-flipped')">
-                <div class="fc-inner">
-                    <div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div>
-                    <div class="fc-face fc-back"><div>${c.back}</div></div>
-                </div>
-            </div>`;
-        document.getElementById('fc-counter').innerText = `${App.fcIndex+1} / ${App.data.flashcards.length}`;
-    },
-    moveFC: (d) => {
-        App.fcIndex += d;
-        if(App.fcIndex < 0) App.fcIndex = App.data.flashcards.length-1;
-        if(App.fcIndex >= App.data.flashcards.length) App.fcIndex = 0;
-        App.drawFC();
-    },
-    renderTest: () => {
-        if(!App.data.test.length) return;
-        document.getElementById('test-container').innerHTML = App.data.test.map((q,i) => `
-            <div class="q-block" data-c="${q.correcta}">
-                <p><b>${i+1}. ${q.pregunta}</b></p>
-                ${q.respuestas.map(r => `<div class="quiz-option" onclick="this.parentElement.querySelectorAll('.quiz-option').forEach(e=>e.classList.remove('selected')); this.classList.add('selected')">${r}</div>`).join('')}
-            </div>`).join('');
-    },
-    submitTest: () => {
-        let s = 0;
-        const b = document.querySelectorAll('.q-block');
-        b.forEach(x => {
-            const sel = x.querySelector('.selected');
-            const opts = x.querySelectorAll('.quiz-option');
-            const corr = parseInt(x.dataset.c);
-            opts.forEach(o => o.classList.remove('correct','wrong'));
-            if(sel) {
-                if(Array.from(opts).indexOf(sel) === corr) { sel.classList.add('correct'); s++; }
-                else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); }
-            }
-        });
-        const res = document.getElementById('test-result');
-        if(s>10) { res.innerHTML = "APROBADO: "+s + "/" + b.length; res.style.background="#d4edda"; }
-        else { res.innerHTML = "SUSPENSO: "+s + "/" + b.length; res.style.background="#f8d7da"; }
-        App.saveResult(s, b.length);
-    },
-    clearLogs: () => {
-        if(confirm("¿Borrar historial?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(true, false); }
-    },
-    importUsers: () => {
-        const raw = document.getElementById('import-data').value;
-        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
-        let c = 0;
-        raw.split('\n').forEach(l => {
-            let p = l.split(/\s+/);
-            if(p.length >= 2 && !users.find(x=>x.u===p[0])) {
-                users.push({u:p[0], p:p[1], r:p[2]||'adc', boss:p[3]||'', mustChangePass:true});
-                c++;
-            }
-        });
-        localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
-        App.logSecurity('IMPORT_USERS', `Importados ${c} usuarios masivos`);
-        alert(`Importados ${c} usuarios`);
-        App.renderAdminPanel(true, false);
-    }
+    drawFC: () => { if(!App.data.flashcards.length) return; const c = App.data.flashcards[App.fcIndex]; document.getElementById('fc-canvas').innerHTML = `<div class="fc-container" onclick="this.classList.toggle('fc-flipped')"><div class="fc-inner"><div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div><div class="fc-face fc-back"><div>${c.back}</div></div></div></div>`; },
+    moveFC: (d) => { App.fcIndex += d; if(App.fcIndex < 0) App.fcIndex = App.data.flashcards.length-1; if(App.fcIndex >= App.data.flashcards.length) App.fcIndex = 0; App.drawFC(); },
+    renderTest: () => { if(!App.data.test.length) return; document.getElementById('test-container').innerHTML = App.data.test.map((q,i) => `<div class="q-block" data-c="${q.correcta}"><p><b>${i+1}. ${q.pregunta}</b></p>${q.respuestas.map(r => `<div class="quiz-option" onclick="this.parentElement.querySelectorAll('.quiz-option').forEach(e=>e.classList.remove('selected')); this.classList.add('selected')">${r}</div>`).join('')}</div>`).join(''); },
+    submitTest: () => { let s = 0; const b = document.querySelectorAll('.q-block'); b.forEach(x => { const sel = x.querySelector('.selected'); const opts = x.querySelectorAll('.quiz-option'); const corr = parseInt(x.dataset.c); opts.forEach(o => o.classList.remove('correct','wrong')); if(sel) { if(Array.from(opts).indexOf(sel) === corr) { sel.classList.add('correct'); s++; } else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); } } }); const res = document.getElementById('test-result'); if(s>10) { res.innerHTML = "APROBADO: "+s + "/" + b.length; res.style.background="#d4edda"; } else { res.innerHTML = "SUSPENSO: "+s + "/" + b.length; res.style.background="#f8d7da"; } App.saveResult(s, b.length); }
 };
 window.onload = App.init;
 </script>
