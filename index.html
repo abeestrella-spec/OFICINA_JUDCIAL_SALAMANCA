@@ -72,13 +72,61 @@
         .quiz-option.correct { background: #d4edda; border-color: green; }
         .quiz-option.wrong { background: #f8d7da; border-color: red; }
 
-        /* VISOR MULTIMEDIA (ZOOM + SCROLL CORRECTO) */
-        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
-        #lightbox-container { width: 90%; height: 80%; background: #222; border: 1px solid #555; overflow: auto; display: flex; align-items: flex-start; justify-content: center; }
-        #lightbox-img { width: 100%; height: auto; transition: width 0.2s ease; transform-origin: top center; }
-        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
-        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
-        input[type=range] { width: 200px; cursor: pointer; }
+        /* --- VISOR MULTIMEDIA CORREGIDO (ZOOM + SCROLL) --- */
+#lightbox { 
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.98); 
+    z-index: 10000; /* Asegura que esté por encima de todo */
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+#lightbox-container { 
+    width: 90%; 
+    height: 80%; 
+    background: #222; 
+    border: 1px solid #555; 
+    overflow: auto; /* ESTO ACTIVA LAS BARRAS DE SCROLL */
+    display: flex; 
+    align-items: flex-start; /* Alinea arriba para poder hacer scroll */
+    justify-content: center; 
+}
+
+#lightbox-img { 
+    width: 100%; 
+    height: auto; 
+    max-width: none !important; /* Permite que la imagen crezca infinitamente */
+    transition: width 0.2s ease; 
+    transform-origin: top center; 
+}
+
+#lightbox-controls { 
+    margin-top: 15px; 
+    display: flex; 
+    gap: 15px; 
+    align-items: center; 
+    background: rgba(255,255,255,0.2); 
+    padding: 10px 25px; 
+    border-radius: 50px; 
+}
+
+#lightbox-close { 
+    position: absolute; 
+    top: 20px; 
+    right: 30px; 
+    color: white; 
+    font-size: 3rem; 
+    cursor: pointer; 
+    z-index: 10001;
+}
+
+input[type=range] { width: 250px; cursor: pointer; }
 
         /* ADMIN & UTILS */
         .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; font-size: 0.9rem; }
