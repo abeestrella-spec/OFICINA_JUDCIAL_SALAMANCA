@@ -7,177 +7,140 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --primary: #0a2e5c; --accent: #d4af37; --bg: #f4f7f9; --text: #333; --danger: #c0392b; --success: #27ae60; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; height: 100vh; display: flex; flex-direction: column; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* --- ESTILOS PANTALLA LOGIN (CORREGIDO) --- */
-        .overlay-screen { 
+        /* --- PANTALLA DE LOGIN (SUPERPOSICIÓN TOTAL) --- */
+        #login-screen { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            z-index: 3000; display: flex; justify-content: center; align-items: center; 
-            /* FONDO JEFATURA.JPG EN PANTALLA COMPLETA */
-            background: linear-gradient(rgba(10,46,92,0.8), rgba(10,46,92,0.8)), url('jefatura.jpg') no-repeat center center fixed;
+            z-index: 5000; /* Capa más alta */
+            display: flex; justify-content: center; align-items: center; 
+            /* Fondo del edificio SOLO aquí */
+            background: linear-gradient(rgba(10,46,92,0.85), rgba(10,46,92,0.85)), url('jefatura.jpg') no-repeat center center fixed;
             background-size: cover;
         }
         
-        .login-box { 
-            background: white; padding: 40px; border-radius: 10px; width: 350px; 
-            text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+        .login-card { 
+            background: white; padding: 40px; border-radius: 12px; width: 350px; 
+            text-align: center; box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
         }
         
-        /* Solo el icono poli (2).png en el login */
-        .login-icon { width: 100px; margin-bottom: 15px; } 
+        /* ÚNICA IMAGEN EN LOGIN */
+        .login-logo { width: 100px; margin-bottom: 20px; } 
         
-        .login-box input, .login-box select { 
-            width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; 
+        .login-card input { 
+            width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; 
+            border-radius: 6px; box-sizing: border-box; font-size: 16px;
         }
         
-        /* Botón Login corregido para evitar submit de formulario */
-        .btn-login { 
-            background: var(--primary); color: white; border: none; padding: 12px; width: 100%; 
-            border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; 
+        .btn-enter { 
+            background: var(--primary); color: white; border: none; padding: 14px; width: 100%; 
+            border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 15px; 
+            transition: background 0.3s;
         }
-        .btn-login:hover { background: #001a3b; }
+        .btn-enter:hover { background: #001a3b; }
 
-        /* --- ESTILOS DENTRO DE LA APP --- */
-        .hidden { display: none !important; }
-
-        /* CABECERA APP (CON PIE175PLSA.JPG) */
+        /* --- APLICACIÓN PRINCIPAL (OCULTA AL INICIO) --- */
+        #main-app { display: none; height: 100%; flex-direction: column; }
+        
+        /* CABECERA INTERIOR (CON PIE175) */
         .app-header {
-            background: white;
-            border-bottom: 4px solid var(--accent);
-            padding: 10px 20px;
-            text-align: center;
-            flex-shrink: 0;
+            background: white; border-bottom: 4px solid var(--accent);
+            padding: 10px; text-align: center; flex-shrink: 0;
         }
-        .app-header img {
-            max-height: 80px; /* Ajustar altura de la imagen de cabecera */
-            max-width: 100%;
-            height: auto;
-        }
+        .app-header img { height: 70px; width: auto; } /* Ajuste altura logo superior */
 
         .top-bar { 
-            background: var(--primary); color: white; padding: 10px 20px; 
+            background: var(--primary); color: white; padding: 8px 20px; 
             display: flex; justify-content: space-between; align-items: center; 
             font-size: 0.9rem; flex-shrink: 0; 
         }
-        .btn-logout { background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px; }
+        .btn-logout { background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
 
         .content-area { flex: 1; display: flex; overflow: hidden; }
         
-        /* SIDEBAR (CON ESCUDOPLSA.JPG) */
+        /* BARRA LATERAL (CON ESCUDO) */
         .sidebar { 
             width: 250px; background: white; border-right: 1px solid #ddd; 
-            display: flex; flex-direction: column; flex-shrink: 0; 
+            display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto;
         }
         
-        .sidebar-logo-area {
-            text-align: center;
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            background: #fdfdfd;
+        .sidebar-logo {
+            text-align: center; padding: 20px; border-bottom: 1px solid #eee; background: #fdfdfd;
         }
-        .sidebar-logo-area img {
-            width: 120px; /* Tamaño del escudo */
-            height: auto;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
+        .sidebar-logo img { width: 100px; height: auto; }
 
-        .menu-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid #eee; transition: 0.2s; color: #555; font-weight: 500; }
-        .menu-item:hover { background: #f8f9fa; color: var(--primary); }
-        .menu-item.active { background: #eef2f6; color: var(--primary); border-left: 4px solid var(--primary); }
+        .menu-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid #eee; color: #555; font-weight: 500; }
+        .menu-item:hover, .menu-item.active { background: #f8f9fa; color: var(--primary); border-left: 4px solid var(--primary); }
         .menu-item i { width: 25px; text-align: center; margin-right: 10px; }
 
-        .viewport { flex: 1; padding: 30px; overflow-y: auto; position: relative; }
+        .viewport { flex: 1; padding: 30px; overflow-y: auto; background: #f4f7f9; }
         .view-section { display: none; animation: fadeIn 0.3s; }
         .view-section.active { display: block; }
 
-        /* --- VISOR MULTIMEDIA --- */
+        /* VISOR MULTIMEDIA */
         #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
-        #lightbox-container { width: 90%; height: 80%; background: #222; border: 1px solid #444; overflow: auto; display: flex; align-items: flex-start; justify-content: center; position: relative; }
-        #lightbox-img { width: 100%; max-width: none; height: auto; transition: width 0.2s ease; transform-origin: top center; }
-        #lightbox-caption { color: white; margin-top: 10px; font-size: 1.2rem; font-weight: bold; }
-        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.15); padding: 10px 25px; border-radius: 50px; }
-        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3.5rem; cursor: pointer; z-index: 10001; }
-        input[type=range] { width: 250px; cursor: pointer; }
+        #lightbox-container { width: 90%; height: 80%; background: #222; border: 1px solid #444; overflow: auto; display: flex; justify-content: center; position: relative; }
+        #lightbox-img { width: 100%; height: auto; transition: width 0.2s; transform-origin: top center; }
+        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
+        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
+        input[type=range] { width: 200px; cursor: pointer; }
 
-        /* ESTILOS INTERNOS (TABLAS, TEST, ETC) */
-        .doc-nav { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
-        .doc-tab { padding: 8px 15px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+        /* UTILIDADES */
+        .hidden { display: none !important; }
+        .doc-tab { padding: 8px 15px; background: #e0e0e0; border: none; margin-right: 5px; cursor: pointer; }
         .doc-tab.active { background: var(--primary); color: white; }
-        .doc-page { display: none; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.8; color: #444; }
+        .doc-page { display: none; background: white; padding: 30px; margin-top: 10px; border-radius: 5px; }
         .doc-page.active { display: block; }
-        .doc-table, .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
-        .doc-table th, .doc-table td, .admin-table th, .admin-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        .doc-table th, .admin-table th { background: #f1f1f1; }
         
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .media-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; cursor: pointer; transition: transform 0.2s; }
-        .media-card:hover { transform: translateY(-5px); }
-        .media-card img { max-width: 100%; border-radius: 4px; height: 180px; object-fit: cover; }
-
-        .fc-container { perspective: 1000px; height: 350px; max-width: 600px; margin: 0 auto; cursor: pointer; position: relative; }
-        .fc-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        /* ESTILOS TABLAS Y TARJETAS */
+        .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
+        .admin-table th, .admin-table td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        .admin-table th { background: #eee; }
+        
+        .fc-container { perspective: 1000px; height: 300px; max-width: 600px; margin: 0 auto; cursor: pointer; }
+        .fc-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         .fc-flipped .fc-inner { transform: rotateY(180deg); }
-        .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 30px; text-align: center; border-radius: 15px; font-size: 1.3rem; box-sizing: border-box; }
-        .fc-front { background: var(--primary); color: white; transform: rotateY(0deg); z-index: 2; }
-        .fc-back { background: white; color: #333; border: 3px solid var(--primary); transform: rotateY(180deg); z-index: 1; }
-        .fc-controls { display: flex; justify-content: center; gap: 40px; margin-top: 50px; align-items: center; }
-        .btn-fc { padding: 15px 35px; cursor: pointer; color: white; border: none; border-radius: 50px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2); width: 150px; }
-        .btn-prev { background-color: #c0392b !important; }
-        .btn-next { background-color: #27ae60 !important; }
-
-        .quiz-option { padding: 12px; margin: 8px 0; background: #fff; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; display: flex; align-items: center; }
-        .quiz-option::before { content: ''; display: inline-block; width: 18px; height: 18px; border: 2px solid #ccc; border-radius: 50%; margin-right: 15px; }
-        .quiz-option.selected { background: #f0f7ff; border-color: var(--primary); }
-        .quiz-option.selected::before { border-color: var(--primary); background: var(--primary); box-shadow: inset 0 0 0 3px white; }
-        .quiz-option.correct { background: #d4edda; border-color: #28a745; }
-        .quiz-option.wrong { background: #f8d7da; border-color: #c0392b; }
+        .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; border-radius: 10px; font-size: 1.2rem; background: white; border: 2px solid var(--primary); }
+        .fc-front { background: var(--primary); color: white; z-index: 2; }
+        .fc-back { transform: rotateY(180deg); color: #333; }
         
-        .import-area { width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; font-family: monospace; font-size: 12px; margin-top: 10px; }
-        .btn-action { padding: 10px 15px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+        .btn-fc { padding: 10px 30px; cursor: pointer; color: white; border: none; border-radius: 5px; font-weight: bold; margin: 20px 10px; }
+        .btn-prev { background: #c0392b; }
+        .btn-next { background: #27ae60; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div id="lightbox">
-        <span id="lightbox-close" onclick="App.closeLightbox()">&times;</span>
-        <div id="lightbox-container"><img id="lightbox-img" src="" alt="Zoom"></div>
-        <div id="lightbox-controls">
-            <span style="color:white"><i class="fas fa-search-minus"></i></span>
-            <input type="range" id="zoom-slider" min="1" max="4" step="0.1" value="1" oninput="App.zoomImage(this.value)">
-            <span style="color:white"><i class="fas fa-search-plus"></i></span>
-        </div>
-        <div id="lightbox-caption"></div>
-    </div>
-
-    <div id="login-overlay" class="overlay-screen">
-        <div class="login-box">
-            <img src="poli (2).png" alt="Logo" class="login-icon">
+    <div id="login-screen">
+        <div class="login-card">
+            <img src="poli (2).png" alt="Logo" class="login-logo">
             <h2>Acceso Restringido</h2>
             <p>NOJ Salamanca</p>
+            
             <input type="text" id="username" placeholder="Usuario">
             <input type="password" id="password" placeholder="Contraseña">
-            <button class="btn-login" onclick="App.login()">Entrar</button>
-            <p id="login-msg" style="color:red; margin-top:10px;"></p>
+            <button class="btn-enter" onclick="App.login()">Entrar</button>
+            <p id="login-msg" style="color:red; margin-top:10px; font-size:0.9rem;"></p>
         </div>
     </div>
 
-    <div id="password-change-overlay" class="overlay-screen hidden">
-        <div class="login-box">
-            <h2 style="color:var(--danger)"><i class="fas fa-lock"></i> Seguridad</h2>
+    <div id="password-screen" class="overlay-screen hidden" style="background:var(--primary); position:fixed; top:0; left:0; width:100%; height:100%; z-index:5001; display:flex; justify-content:center; align-items:center;">
+        <div class="login-card">
+            <h2 style="color:var(--danger)">Seguridad</h2>
             <p>Primer acceso. Cambie su contraseña.</p>
             <input type="password" id="new-pass-1" placeholder="Nueva Contraseña">
             <input type="password" id="new-pass-2" placeholder="Repita Contraseña">
-            <button class="btn-login" onclick="App.changePassword()">Guardar y Acceder</button>
+            <button class="btn-enter" onclick="App.changePassword()">Guardar y Acceder</button>
             <p id="pass-msg" style="color:red; margin-top:10px;"></p>
         </div>
     </div>
 
-    <div id="main-app" class="hidden">
+    <div id="main-app">
         
         <div class="app-header">
-            <img src="pie175PLSA.jpg" alt="Cabecera Salamanca">
+            <img src="pie175PLSA.jpg" alt="Cabecera">
         </div>
 
         <div class="top-bar">
@@ -185,346 +148,306 @@
                 <span id="display-user" style="font-weight:bold;"></span> | 
                 <span id="role-badge" style="background:rgba(255,255,255,0.2); padding:2px 6px; border-radius:4px;"></span>
             </div>
-            <button class="btn-logout" onclick="App.logout()">Salir</button>
+            <button class="btn-logout" onclick="App.logout()">Cerrar Sesión</button>
         </div>
 
         <div class="content-area">
             <div class="sidebar">
-                <div class="sidebar-logo-area">
+                <div class="sidebar-logo">
                     <img src="escudoPLSA.jpg" alt="Escudo">
                 </div>
-                <div class="menu-item active" onclick="App.nav('temario')"><i class="fas fa-book"></i> Temario Oficial</div>
-                <div class="menu-item" onclick="App.nav('biblio')"><i class="fas fa-folder-open"></i> Documentación</div>
-                <div class="menu-item" onclick="App.nav('media')"><i class="fas fa-photo-video"></i> Multimedia</div>
-                <div class="menu-item" onclick="App.nav('flashcards')"><i class="fas fa-brain"></i> Tarjetas Memoria</div>
-                <div class="menu-item" onclick="App.nav('test')"><i class="fas fa-clipboard-check"></i> Test Evaluación</div>
+                <div class="menu-item active" onclick="App.nav('temario')"><i class="fas fa-book"></i> Temario</div>
+                <div class="menu-item" onclick="App.nav('biblio')"><i class="fas fa-folder"></i> Documentación</div>
+                <div class="menu-item" onclick="App.nav('media')"><i class="fas fa-image"></i> Multimedia</div>
+                <div class="menu-item" onclick="App.nav('flashcards')"><i class="fas fa-brain"></i> Tarjetas</div>
+                <div class="menu-item" onclick="App.nav('test')"><i class="fas fa-check-circle"></i> Test</div>
                 <div class="menu-item hidden" id="menu-admin" onclick="App.nav('admin')"><i class="fas fa-users-cog"></i> Gestión</div>
             </div>
 
             <div class="viewport">
                 <div id="view-temario" class="view-section active">
-                    <h2>Guía Práctica Operativa</h2>
+                    <h2>Guía Operativa</h2>
                     <div id="doc-tabs" class="doc-nav"></div>
                     <div id="doc-content"></div>
                 </div>
 
                 <div id="view-biblio" class="view-section">
-                    <h2>Biblioteca Digital</h2>
-                    <ul id="file-tree" class="file-tree"></ul>
+                    <h2>Biblioteca</h2>
+                    <ul id="file-tree" style="list-style:none; padding:0;"></ul>
                 </div>
 
                 <div id="view-media" class="view-section">
-                    <h2>Recursos Visuales y Audio</h2>
+                    <h2>Multimedia</h2>
                     <div class="media-grid" id="media-container"></div>
                     <div style="margin-top:30px; background:white; padding:20px; border-radius:8px;">
-                        <h3>Audio Resumen Ejecutivo</h3>
+                        <h3>Audio Resumen</h3>
                         <audio id="main-audio" controls style="width:100%"></audio>
                     </div>
                 </div>
 
                 <div id="view-flashcards" class="view-section">
-                    <h2 style="text-align:center">Entrenamiento (40 Tarjetas Aleatorias)</h2>
+                    <h2 style="text-align:center">Entrenamiento (40 Aleatorias)</h2>
                     <div id="fc-canvas"></div>
-                    <div class="fc-controls">
-                        <button class="btn-fc btn-prev" onclick="App.moveFC(-1)"><i class="fas fa-arrow-left"></i> Atrás</button>
-                        <span id="fc-counter" style="font-weight:bold; font-size:1.2rem; color:#555;">1 / 40</span>
-                        <button class="btn-fc btn-next" onclick="App.moveFC(1)">Adelante <i class="fas fa-arrow-right"></i></button>
+                    <div style="text-align:center;">
+                        <button class="btn-fc btn-prev" onclick="App.moveFC(-1)">Anterior</button>
+                        <span id="fc-counter" style="font-weight:bold;"></span>
+                        <button class="btn-fc btn-next" onclick="App.moveFC(1)">Siguiente</button>
                     </div>
                 </div>
 
                 <div id="view-test" class="view-section">
-                    <h2>Evaluación (20 Preguntas Aleatorias)</h2>
+                    <h2>Evaluación (20 Aleatorias)</h2>
                     <div id="test-container"></div>
-                    <button onclick="App.submitTest()" style="margin-top:20px; padding:15px; width:100%; background:var(--primary); color:white; border:none; cursor:pointer;">Finalizar y Validar</button>
-                    <div id="test-result" style="margin-top:20px; font-weight:bold; text-align:center; font-size:1.4rem;"></div>
+                    <button class="btn-enter" style="width:auto; margin-top:20px;" onclick="App.submitTest()">Finalizar Test</button>
+                    <div id="test-result" style="margin-top:20px; font-weight:bold; font-size:1.2rem; text-align:center;"></div>
                 </div>
 
                 <div id="view-admin" class="view-section">
-                    <h2 id="admin-title">Panel de Control</h2>
+                    <h2 id="admin-title">Panel de Gestión</h2>
                     
-                    <div id="admin-tools" style="display:flex; gap:20px; flex-wrap:wrap;">
-                        <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
-                            <h3>Gestión de Usuarios</h3>
-                            <input type="text" id="new-user" placeholder="Usuario" style="width:100%; padding:8px; margin-bottom:5px;">
-                            <input type="text" id="new-pass" placeholder="Clave Inicial" style="width:100%; padding:8px; margin-bottom:5px;">
-                            <select id="new-role" style="width:100%; padding:8px; margin-bottom:5px;">
-                                <option value="adc">Agente DC</option>
-                                <option value="adt">Agente DT</option>
-                                <option value="aut">Agente UT</option>
-                                <option value="mdc">Mando Calle (MDC)</option>
-                                <option value="mdt">Mando Ter (MDT)</option>
-                                <option value="mut">Mando Tec (MUT)</option>
-                                <option value="jef">Jefatura (JEF)</option>
-                                <option value="admin">Admin</option>
-                                <option value="master">MASTER</option>
+                    <div id="admin-tools" style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:30px;">
+                        <div style="flex:1; background:white; padding:20px; border-radius:8px;">
+                            <h3>Añadir Usuario</h3>
+                            <input type="text" id="new-u" placeholder="Usuario" style="width:100%; padding:8px; margin-bottom:5px;">
+                            <input type="text" id="new-p" placeholder="Clave" style="width:100%; padding:8px; margin-bottom:5px;">
+                            <select id="new-r" style="width:100%; padding:8px; margin-bottom:5px;">
+                                <option value="adc">Agente DC</option><option value="adt">Agente DT</option><option value="aut">Agente UT</option>
+                                <option value="mdc">Mando DC</option><option value="mdt">Mando DT</option><option value="mut">Mando UT</option>
+                                <option value="jef">Jefatura</option><option value="admin">Admin</option>
                             </select>
-                            <select id="new-boss" style="width:100%; padding:8px; margin-bottom:10px; background:#f0f7ff;">
-                                <option value="">-- Asignar Jefe --</option>
-                            </select>
-                            <button class="btn-action" onclick="App.addUser()">Añadir Usuario</button>
+                            <input type="text" id="new-b" placeholder="Jefe Asignado" style="width:100%; padding:8px; margin-bottom:10px;">
+                            <button class="btn-action" onclick="App.addUser()">Crear</button>
                         </div>
-                        
-                        <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+                        <div style="flex:1; background:white; padding:20px; border-radius:8px;">
                             <h3>Importar Excel</h3>
-                            <p style="font-size:0.8rem; margin:0;">Pegar columnas: <b>Usuario | Clave | Rol | Jefe</b></p>
-                            <textarea id="import-data" class="import-area"></textarea>
+                            <textarea id="import-data" class="import-area" placeholder="Usuario | Clave | Rol | Jefe"></textarea>
                             <button class="btn-action" onclick="App.importUsers()">Importar</button>
                             <p id="import-msg" style="color:green"></p>
                         </div>
                     </div>
 
-                    <h3 id="logs-title" style="margin-top:30px;">Resultados Académicos</h3>
+                    <h3>Resultados Académicos</h3>
                     <table class="admin-table">
-                        <thead><tr><th>Usuario</th><th>Rol</th><th>Fecha</th><th>Aciertos</th><th>Fallos</th><th>Jefe</th></tr></thead>
+                        <thead><tr><th>Usuario</th><th>Rol</th><th>Fecha</th><th>Nota</th><th>Fallos</th><th>Jefe</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
                     </table>
-
-                    <div id="security-module" style="margin-top:40px;">
-                        <h3 style="color:#c0392b"><i class="fas fa-shield-alt"></i> Logs de Seguridad (MASTER/ADMIN)</h3>
-                        <div style="max-height:200px; overflow-y:auto; border:1px solid #ddd;">
-                            <table class="admin-table" style="margin-top:0;">
-                                <thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Detalle</th></tr></thead>
-                                <tbody id="security-logs"></tbody>
+                    
+                    <div id="security-box" style="margin-top:30px; display:none;">
+                        <h3 style="color:#c0392b">Registro de Seguridad</h3>
+                        <div style="max-height:150px; overflow-y:auto; border:1px solid #ccc;">
+                            <table class="admin-table" style="margin:0;">
+                                <tbody id="sec-logs"></tbody>
                             </table>
                         </div>
                     </div>
-                    
-                    <div id="admin-footer" style="margin-top:20px;">
-                        <button onclick="App.clearLogs()" style="background:#c0392b; color:white; border:none; padding:10px;">Borrar Historial</button>
-                    </div>
+
+                    <button onclick="App.clearLogs()" style="background:#c0392b; color:white; border:none; padding:10px; margin-top:20px;">Borrar Historial</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id="lightbox">
+        <span id="lightbox-close" onclick="App.closeLightbox()">&times;</span>
+        <div id="lightbox-container"><img id="lightbox-img" src=""></div>
+        <div id="lightbox-controls">
+            <span style="color:white"><i class="fas fa-search-minus"></i></span>
+            <input type="range" id="zoom-slider" min="1" max="4" step="0.1" value="1" oninput="App.zoom(this.value)">
+            <span style="color:white"><i class="fas fa-search-plus"></i></span>
+        </div>
+        <div id="lightbox-caption"></div>
+    </div>
+
 <script>
 const App = {
     data: null, user: null,
-    dbNameLogs: 'noj_logs_v14', // VERSIÓN FINAL
-    dbNameUsers: 'noj_users_v14',
-    dbSec: 'noj_sec_v14', 
+    dbUsers: 'noj_users_v15', dbLogs: 'noj_logs_v15', dbSec: 'noj_sec_v15',
 
     init: async () => {
-        // USUARIOS POR DEFECTO
-        if(!localStorage.getItem(App.dbNameUsers)) {
-            const defaults = [
-                { u: 'master', p: 'master', r: 'master', boss: '', mustChangePass: true },
-                { u: 'admin', p: 'admin', r: 'admin', boss: '', mustChangePass: true },
-                { u: 'jefe', p: 'jefe', r: 'jef', boss: '', mustChangePass: true }
+        // ENTER KEY HANDLER
+        document.addEventListener('keyup', (e) => {
+            if(e.key === 'Enter') {
+                if(!document.getElementById('login-screen').classList.contains('hidden')) App.login();
+            }
+        });
+
+        if(!localStorage.getItem(App.dbUsers)) {
+            const defs = [
+                { u:'master', p:'master', r:'master', boss:'', change:true },
+                { u:'admin', p:'admin', r:'admin', boss:'', change:true }
             ];
-            localStorage.setItem(App.dbNameUsers, JSON.stringify(defaults));
-            App.logSecurity('SYSTEM', 'Inicialización del Sistema');
+            localStorage.setItem(App.dbUsers, JSON.stringify(defs));
         }
 
         try {
             const r = await fetch('database.json?t=' + Date.now());
-            const d = await r.json();
-            App.data = d[0];
-
+            App.data = await r.json();
+            App.data = App.data[0]; // Acceder al primer objeto del array
+            
+            // ALEATORIEDAD
             if(App.data.flashcards) App.data.flashcards = App.shuffle(App.data.flashcards).slice(0, 40);
             if(App.data.test) App.data.test = App.shuffle(App.data.test).slice(0, 20);
 
             App.renderTemario(); App.renderBiblio(); App.renderMedia(); App.renderFC(); App.renderTest();
-        } catch(e) { console.error(e); alert("Error cargando base de datos."); }
+        } catch(e) { console.error(e); }
     },
 
-    shuffle: (a) => {
-        for(let i=a.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a;
+    shuffle: (a) => { for(let i=a.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; },
+
+    logSec: (act, det) => {
+        const l = JSON.parse(localStorage.getItem(App.dbSec)||'[]');
+        l.unshift({d: new Date().toLocaleString(), u: App.user?App.user.u:'GUEST', a:act, t:det});
+        if(l.length>100) l.pop();
+        localStorage.setItem(App.dbSec, JSON.stringify(l));
     },
 
-    logSecurity: (action, detail) => {
-        const logs = JSON.parse(localStorage.getItem(App.dbSec) || '[]');
-        logs.unshift({ date: new Date().toLocaleString(), user: App.user ? App.user.u : 'GUEST', action, detail });
-        if(logs.length > 150) logs.pop();
-        localStorage.setItem(App.dbSec, JSON.stringify(logs));
-    },
-
-    // --- LOGIN CORREGIDO (SOLUCIÓN ERROR 405) ---
     login: () => {
         const u = document.getElementById('username').value.trim();
         const p = document.getElementById('password').value.trim();
-        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
+        const users = JSON.parse(localStorage.getItem(App.dbUsers));
         const found = users.find(x => x.u === u && x.p === p);
 
         if(found) {
             App.user = found;
-            if(found.mustChangePass) {
-                document.getElementById('login-overlay').classList.add('hidden');
-                document.getElementById('password-change-overlay').classList.remove('hidden');
+            if(found.change) {
+                document.getElementById('login-screen').classList.add('hidden'); // Ocultar login principal
+                document.getElementById('password-screen').classList.remove('hidden'); // Mostrar cambio pass
                 return;
             }
-            App.completeLogin();
+            App.enterApp();
         } else {
-            document.getElementById('login-msg').innerText = "Credenciales incorrectas.";
-            App.logSecurity('LOGIN_FAIL', `Fallo: ${u}`);
+            document.getElementById('login-msg').innerText = "Datos incorrectos";
+            App.logSec('LOGIN_FAIL', u);
         }
     },
 
     changePassword: () => {
         const p1 = document.getElementById('new-pass-1').value;
         const p2 = document.getElementById('new-pass-2').value;
-        if(p1.length < 4) return document.getElementById('pass-msg').innerText = "Mínimo 4 caracteres";
-        if(p1 !== p2) return document.getElementById('pass-msg').innerText = "No coinciden";
-
-        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
-        const idx = users.findIndex(x => x.u === App.user.u);
-        users[idx].p = p1;
-        users[idx].mustChangePass = false;
-        localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
+        if(p1.length<4 || p1!==p2) return document.getElementById('pass-msg').innerText = "Error contraseña";
         
-        App.user.p = p1; 
-        App.logSecurity('PASS_CHANGE', `Usuario ${App.user.u} activado`);
-        document.getElementById('password-change-overlay').classList.add('hidden');
-        App.completeLogin();
+        const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        const idx = users.findIndex(x => x.u === App.user.u);
+        users[idx].p = p1; users[idx].change = false;
+        localStorage.setItem(App.dbUsers, JSON.stringify(users));
+        App.user.p = p1;
+        
+        document.getElementById('password-screen').classList.add('hidden');
+        App.enterApp();
     },
 
-    completeLogin: () => {
-        document.getElementById('login-overlay').classList.add('hidden');
-        document.getElementById('main-app').classList.remove('hidden');
+    enterApp: () => {
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('main-app').style.display = 'flex'; // Usar flex para layout
         document.getElementById('display-user').innerText = App.user.u.toUpperCase();
         document.getElementById('role-badge').innerText = App.user.r.toUpperCase();
-        
-        App.logSecurity('LOGIN_OK', `Acceso: ${App.user.u}`);
+        App.logSec('LOGIN_OK', App.user.u);
 
-        // LÓGICA DE PERMISOS DEFINITIVA
-        const rolesGestion = ['admin', 'master', 'jef', 'mdc', 'mdt', 'mut'];
-        if (rolesGestion.includes(App.user.r)) {
-            document.getElementById('menu-admin').classList.remove('hidden');
-            
-            if (['admin', 'master'].includes(App.user.r)) {
-                App.renderAdminPanel(true, false); // Admin/Master: Ve todo + Edita
-            } else if (App.user.r === 'jef') {
-                App.renderAdminPanel(true, true); // JEF: Ve todo + Solo Lectura
-            } else {
-                // MANDOS: Su equipo + Solo Lectura
-                document.getElementById('menu-admin').innerHTML = '<i class="fas fa-users"></i> Mi Equipo';
-                App.renderAdminPanel(false, true); 
+        // PERMISOS MENU
+        const roles = ['admin','master','jef','mdc','mdt','mut'];
+        if(roles.includes(App.user.r)) {
+            const btn = document.getElementById('menu-admin');
+            btn.classList.remove('hidden');
+            if(App.user.r === 'admin' || App.user.r === 'master') App.renderAdmin(true, false);
+            else if(App.user.r === 'jef') App.renderAdmin(true, true);
+            else {
+                btn.innerHTML = '<i class="fas fa-users"></i> Mi Equipo';
+                App.renderAdmin(false, true);
             }
         }
     },
     logout: () => location.reload(),
 
-    renderAdminPanel: (isGlobal, isReadOnly) => {
-        const logs = JSON.parse(localStorage.getItem(App.dbNameLogs) || '[]');
-        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
-        const secLogs = JSON.parse(localStorage.getItem(App.dbSec) || '[]');
-        const tLogs = document.getElementById('admin-logs');
-        tLogs.innerHTML = '';
+    renderAdmin: (global, readonly) => {
+        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
+        const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        const t = document.getElementById('admin-logs'); t.innerHTML='';
 
-        if(isReadOnly) {
-            document.getElementById('admin-tools').style.display = 'none';
-            document.getElementById('admin-footer').style.display = 'none';
-        } else {
-            const bossSelect = document.getElementById('new-boss');
-            bossSelect.innerHTML = '<option value="">-- Asignar Jefe --</option>';
-            users.filter(u => ['mdc','mdt','mut','jef','admin','master'].includes(u.r))
-                 .forEach(b => bossSelect.innerHTML += `<option value="${b.u}">${b.u}</option>`);
+        if(readonly) {
+            document.getElementById('admin-tools').style.display='none';
+            document.getElementById('admin-footer').style.display='none';
         }
-
-        if(['admin', 'master'].includes(App.user.r)) {
-            document.getElementById('security-module').style.display = 'block';
-            const tSec = document.getElementById('security-logs');
-            tSec.innerHTML = '';
-            secLogs.forEach(s => {
-                let color = s.action.includes('FAIL') ? 'red' : '#333';
-                tSec.innerHTML += `<tr style="color:${color}"><td>${s.date}</td><td>${s.user}</td><td>${s.action}</td><td>${s.detail}</td></tr>`;
-            });
-        } else {
-            document.getElementById('security-module').style.display = 'none';
-        }
-
-        if(!isGlobal) document.getElementById('admin-title').innerText = "Resultados de mi Equipo";
+        if(!global) document.getElementById('admin-title').innerText="Mi Equipo";
 
         logs.forEach(l => {
             let show = false;
-            const uData = users.find(u => u.u === l.user);
+            const uData = users.find(x => x.u === l.u);
             const boss = uData ? uData.boss : '';
-            
-            if (isGlobal) show = true;
-            else if (boss === App.user.u) show = true;
+            if(global) show = true;
+            else if(boss === App.user.u) show = true;
 
-            if(show) {
-                tLogs.innerHTML += `<tr>
-                    <td><b>${l.user}</b></td><td>${uData?uData.r:'?'}</td><td>${l.date}</td>
-                    <td style="color:green">${l.score}</td><td style="color:red">${l.errors}</td><td>${boss}</td>
-                </tr>`;
-            }
+            if(show) t.innerHTML += `<tr><td>${l.u}</td><td>${uData?uData.r:'?'}</td><td>${l.d}</td><td style="color:green">${l.s}</td><td style="color:red">${l.e}</td><td>${boss}</td></tr>`;
         });
+
+        // SEGURIDAD
+        if(['admin','master'].includes(App.user.r)) {
+            document.getElementById('security-box').style.display='block';
+            const sLogs = JSON.parse(localStorage.getItem(App.dbSec)||'[]');
+            const st = document.getElementById('sec-logs'); st.innerHTML='';
+            sLogs.forEach(s => st.innerHTML += `<tr><td>${s.d}</td><td>${s.u}</td><td>${s.a}</td><td>${s.t}</td></tr>`);
+        }
     },
 
     importUsers: () => {
         const raw = document.getElementById('import-data').value;
-        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
-        let c = 0;
-        
-        // MAPEADO EXACTO DE TU EXCEL A CODIGOS INTERNOS
-        const roleMap = {
-            'AGENTE (DC)': 'adc', 'AGENTE (DT)': 'adt', 'AGENTE (UT)': 'aut',
-            'MANDO (DC)': 'mdc', 'MANDO (DT)': 'mdt', 'MANDO (UT)': 'mut',
-            'JEFATURA': 'jef', 'ADMIN': 'admin', 'MASTER': 'master'
-        };
-
-        const lines = raw.split('\n');
-        lines.forEach(l => {
-            let p = l.split(/\t+/); 
-            if(p.length < 2) p = l.split(/\s+/); 
-
-            if(p.length >= 2) {
-                let u = p[0].trim();
-                let pass = p[1].trim();
-                let roleStr = p[2] ? p[2].trim() : 'adc';
-                let bossStr = p[3] ? p[3].trim() : '';
-
-                let finalRole = roleMap[roleStr] || roleStr.toLowerCase();
-                // Limpiar posibles paréntesis del jefe en el Excel (ej: "MANDO (DC)" -> "MANDO (DC)")
-                // Se guarda tal cual viene para coincidir con el usuario Mando.
-                
-                if(!users.find(x => x.u === u)) {
-                    users.push({ u: u, p: pass, r: finalRole, boss: bossStr, mustChangePass: true });
+        const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        const map = {'AGENTE (DC)':'adc','AGENTE (DT)':'adt','AGENTE (UT)':'aut','MANDO (DC)':'mdc','MANDO (DT)':'mdt','MANDO (UT)':'mut','JEFATURA':'jef','ADMIN':'admin','MASTER':'master'};
+        let c=0;
+        raw.split('\n').forEach(l => {
+            let p = l.split(/\t+/); if(p.length<2) p=l.split(/\s+/);
+            if(p.length>=2) {
+                let r = map[p[2]] || p[2] || 'adc';
+                if(!users.find(x=>x.u===p[0])) {
+                    users.push({u:p[0].trim(), p:p[1].trim(), r:r, boss:p[3]?p[3].trim():'', change:true});
                     c++;
                 }
             }
         });
-        localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
-        App.logSecurity('IMPORT', `Importados ${c} usuarios`);
-        alert(`Procesado. ${c} usuarios nuevos.`);
-        App.renderAdminPanel(true, false);
+        localStorage.setItem(App.dbUsers, JSON.stringify(users));
+        alert(c + " usuarios importados");
+        App.renderAdmin(true, false);
     },
 
     addUser: () => {
-        const u = document.getElementById('new-user').value.trim();
-        const p = document.getElementById('new-pass').value.trim();
-        const r = document.getElementById('new-role').value;
-        const b = document.getElementById('new-boss').value;
-        const users = JSON.parse(localStorage.getItem(App.dbNameUsers));
-        if(users.find(x=>x.u===u)) return alert("Usuario ya existe");
-        users.push({u,p,r,boss:b, mustChangePass:true});
-        localStorage.setItem(App.dbNameUsers, JSON.stringify(users));
-        App.logSecurity('CREATE', `Usuario ${u} creado`);
-        alert("Usuario creado.");
-        App.renderAdminPanel(true, false);
+        const u = document.getElementById('new-u').value;
+        const p = document.getElementById('new-p').value;
+        const r = document.getElementById('new-r').value;
+        const b = document.getElementById('new-b').value;
+        const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        if(users.find(x=>x.u===u)) return alert("Existe");
+        users.push({u,p,r,boss:b, change:true});
+        localStorage.setItem(App.dbUsers, JSON.stringify(users));
+        App.renderAdmin(true, false);
     },
 
-    clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbNameLogs); App.renderAdminPanel(true, false); }},
+    clearLogs: () => {
+        if(confirm("Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(true, false); }
+    },
+
+    saveResult: (s, t) => {
+        const l = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
+        l.push({u:App.user.u, d:new Date().toLocaleString(), s:s, e:t-s});
+        localStorage.setItem(App.dbLogs, JSON.stringify(l));
+        if(App.user.r === 'admin' || App.user.r === 'master') App.renderAdmin(true, false);
+    },
+
+    // UI
+    nav: (id) => { document.querySelectorAll('.view-section').forEach(x=>x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); },
     
-    // UI Helpers
-    nav: (id) => { document.querySelectorAll('.view-section').forEach(x => x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); },
-    
+    // VISOR
     openLightbox: (url, txt) => {
-        const img = document.getElementById('lightbox-img');
-        img.src = url; img.style.width = "100%"; 
+        const i = document.getElementById('lightbox-img'); i.src = url; i.style.width = "100%";
         document.getElementById('zoom-slider').value = 1;
         document.getElementById('lightbox-caption').innerText = txt;
         document.getElementById('lightbox').style.display = 'flex';
     },
     closeLightbox: () => document.getElementById('lightbox').style.display = 'none',
-    zoomImage: (val) => { document.getElementById('lightbox-img').style.width = (val * 100) + "%"; },
+    zoom: (v) => document.getElementById('lightbox-img').style.width = (v*100) + "%",
 
+    // RENDER CONTENIDO
     renderMedia: () => {
-        const c = document.getElementById('media-container'); c.innerHTML = '';
-        App.data.imagenes.forEach(img => {
-            c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${img.url}', '${img.nombre}')"><img src="${img.url}" onerror="this.src='https://via.placeholder.com/300'"><p>${img.nombre}</p></div>`;
-        });
+        const c = document.getElementById('media-container'); c.innerHTML='';
+        App.data.imagenes.forEach(i => c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${i.url}','${i.nombre}')"><img src="${i.url}" onerror="this.src='//via.placeholder.com/300'"><p>${i.nombre}</p></div>`);
         document.getElementById('main-audio').src = App.data.audio_url;
     },
     renderTemario: () => {
@@ -535,12 +458,33 @@ const App = {
         });
     },
     tab: (i) => { document.querySelectorAll('.doc-tab').forEach(x=>x.classList.remove('active')); document.querySelectorAll('.doc-page').forEach(x=>x.classList.remove('active')); document.querySelectorAll('.doc-tab')[i].classList.add('active'); document.getElementById('p'+i).classList.add('active'); },
-    renderBiblio: () => { document.getElementById('file-tree').innerHTML = ''; App.data.bibliografia.forEach(c => { let l = c.archivos.map(f => `<li class="file-item"><a href="${f.nombre}" target="_blank">${f.desc}</a></li>`).join(''); document.getElementById('file-tree').innerHTML += `<li class="file-node"><div class="node-header">${c.nivel}</div><ul>${l}</ul></li>`; }); },
-    renderFC: () => { App.fcIndex = 0; App.drawFC(); },
-    drawFC: () => { if(!App.data.flashcards.length) return; const c = App.data.flashcards[App.fcIndex]; document.getElementById('fc-canvas').innerHTML = `<div class="fc-container" onclick="this.classList.toggle('fc-flipped')"><div class="fc-inner"><div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div><div class="fc-face fc-back"><div>${c.back}</div></div></div></div>`; document.getElementById('fc-counter').innerText=`${App.fcIndex+1} / ${App.data.flashcards.length}`; },
-    moveFC: (d) => { App.fcIndex += d; if(App.fcIndex < 0) App.fcIndex = App.data.flashcards.length-1; if(App.fcIndex >= App.data.flashcards.length) App.fcIndex = 0; App.drawFC(); },
-    renderTest: () => { if(!App.data.test.length) return; document.getElementById('test-container').innerHTML = App.data.test.map((q,i) => `<div class="q-block" data-c="${q.correcta}"><p><b>${i+1}. ${q.pregunta}</b></p>${q.respuestas.map(r => `<div class="quiz-option" onclick="this.parentElement.querySelectorAll('.quiz-option').forEach(e=>e.classList.remove('selected')); this.classList.add('selected')">${r}</div>`).join('')}</div>`).join(''); },
-    submitTest: () => { let s = 0; const b = document.querySelectorAll('.q-block'); b.forEach(x => { const sel = x.querySelector('.selected'); const opts = x.querySelectorAll('.quiz-option'); const corr = parseInt(x.dataset.c); opts.forEach(o => o.classList.remove('correct','wrong')); if(sel) { if(Array.from(opts).indexOf(sel) === corr) { sel.classList.add('correct'); s++; } else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); } } }); const res = document.getElementById('test-result'); if(s>10) { res.innerHTML = "APROBADO: "+s + "/" + b.length; res.style.background="#d4edda"; } else { res.innerHTML = "SUSPENSO: "+s + "/" + b.length; res.style.background="#f8d7da"; } App.saveResult(s, b.length); }
+    renderBiblio: () => { document.getElementById('file-tree').innerHTML = ''; App.data.bibliografia.forEach(c => { let l = c.archivos.map(f => `<li style="padding:10px; border-bottom:1px solid #eee;"><a href="${f.nombre}" target="_blank" style="text-decoration:none; color:#0a2e5c;">📄 ${f.desc}</a></li>`).join(''); document.getElementById('file-tree').innerHTML += `<h3>${c.nivel}</h3><ul style="list-style:none; padding:0;">${l}</ul>`; }); },
+    
+    // FC & TEST
+    renderFC: () => { App.fcI=0; App.drawFC(); },
+    drawFC: () => { const c = App.data.flashcards[App.fcI]; document.getElementById('fc-canvas').innerHTML = `<div class="fc-container" onclick="this.classList.toggle('fc-flipped')"><div class="fc-inner"><div class="fc-face fc-front">${c.front}</div><div class="fc-face fc-back">${c.back}</div></div></div>`; document.getElementById('fc-counter').innerText=`${App.fcI+1}/${App.data.flashcards.length}`; },
+    moveFC: (d) => { App.fcI+=d; if(App.fcI<0) App.fcI=App.data.flashcards.length-1; if(App.fcI>=App.data.flashcards.length) App.fcI=0; App.drawFC(); },
+    
+    renderTest: () => { document.getElementById('test-container').innerHTML = App.data.test.map((q,i) => `<div class="q-block" data-c="${q.correcta}"><p><b>${i+1}. ${q.pregunta}</b></p>${q.respuestas.map(r=>`<div class="quiz-option" onclick="this.parentElement.querySelectorAll('.quiz-option').forEach(e=>e.classList.remove('selected'));this.classList.add('selected')">${r}</div>`).join('')}</div>`).join(''); },
+    
+    submitTest: () => {
+        let s=0;
+        const b=document.querySelectorAll('.q-block');
+        b.forEach(x => {
+            const sel = x.querySelector('.selected');
+            const opts = x.querySelectorAll('.quiz-option');
+            const corr = parseInt(x.dataset.c);
+            opts.forEach(o => o.classList.remove('correct','wrong'));
+            if(sel) {
+                if(Array.from(opts).indexOf(sel) === corr) { sel.classList.add('correct'); s++; }
+                else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); }
+            }
+        });
+        const r = document.getElementById('test-result');
+        if(s>10) { r.innerHTML=`APROBADO: ${s}/${b.length}`; r.style.color="green"; }
+        else { r.innerHTML=`SUSPENSO: ${s}/${b.length}`; r.style.color="red"; }
+        App.saveResult(s, b.length);
+    }
 };
 window.onload = App.init;
 </script>
