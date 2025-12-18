@@ -21,40 +21,66 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             text-align: center;
             padding: 0 20px;
-            position: relative;
-            z-index: 10;
+            flex-shrink: 0; /* Evita que se encoja */
         }
         .header-hero h1 { margin: 0; font-size: 2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .header-hero p { margin: 5px 0 0; opacity: 0.9; }
 
-        /* LOGIN (CAPA 3000) */
+        /* LOGIN */
         #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--primary); z-index: 3000; display: flex; justify-content: center; align-items: center; }
         .login-box { background: white; padding: 40px; border-radius: 10px; width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .login-box img { width: 100px; margin-bottom: 15px; } 
+        .login-box img { width: 100px; margin-bottom: 15px; }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
         .btn-login { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
         .btn-login:hover { background: #001a3b; }
 
-        /* LIGHTBOX (CAPA 10000 - SIEMPRE ARRIBA) */
-        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; align-items: center; justify-content: center; flex-direction: column; overflow: hidden; }
-        #lightbox-container { width: 95%; height: 80%; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
-        #lightbox-img { max-width: 100%; max-height: 100%; transition: transform 0.1s linear; cursor: grab; transform-origin: center center; }
-        #lightbox-caption { color: white; margin-top: 15px; font-size: 1.2rem; font-weight: bold; text-align: center; }
-        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.15); padding: 10px 20px; border-radius: 30px; backdrop-filter: blur(5px); }
+        /* --- VISOR MULTIMEDIA CORREGIDO (ZOOM + SCROLL) --- */
+        #lightbox { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.98); z-index: 10000; 
+            flex-direction: column; align-items: center; justify-content: center; 
+        }
+        
+        #lightbox-container { 
+            width: 90%; height: 80%; 
+            background: #222; border: 1px solid #444; 
+            overflow: auto; /* ESTO PERMITE EL SCROLL */
+            display: flex; align-items: flex-start; justify-content: center;
+            position: relative;
+        }
+        
+        #lightbox-img { 
+            width: 100%; /* Empieza ocupando el 100% del contenedor */
+            max-width: none; /* Permite que crezca más allá del contenedor */
+            height: auto; 
+            transition: width 0.2s ease; /* Zoom suave */
+            transform-origin: top center;
+        }
+
+        #lightbox-caption { color: white; margin-top: 10px; font-size: 1.2rem; font-weight: bold; }
+        
+        #lightbox-controls { 
+            margin-top: 15px; display: flex; gap: 15px; align-items: center; 
+            background: rgba(255,255,255,0.1); padding: 10px 25px; border-radius: 50px; 
+        }
+        
         #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3.5rem; cursor: pointer; z-index: 10001; }
         input[type=range] { width: 250px; cursor: pointer; }
 
         /* LAYOUT */
         #main-app { display: none; height: 100%; display: flex; flex-direction: column; }
-        .top-bar { background: #fff; color: #333; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; font-size: 0.9rem; }
+        .top-bar { background: #fff; color: #333; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; font-size: 0.9rem; flex-shrink: 0; }
         .btn-logout { background: #c0392b; border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px; }
-        .content-area { flex: 1; display: flex; overflow: hidden; }
-        .sidebar { width: 250px; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; }
+        
+        .content-area { flex: 1; display: flex; overflow: hidden; /* El scroll está dentro del viewport */ }
+        
+        .sidebar { width: 250px; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; flex-shrink: 0; }
         .menu-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid #eee; transition: 0.2s; color: #555; font-weight: 500; }
         .menu-item:hover { background: #f8f9fa; color: var(--primary); }
         .menu-item.active { background: #eef2f6; color: var(--primary); border-left: 4px solid var(--primary); }
         .menu-item i { width: 25px; text-align: center; margin-right: 10px; }
-        .viewport { flex: 1; padding: 30px; overflow-y: auto; }
+        
+        .viewport { flex: 1; padding: 30px; overflow-y: auto; position: relative; }
         .view-section { display: none; animation: fadeIn 0.3s; }
         .view-section.active { display: block; }
 
@@ -67,6 +93,7 @@
         .doc-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .doc-table th, .doc-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         .doc-table th { background: #f1f1f1; }
+        
         .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .media-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; cursor: pointer; transition: transform 0.2s; }
         .media-card:hover { transform: translateY(-5px); }
@@ -112,7 +139,7 @@
         </div>
         <div id="lightbox-controls">
             <span style="color:white"><i class="fas fa-search-minus"></i></span>
-            <input type="range" id="zoom-slider" min="1" max="5" step="0.1" value="1" oninput="App.zoomImage(this.value)">
+            <input type="range" id="zoom-slider" min="1" max="4" step="0.1" value="1" oninput="App.zoomImage(this.value)">
             <span style="color:white"><i class="fas fa-search-plus"></i></span>
         </div>
         <div id="lightbox-caption"></div>
@@ -131,7 +158,6 @@
     </div>
 
     <div id="main-app" class="hidden">
-        
         <div class="header-hero">
             <h1><i class="fas fa-university"></i> Academia Virtual</h1>
             <p>Nueva Oficina Judicial de Salamanca</p>
@@ -199,42 +225,37 @@
                     <div id="admin-tools" style="display:flex; gap:20px; flex-wrap:wrap;">
                         <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
                             <h3>Gestión de Usuarios</h3>
-                            <input type="text" id="new-user" placeholder="Usuario" style="width:100%; padding:8px; margin-bottom:5px;">
-                            <input type="text" id="new-pass" placeholder="Clave" style="width:100%; padding:8px; margin-bottom:5px;">
-                            <select id="new-role" style="width:100%; padding:8px; margin-bottom:5px;">
-                                <option value="adc">Agente DC</option>
-                                <option value="adt">Agente DT</option>
-                                <option value="aut">Agente UT</option>
-                                <option value="mdc">Mando Calle (MDC)</option>
-                                <option value="mdt">Mando Ter (MDT)</option>
-                                <option value="mut">Mando Tec (MUT)</option>
-                                <option value="jef">Jefatura (JEF)</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                            <input type="text" id="new-boss" placeholder="Jefe Asignado (Usuario)" style="width:100%; padding:8px; margin-bottom:10px;">
-                            <button class="btn-action" onclick="App.addUser()">Añadir Usuario</button>
-                        </div>
-                        
-                        <div style="flex:1; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
-                            <h3>Importar Excel</h3>
-                            <p style="font-size:0.8rem; margin:0;">Usuario | Clave | Rol | Jefe</p>
+                            <div style="margin-bottom:15px;">
+                                <input type="text" id="new-user" placeholder="Usuario" style="padding:8px;">
+                                <input type="text" id="new-pass" placeholder="Clave" style="padding:8px;">
+                                <select id="new-role" style="padding:8px;">
+                                    <option value="adc">Agente DC</option>
+                                    <option value="adt">Agente DT</option>
+                                    <option value="aut">Agente UT</option>
+                                    <option value="mdc">Mando Calle (MDC)</option>
+                                    <option value="mdt">Mando Ter (MDT)</option>
+                                    <option value="mut">Mando Tec (MUT)</option>
+                                    <option value="jef">Jefatura (JEF)</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                                <input type="text" id="new-boss" placeholder="Jefe Asignado" style="padding:8px;">
+                                <button onclick="App.addUser()" style="padding:8px; background:green; color:white; border:none;">+</button>
+                            </div>
+                            <p>Importar Excel (Usuario | Clave | Rol | Jefe):</p>
                             <textarea id="import-data" class="import-area"></textarea>
                             <button class="btn-action" onclick="App.importUsers()">Importar</button>
                             <p id="import-msg" style="color:green"></p>
                         </div>
                     </div>
-
                     <h3 id="logs-title" style="margin-top:30px;">Resultados y Actividad</h3>
                     <table class="admin-table">
                         <thead><tr><th>Usuario</th><th>Rol</th><th>Fecha</th><th>Aciertos</th><th>Fallos</th><th>Jefe</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
                     </table>
-                    
                     <div id="admin-footer" style="margin-top:20px;">
                         <button onclick="App.clearLogs()" style="background:#c0392b; color:white; border:none; padding:10px;">Borrar Historial</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -242,20 +263,16 @@
 <script>
 const App = {
     data: null, user: null,
-    dbNameLogs: 'noj_logs_v10', 
-    dbNameUsers: 'noj_users_v10',
+    dbNameLogs: 'noj_logs_v11', // V11 Nueva versión
+    dbNameUsers: 'noj_users_v11',
 
     init: async () => {
         if(!localStorage.getItem(App.dbNameUsers)) {
             const defaults = [
                 { u: 'admin', p: 'admin', r: 'admin', boss: '' },
                 { u: 'jefe', p: 'jefe', r: 'jef', boss: '' },
-                { u: 'mando_central', p: '1234', r: 'mdc', boss: '' },
-                { u: 'mando_terr', p: '1234', r: 'mdt', boss: '' },
-                { u: 'mando_tec', p: '1234', r: 'mut', boss: '' },
-                { u: 'agente_central', p: '1234', r: 'adc', boss: 'mando_central' },
-                { u: 'agente_terr', p: '1234', r: 'adt', boss: 'mando_terr' },
-                { u: 'agente_tec', p: '1234', r: 'aut', boss: 'mando_tec' }
+                { u: 'mando1', p: '1234', r: 'mdc', boss: '' },
+                { u: 'agente1', p: '1234', r: 'adc', boss: 'mando1' }
             ];
             localStorage.setItem(App.dbNameUsers, JSON.stringify(defaults));
         }
@@ -265,12 +282,11 @@ const App = {
             const d = await r.json();
             App.data = d[0];
 
-            // --- ALEATORIEDAD CORREGIDA ---
-            // Barajamos PRIMERO y luego CORTAMOS
+            // --- ALEATORIEDAD CORREGIDA Y VERIFICADA ---
+            // Se ejecuta SIEMPRE al inicio
             if(App.data.flashcards && App.data.flashcards.length > 0) {
                 App.data.flashcards = App.shuffle(App.data.flashcards).slice(0, 40);
             }
-            
             if(App.data.test && App.data.test.length > 0) {
                 App.data.test = App.shuffle(App.data.test).slice(0, 20);
             }
@@ -279,15 +295,12 @@ const App = {
         } catch(e) { console.error(e); alert("Error cargando base de datos."); }
     },
 
-    // ALGORITMO FISHER-YATES (Para barajar)
+    // ALGORITMO SHUFFLE
     shuffle: (array) => {
         let currentIndex = array.length, randomIndex;
-        // Mientras queden elementos a barajar...
         while (currentIndex != 0) {
-            // Elegir un elemento sobrante...
             randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex--;
-            // Y cambiarlo con el elemento actual
             [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
         }
         return array;
@@ -391,18 +404,22 @@ const App = {
         document.getElementById('view-'+id).classList.add('active');
     },
     
-    // LIGHTBOX ZOOM FIX
+    // --- NUEVA LÓGICA DE ZOOM (Estilo Mapa) ---
     openLightbox: (url, txt) => {
         const img = document.getElementById('lightbox-img');
         img.src = url;
+        img.style.width = "100%"; // Reiniciar zoom
+        document.getElementById('zoom-slider').value = 1;
         document.getElementById('lightbox-caption').innerText = txt;
         document.getElementById('lightbox').style.display = 'flex';
-        // Reset zoom
-        document.getElementById('zoom-slider').value = 1;
-        img.style.transform = "scale(1)";
     },
     closeLightbox: () => document.getElementById('lightbox').style.display = 'none',
-    zoomImage: (v) => document.getElementById('lightbox-img').style.transform = `scale(${v})`,
+    zoomImage: (val) => {
+        // En lugar de scale(), cambiamos el width %
+        // Esto fuerza al contenedor (overflow: auto) a mostrar scrollbars
+        const percent = val * 100;
+        document.getElementById('lightbox-img').style.width = percent + "%";
+    },
 
     renderMedia: () => {
         const c = document.getElementById('media-container');
@@ -446,7 +463,6 @@ const App = {
                     <div class="fc-face fc-back"><div>${c.back}</div></div>
                 </div>
             </div>`;
-        // UPDATE COUNTER
         document.getElementById('fc-counter').innerText = `${App.fcIndex+1} / ${App.data.flashcards.length}`;
     },
     moveFC: (d) => {
