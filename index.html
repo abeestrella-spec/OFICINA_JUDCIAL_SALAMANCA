@@ -9,25 +9,22 @@
         :root { --primary: #0a2e5c; --accent: #d4af37; --bg: #f4f7f9; --text: #333; --danger: #c0392b; --success: #27ae60; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* --- ESTÉTICA DEL CÓDIGO 2 (La que te gusta) --- */
-        
-        /* PANTALLA LOGIN */
+        /* LOGIN (Sin formulario para evitar error 405) */
         #login-screen { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 5000;
-            background: linear-gradient(rgba(10,46,92,0.85), rgba(10,46,92,0.85)), url('jefatura.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(rgba(10,46,92,0.85), rgba(10,46,92,0.85)), url('jefatura.jpg') center/cover;
             display: flex; justify-content: center; align-items: center;
         }
         .login-card { background: white; padding: 40px; border-radius: 12px; width: 350px; text-align: center; box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
-        .login-logo { width: 100px; margin-bottom: 20px; } /* poli (2).png */
+        .login-logo { width: 100px; margin-bottom: 20px; } 
         .login-card input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing:border-box; font-size: 16px; }
         .btn-enter { background: var(--primary); color: white; border: none; padding: 14px; width: 100%; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 15px; transition: background 0.3s; }
         .btn-enter:hover { background: #001a3b; }
 
-        /* APP PRINCIPAL */
+        /* APP LAYOUT */
         #main-app { display: none; height: 100%; flex-direction: column; }
-        .app-header { background: white; border-bottom: 4px solid var(--accent); padding: 10px; text-align: center; flex-shrink: 0; }
-        .app-header img { height: 80px; width: auto; max-width: 100%; } /* pie175PLSA.jpg */
+        .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid var(--accent); flex-shrink: 0; }
+        .app-header img { height: 80px; width: auto; max-width: 100%; } 
         
         .top-bar { background: var(--primary); color: white; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; flex-shrink: 0; }
         .btn-logout { background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
@@ -35,9 +32,9 @@
         .content-area { flex: 1; display: flex; overflow: hidden; }
         .sidebar { width: 250px; background: white; border-right: 1px solid #ddd; display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
         .sidebar-logo { text-align: center; padding: 20px; border-bottom: 1px solid #eee; background: #fdfdfd; }
-        .sidebar-logo img { width: 120px; height: auto; } /* escudoPLSA.jpg */
+        .sidebar-logo img { width: 120px; height: auto; } 
         
-        .menu-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid #eee; color: #555; font-weight: 500; }
+        .menu-item { padding: 15px; cursor: pointer; border-bottom: 1px solid #eee; color: #555; font-weight: 500; }
         .menu-item:hover, .menu-item.active { background: #f8f9fa; color: var(--primary); border-left: 4px solid var(--primary); }
         .menu-item i { width: 25px; text-align: center; margin-right: 10px; }
 
@@ -45,9 +42,14 @@
         .view-section { display: none; animation: fadeIn 0.3s; }
         .view-section.active { display: block; }
 
-        /* --- FUNCIONALIDAD VISUAL DEL CÓDIGO 1 (Tarjetas y Test) --- */
-        
-        /* FLASHCARDS */
+        /* DOC TABS */
+        .doc-nav { display: flex; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; }
+        .doc-tab { padding: 8px 15px; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+        .doc-tab.active { background: var(--primary); color: white; }
+        .doc-page { display: none; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.8; color: #444; }
+        .doc-page.active { display: block; }
+
+        /* FLASHCARDS FIX */
         .fc-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
         .fc-container { perspective: 1000px; height: 300px; width: 100%; max-width: 600px; cursor: pointer; position: relative; z-index: 1; }
         .fc-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
@@ -55,7 +57,6 @@
         .fc-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; border-radius: 15px; font-size: 1.3rem; box-sizing: border-box; background: white; border: 2px solid var(--primary); }
         .fc-front { background: var(--primary); color: white; z-index: 2; transform: rotateY(0deg); }
         .fc-back { transform: rotateY(180deg); color: #333; }
-        
         .fc-controls { display: flex; gap: 20px; z-index: 10; margin-bottom: 30px; }
         .btn-fc { padding: 10px 30px; color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; width: 120px; }
         .btn-prev { background: #c0392b; }
@@ -77,10 +78,9 @@
         .media-card img { max-width: 100%; height: 150px; object-fit: cover; }
         .import-area { width: 100%; height: 100px; padding: 10px; margin-top: 10px; }
 
-        /* --- VISOR MULTIMEDIA MEJORADO (ZOOM CON SCROLL) --- */
+        /* VISOR MULTIMEDIA MEJORADO */
         #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; }
         #lightbox-container { width: 90%; height: 80%; background: #222; border: 1px solid #555; overflow: auto; display: flex; align-items: flex-start; justify-content: center; }
-        /* Importante: width se controlará con JS, height auto para mantener ratio */
         #lightbox-img { width: 100%; height: auto; transition: width 0.2s ease; transform-origin: top center; }
         #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
         #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
@@ -96,7 +96,7 @@
         <div id="lightbox-container"><img id="lightbox-img" src=""></div>
         <div id="lightbox-controls">
             <span style="color:white"><i class="fas fa-search-minus"></i></span>
-            <input type="range" id="zoom-slider" min="1" max="4" step="0.1" value="1" oninput="App.zoom(this.value)">
+            <input type="range" min="1" max="4" step="0.1" value="1" oninput="App.zoom(this.value)">
             <span style="color:white"><i class="fas fa-search-plus"></i></span>
         </div>
         <div id="lightbox-caption" style="color:white; margin-top:10px;"></div>
@@ -150,7 +150,8 @@
             <div class="viewport">
                 <div id="view-temario" class="view-section active">
                     <h2>Guía Operativa</h2>
-                    <div id="doc-content" style="background:white; padding:20px; border-radius:8px;"></div>
+                    <div id="doc-tabs" class="doc-nav"></div>
+                    <div id="doc-content"></div>
                 </div>
 
                 <div id="view-biblio" class="view-section">
@@ -198,7 +199,9 @@
                                 <option value="mdc">Mando DC</option><option value="mdt">Mando DT</option><option value="mut">Mando UT</option>
                                 <option value="jef">Jefatura</option><option value="admin">Admin</option>
                             </select>
-                            <input type="text" id="new-b" placeholder="Jefe Asignado" style="width:100%; padding:8px; margin-bottom:10px;">
+                            <select id="new-b" style="width:100%; padding:8px; margin-bottom:10px; background:#f0f7ff;">
+                                <option value="">-- Asignar Jefe --</option>
+                            </select>
                             <button class="btn-enter" onclick="App.addUser()">Crear</button>
                         </div>
                         <div style="background:white; padding:20px; border-radius:8px;">
@@ -214,6 +217,15 @@
                         <thead><tr><th>Usuario</th><th>Rol</th><th>Fecha</th><th>Nota</th><th>Fallos</th><th>Jefe</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
                     </table>
+
+                    <div id="security-box" style="margin-top:30px; display:none;">
+                        <h3 style="color:#c0392b">Auditoría de Seguridad</h3>
+                        <div style="max-height:150px; overflow-y:auto; border:1px solid #ccc;">
+                            <table class="admin-table" style="margin:0;">
+                                <tbody id="sec-logs"></tbody>
+                            </table>
+                        </div>
+                    </div>
                     
                     <button class="btn-enter" style="background:#c0392b; width:auto; margin-top:20px;" onclick="App.clearLogs()">Borrar Historial</button>
                 </div>
@@ -224,21 +236,16 @@
 <script>
 const App = {
     data: null, user: null,
-    dbUsers: 'noj_users_v20', dbLogs: 'noj_logs_v20', // RESETEO FINAL
+    dbUsers: 'noj_users_v21', dbLogs: 'noj_logs_v21', dbSec: 'noj_sec_v21',
 
     init: async () => {
-        // EVENTO TECLA ENTER EN LOGIN
-        document.addEventListener('keyup', (e) => {
-            if(e.key === 'Enter' && !document.getElementById('login-screen').classList.contains('hidden')) App.login();
-        });
-
-        // CREAR USUARIOS MAESTROS SI NO EXISTEN
         if(!localStorage.getItem(App.dbUsers)) {
             const defs = [
                 { u:'master', p:'master', r:'master', boss:'', change:true },
                 { u:'admin', p:'admin', r:'admin', boss:'', change:true }
             ];
             localStorage.setItem(App.dbUsers, JSON.stringify(defs));
+            App.logSec('SYSTEM', 'Init DB V21');
         }
 
         try {
@@ -246,44 +253,20 @@ const App = {
             const d = await r.json();
             App.data = d[0];
 
-            // --- LÓGICA DE RECORTE (ALEATORIEDAD) ---
-            // Aquí forzamos que si hay 100, solo coja 30
-            if(App.data.flashcards && App.data.flashcards.length > 0) {
-                App.data.flashcards = App.shuffle(App.data.flashcards).slice(0, 30);
-            }
-            if(App.data.test && App.data.test.length > 0) {
-                App.data.test = App.shuffle(App.data.test).slice(0, 20);
-            }
+            if(App.data.flashcards) App.data.flashcards = App.shuffle(App.data.flashcards).slice(0, 30);
+            if(App.data.test) App.data.test = App.shuffle(App.data.test).slice(0, 20);
 
-            // RENDERIZADO INICIAL DE CONTENIDOS
-            document.getElementById('doc-content').innerHTML = App.data.secciones_temario.map(s=>`<h3>${s.titulo}</h3>${s.contenido}`).join('<hr>');
-            
-            const bib = document.getElementById('file-tree');
-            App.data.bibliografia.forEach(c => {
-                bib.innerHTML += `<li><strong>${c.nivel}</strong><ul>${c.archivos.map(f=>`<li><a href="${f.nombre}" target="_blank">${f.desc}</a></li>`).join('')}</ul></li>`;
-            });
-
-            const med = document.getElementById('media-container');
-            App.data.imagenes.forEach(i => {
-                med.innerHTML += `<div class="media-card" onclick="App.openLB('${i.url}','${i.nombre}')"><img src="${i.url}"><p>${i.nombre}</p></div>`;
-            });
-            document.getElementById('main-audio').src = App.data.audio_url;
-
-            App.renderFC();
-            App.renderTest();
-
-        } catch(e) { console.error(e); alert("Error cargando datos."); }
+            App.renderTemario(); App.renderBiblio(); App.renderMedia(); App.renderFC(); App.renderTest();
+        } catch(e) { console.error(e); }
     },
 
-    // ALGORITMO DE MEZCLA (Fisher-Yates)
-    shuffle: (array) => {
-        let currentIndex = array.length, randomIndex;
-        while (currentIndex != 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-        }
-        return array;
+    shuffle: (a) => { for(let i=a.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; },
+
+    logSec: (act, det) => {
+        const l = JSON.parse(localStorage.getItem(App.dbSec)||'[]');
+        l.unshift({d: new Date().toLocaleString(), u: App.user?App.user.u:'GUEST', a:act, t:det});
+        if(l.length>100) l.pop();
+        localStorage.setItem(App.dbSec, JSON.stringify(l));
     },
 
     login: () => {
@@ -302,6 +285,7 @@ const App = {
             App.enterApp();
         } else {
             document.getElementById('login-msg').innerText = "Credenciales incorrectas";
+            App.logSec('LOGIN_FAIL', u);
         }
     },
 
@@ -315,6 +299,7 @@ const App = {
         users[idx].p = p1; users[idx].change = false;
         localStorage.setItem(App.dbUsers, JSON.stringify(users));
         App.user.p = p1;
+        App.logSec('PASS_CHANGE', App.user.u);
         
         document.getElementById('password-screen').classList.add('hidden');
         App.enterApp();
@@ -325,97 +310,83 @@ const App = {
         document.getElementById('main-app').style.display='flex';
         document.getElementById('display-user').innerText = App.user.u.toUpperCase();
         document.getElementById('role-badge').innerText = App.user.r.toUpperCase();
+        App.logSec('LOGIN_OK', App.user.u);
 
-        const roles = ['admin','master','jef','mdc','mdt','mut'];
-        if(roles.includes(App.user.r)) {
-            const btn = document.getElementById('menu-admin');
-            btn.classList.remove('hidden');
-            if(App.user.r === 'admin' || App.user.r === 'master') App.renderAdmin(true, false);
-            else if(App.user.r === 'jef') App.renderAdmin(true, true);
-            else {
-                btn.innerHTML = '<i class="fas fa-users"></i> Mi Equipo';
-                App.renderAdmin(false, true);
-            }
+        if(['admin','master','jef','mdc','mdt','mut'].includes(App.user.r)) {
+            document.getElementById('menu-admin').classList.remove('hidden');
+            App.renderAdmin();
         }
     },
     logout: () => location.reload(),
 
-    // --- VISOR MULTIMEDIA CORREGIDO (Usa WIDTH% en vez de SCALE) ---
-    openLB: (url, txt) => {
-        const img = document.getElementById('lightbox-img');
-        img.src = url;
-        img.style.width = "100%"; // Reset zoom
-        document.getElementById('zoom-slider').value = 1;
-        document.getElementById('lightbox-caption').innerText = txt;
-        document.getElementById('lightbox').style.display = 'flex';
-    },
-    closeLightbox: () => document.getElementById('lightbox').style.display='none',
-    zoom: (v) => document.getElementById('lightbox-img').style.width = (v*100) + "%",
-
-    // --- RENDERIZADO FLASHCARDS ---
-    renderFC: () => { App.fcI=0; App.drawFC(); },
-    drawFC: () => {
-        if(!App.data.flashcards.length) return;
-        const c = App.data.flashcards[App.fcI];
-        document.getElementById('fc-canvas').innerHTML = `
-            <div class="fc-inner">
-                <div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div>
-                <div class="fc-face fc-back"><div>${c.back}</div></div>
-            </div>`;
-        document.getElementById('fc-canvas').onclick = function() { this.classList.toggle('fc-flipped'); };
-        document.getElementById('fc-count').innerText = `${App.fcI+1}/${App.data.flashcards.length}`;
-    },
-    moveFC: (d) => {
-        App.fcI += d;
-        if(App.fcI < 0) App.fcI = App.data.flashcards.length - 1;
-        if(App.fcI >= App.data.flashcards.length) App.fcI = 0;
-        document.getElementById('fc-canvas').classList.remove('fc-flipped');
-        App.drawFC();
-    },
-
-    // --- RENDERIZADO TEST ---
-    renderTest: () => {
-        const div = document.getElementById('test-container');
-        div.innerHTML = App.data.test.map((q,i) => `
-            <div class="q-block" data-correct="${q.correcta}">
-                <p><b>${i+1}. ${q.pregunta}</b></p>
-                ${q.respuestas.map(r => `<div class="quiz-option" onclick="App.selOpt(this)">${r}</div>`).join('')}
-            </div>
-        `).join('');
-    },
-    selOpt: (el) => {
-        // Desmarcar hermanos
-        el.parentElement.querySelectorAll('.quiz-option').forEach(e => e.classList.remove('selected'));
-        // Marcar este
-        el.classList.add('selected');
-    },
-    submitTest: () => {
-        let s = 0;
-        const blocks = document.querySelectorAll('.q-block');
-        blocks.forEach(b => {
-            const sel = b.querySelector('.selected');
-            const corr = parseInt(b.dataset.correct);
-            const opts = b.querySelectorAll('.quiz-option');
-            opts.forEach(o => o.classList.remove('correct','wrong'));
-            
-            if(sel) {
-                const idx = Array.from(opts).indexOf(sel);
-                if(idx === corr) { sel.classList.add('correct'); s++; }
-                else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); }
-            }
+    // RENDERIZADO TEMARIO (PESTAÑAS RESTAURADAS)
+    renderTemario: () => {
+        const t = document.getElementById('doc-tabs'), c = document.getElementById('doc-content');
+        t.innerHTML=''; c.innerHTML='';
+        App.data.secciones_temario.forEach((s,i) => {
+            t.innerHTML += `<button class="doc-tab ${i===0?'active':''}" onclick="App.tab(${i})">${s.titulo}</button>`;
+            c.innerHTML += `<div id="p${i}" class="doc-page ${i===0?'active':''}">${s.contenido}</div>`;
         });
-        const r = document.getElementById('test-result');
-        if(s>10) { r.innerText = `APROBADO: ${s} / ${blocks.length}`; r.style.color = "green"; }
-        else { r.innerText = `SUSPENSO: ${s} / ${blocks.length}`; r.style.color = "red"; }
-        
-        // Guardar Log
-        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
-        logs.push({u:App.user.u, d:new Date().toLocaleDateString(), s:s, f:blocks.length-s});
-        localStorage.setItem(App.dbLogs, JSON.stringify(logs));
-        if(['admin','master'].includes(App.user.r)) App.renderAdmin(true, false);
+    },
+    tab: (i) => {
+        document.querySelectorAll('.doc-tab').forEach(x=>x.classList.remove('active'));
+        document.querySelectorAll('.doc-page').forEach(x=>x.classList.remove('active'));
+        document.querySelectorAll('.doc-tab')[i].classList.add('active');
+        document.getElementById('p'+i).classList.add('active');
     },
 
-    // --- GESTIÓN USUARIOS (CON IMPORTACIÓN EXCEL EXACTA) ---
+    // ADMIN (CON DESPLEGABLE JEFE & LOG SEGURIDAD)
+    renderAdmin: () => {
+        const global = ['admin','master'].includes(App.user.r);
+        const jefatura = App.user.r === 'jef';
+        const readonly = !global;
+
+        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
+        const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        const t = document.getElementById('admin-logs'); t.innerHTML='';
+        
+        if(readonly) document.getElementById('admin-tools').style.display='none';
+        else {
+            // Populate Bosses
+            const bs = document.getElementById('new-b');
+            bs.innerHTML = '<option value="">-- Sin Jefe --</option>';
+            users.filter(u => ['mdc','mdt','mut','jef'].includes(u.r)).forEach(b => {
+                bs.innerHTML += `<option value="${b.u}">${b.u} (${b.r})</option>`;
+            });
+        }
+
+        if(global) {
+            document.getElementById('security-box').style.display='block';
+            const sl = JSON.parse(localStorage.getItem(App.dbSec)||'[]');
+            const st = document.getElementById('sec-logs'); st.innerHTML='';
+            sl.forEach(s => st.innerHTML += `<tr><td>${s.d}</td><td>${s.u}</td><td>${s.a}</td><td>${s.t}</td></tr>`);
+        }
+
+        logs.forEach(l => {
+            let show = false;
+            const uData = users.find(x => x.u === l.u);
+            const boss = uData ? uData.boss : '';
+            
+            if(global || jefatura) show = true;
+            else if(boss === App.user.u) show = true;
+
+            if(show) t.innerHTML += `<tr><td>${l.u}</td><td>${uData?uData.r:'?'}</td><td>${l.d}</td><td>${l.s}</td><td>${l.f}</td><td>${boss}</td></tr>`;
+        });
+    },
+
+    addUser: () => {
+        const u = document.getElementById('new-u').value;
+        const p = document.getElementById('new-p').value;
+        const r = document.getElementById('new-r').value;
+        const b = document.getElementById('new-b').value;
+        const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        if(users.find(x=>x.u===u)) return alert("Existe");
+        users.push({u,p,r,boss:b, change:true});
+        localStorage.setItem(App.dbUsers, JSON.stringify(users));
+        App.logSec('CREATE_USER', u);
+        App.renderAdmin();
+    },
+
     importUsers: () => {
         const raw = document.getElementById('import-data').value;
         const users = JSON.parse(localStorage.getItem(App.dbUsers));
@@ -432,43 +403,84 @@ const App = {
             }
         });
         localStorage.setItem(App.dbUsers, JSON.stringify(users));
-        document.getElementById('import-msg').innerText = `+${c} importados`;
-        App.renderAdmin(true, false);
+        alert(c + " importados.");
+        App.logSec('IMPORT', c);
+        App.renderAdmin();
     },
 
-    addUser: () => {
-        const u = document.getElementById('new-u').value;
-        const p = document.getElementById('new-p').value;
-        const r = document.getElementById('new-r').value;
-        const b = document.getElementById('new-b').value;
-        const users = JSON.parse(localStorage.getItem(App.dbUsers));
-        if(users.find(x=>x.u===u)) return alert("Existe");
-        users.push({u,p,r,boss:b, change:true});
-        localStorage.setItem(App.dbUsers, JSON.stringify(users));
-        App.renderAdmin(true, false);
+    clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(); }},
+    nav: (id) => { document.querySelectorAll('.view-section').forEach(x=>x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); },
+    renderBiblio: () => { document.getElementById('file-tree').innerHTML = ''; App.data.bibliografia.forEach(c => { let l = c.archivos.map(f => `<li><a href="${f.nombre}" target="_blank">${f.desc}</a></li>`).join(''); document.getElementById('file-tree').innerHTML += `<li><strong>${c.nivel}</strong><ul>${l}</ul></li>`; }); },
+    
+    // VISOR
+    openLB: (url, txt) => {
+        const i = document.getElementById('lightbox-img'); i.src = url; i.style.width = "100%";
+        document.getElementById('zoom-slider').value = 1;
+        document.getElementById('lightbox-caption').innerText = txt;
+        document.getElementById('lightbox').style.display = 'flex';
+    },
+    closeLightbox: () => document.getElementById('lightbox').style.display='none',
+    zoom: (v) => document.getElementById('lightbox-img').style.width = (v*100) + "%",
+
+    renderMedia: () => {
+        const c = document.getElementById('media-container'); c.innerHTML='';
+        App.data.imagenes.forEach(i => c.innerHTML += `<div class="media-card" onclick="App.openLB('${i.url}','${i.nombre}')"><img src="${i.url}"><p>${i.nombre}</p></div>`);
+        document.getElementById('main-audio').src = App.data.audio_url;
     },
 
-    renderAdmin: (global, readonly) => {
-        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
-        const users = JSON.parse(localStorage.getItem(App.dbUsers));
-        const t = document.getElementById('admin-logs'); t.innerHTML='';
-        
-        if(readonly) document.getElementById('admin-tools').style.display='none';
+    renderFC: () => { App.fcI=0; App.drawFC(); },
+    drawFC: () => {
+        if(!App.data.flashcards.length) return;
+        const c = App.data.flashcards[App.fcI];
+        document.getElementById('fc-canvas').innerHTML = `
+            <div class="fc-inner">
+                <div class="fc-face fc-front">${c.front}</div>
+                <div class="fc-face fc-back">${c.back}</div>
+            </div>`;
+        document.getElementById('fc-canvas').onclick = function() { this.classList.toggle('fc-flipped'); };
+        document.getElementById('fc-count').innerText = `${App.fcI+1}/${App.data.flashcards.length}`;
+    },
+    moveFC: (d) => {
+        App.fcI += d;
+        if(App.fcI < 0) App.fcI = App.data.flashcards.length - 1;
+        if(App.fcI >= App.data.flashcards.length) App.fcI = 0;
+        document.getElementById('fc-canvas').classList.remove('fc-flipped');
+        App.drawFC();
+    },
 
-        logs.forEach(l => {
-            let show = false;
-            const uData = users.find(x => x.u === l.u);
-            const boss = uData ? uData.boss : '';
-            
-            if(global) show = true;
-            else if(boss === App.user.u) show = true;
-
-            if(show) t.innerHTML += `<tr><td>${l.u}</td><td>${uData?uData.r:'?'}</td><td>${l.d}</td><td>${l.s}</td><td>${l.f}</td><td>${boss}</td></tr>`;
+    renderTest: () => {
+        const div = document.getElementById('test-container');
+        div.innerHTML = App.data.test.map((q,i) => `
+            <div class="q-block" data-correct="${q.correcta}">
+                <p><b>${i+1}. ${q.pregunta}</b></p>
+                ${q.respuestas.map(r => `<div class="quiz-option" onclick="App.selOpt(this)">${r}</div>`).join('')}
+            </div>
+        `).join('');
+    },
+    selOpt: (el) => {
+        el.parentElement.querySelectorAll('.quiz-option').forEach(e => e.classList.remove('selected'));
+        el.classList.add('selected');
+    },
+    submitTest: () => {
+        let s = 0;
+        const blocks = document.querySelectorAll('.q-block');
+        blocks.forEach(b => {
+            const sel = b.querySelector('.selected');
+            const corr = parseInt(b.dataset.correct);
+            const opts = b.querySelectorAll('.quiz-option');
+            opts.forEach(o => o.classList.remove('correct','wrong'));
+            if(sel) {
+                const idx = Array.from(opts).indexOf(sel);
+                if(idx === corr) { sel.classList.add('correct'); s++; }
+                else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); }
+            }
         });
-    },
-
-    clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(true, false); }},
-    nav: (id) => { document.querySelectorAll('.view-section').forEach(x=>x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); }
+        document.getElementById('test-result').innerText = `Nota: ${s} / ${blocks.length}`;
+        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
+        logs.push({u:App.user.u, d:new Date().toLocaleDateString(), s:s, f:blocks.length-s});
+        localStorage.setItem(App.dbLogs, JSON.stringify(logs));
+        if(['admin','master'].includes(App.user.r)) App.renderAdmin();
+    }
 };
 window.onload = App.init;
 </script>
