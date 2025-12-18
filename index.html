@@ -72,56 +72,17 @@
         .quiz-option.correct { background: #d4edda; border-color: green; }
         .quiz-option.wrong { background: #f8d7da; border-color: red; }
 
-        /* --- VISOR MULTIMEDIA CORREGIDO (ZOOM REAL + SCROLL) --- */
-        #lightbox { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.98); z-index: 99999; 
-            flex-direction: column; align-items: center; justify-content: center; 
-        }
-        
-        #lightbox-container { 
-            width: 90%; height: 80%; 
-            background: #222; border: 1px solid #555; 
-            overflow: auto; /* IMPORTANTE: Esto activa el scroll cuando la imagen crece */
-            display: flex; align-items: flex-start; justify-content: center; 
-        }
-        
-        #lightbox-img { 
-            width: 100%; height: auto; 
-            max-width: none !important; /* IMPORTANTE: Permite que la imagen crezca más que la pantalla */
-            transition: width 0.2s ease; 
-            transform-origin: top center; 
-        }
-        
-        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
-        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 4rem; cursor: pointer; z-index: 100000; }
-        input[type=range] { width: 300px; cursor: pointer; }
-
         /* ADMIN & UTILS */
         .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; font-size: 0.9rem; }
         .admin-table th, .admin-table td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         .admin-table th { background: #eee; }
         .import-area { width: 100%; height: 100px; padding: 10px; margin-top: 10px; font-family: monospace; font-size: 11px; }
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .media-card { background: white; padding: 15px; cursor: pointer; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .media-card:hover { transform: translateY(-5px); }
-        .media-card img { max-width: 100%; height: 180px; object-fit: cover; border-radius: 4px; }
+        
         .hidden { display: none !important; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
-
-    <div id="lightbox">
-        <span id="lightbox-close" onclick="App.closeLightbox()">&times;</span>
-        <div id="lightbox-container"><img id="lightbox-img" src=""></div>
-        <div id="lightbox-controls">
-            <span style="color:white"><i class="fas fa-search-minus"></i></span>
-            <input type="range" min="1" max="5" step="0.1" value="1" oninput="App.zoom(this.value)">
-            <span style="color:white"><i class="fas fa-search-plus"></i></span>
-        </div>
-        <div id="lightbox-caption" style="color:white; margin-top:10px;"></div>
-    </div>
 
     <div id="login-screen">
         <div class="login-card">
@@ -171,15 +132,14 @@
                 </div>
 
                 <div id="view-biblio" class="view-section">
-                    <h2>Biblioteca</h2>
+                    <h2>Biblioteca Digital</h2>
                     <ul id="file-tree" style="list-style:none; padding:0;"></ul>
                 </div>
 
                 <div id="view-media" class="view-section">
                     <h2>Multimedia</h2>
-                    <div id="media-container" class="media-grid"></div>
                     <div style="margin-top:20px; background:white; padding:20px; border-radius:8px;">
-                        <h3>Audio Resumen</h3>
+                        <h3>Audio Resumen Ejecutivo</h3>
                         <audio id="main-audio" controls style="width:100%"></audio>
                     </div>
                 </div>
@@ -218,7 +178,7 @@
                                     <option value="adt">Agente DT</option>
                                     <option value="aut">Agente UT</option>
                                 </optgroup>
-                                <optgroup label="Mandos">
+                                <optgroup label="Mandos (Jefes de Equipo)">
                                     <option value="mdc">Mando Calle (MDC)</option>
                                     <option value="mdt">Mando Territorial (MDT)</option>
                                     <option value="mut">Mando Técnico (MUT)</option>
@@ -251,7 +211,7 @@
                         <tbody id="admin-logs"></tbody>
                     </table>
                     
-                    <div id="security-box" style="margin-top:30px; display:none;">
+                    <div id="security-box" style="margin-top:30px;">
                         <h3 style="color:#c0392b"><i class="fas fa-shield-alt"></i> Auditoría de Seguridad</h3>
                         <div style="max-height:200px; overflow-y:auto; border:1px solid #ccc;">
                             <table class="admin-table" style="margin:0;">
@@ -268,27 +228,30 @@
     </div>
 
 <script>
-// --- DATOS INCRUSTADOS PARA EVITAR ERRORES DE CARGA ---
+// --- BASE DE DATOS INCRUSTADA ---
 const DB = {
-    "imagenes": [
-      { "nombre": "Infografía Estructura", "url": "estructura.png" },
-      { "nombre": "Mapa Mental Protocolo", "url": "mapa.png" }
-    ],
     "audio_url": "audio.m4a",
     "bibliografia": [
       {
         "nivel": "Normativa",
         "archivos": [
-          { "nombre": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO (1).pdf", "desc": "Protocolo Actuación" },
-          { "nombre": "Anexo-I-Manual-de-Organizacion-Salamanca-firmado.pdf", "desc": "Manual Organización" }
+          { "nombre": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO (1).pdf", "desc": "Protocolo de Actuación" },
+          { "nombre": "Anexo-I-Manual-de-Organizacion-Salamanca-firmado.pdf", "desc": "Manual de Organización" }
         ]
       },
       {
-        "nivel": "Manuales",
+        "nivel": "Manuales Operativos",
         "archivos": [
-          { "nombre": "Anexo-II-Manual-del-SCT-Salamanca-firmado.pdf", "desc": "Manual SCT" },
-          { "nombre": "Anexo-III-Manual-del-SCG-Salamanca-firmado - copia.pdf", "desc": "Manual SCG" },
-          { "nombre": "Anexo-IV-Manual-SCEJ-Salamanca-firmado - copia.pdf", "desc": "Manual SCEJ" }
+          { "nombre": "Anexo-II-Manual-del-SCT-Salamanca-firmado.pdf", "desc": "Manual SCT (Tramitación)" },
+          { "nombre": "Anexo-III-Manual-del-SCG-Salamanca-firmado - copia.pdf", "desc": "Manual SCG (General)" },
+          { "nombre": "Anexo-IV-Manual-SCEJ-Salamanca-firmado - copia.pdf", "desc": "Manual SCEJ (Ejecución)" }
+        ]
+      },
+      {
+        "nivel": "Recursos Gráficos (Mapas y Esquemas)",
+        "archivos": [
+          { "nombre": "estructura.png", "desc": "Infografía Estructura (Ver Imagen)" },
+          { "nombre": "mapa.png", "desc": "Mapa Mental Protocolo (Ver Imagen)" }
         ]
       }
     ],
@@ -685,14 +648,13 @@ const DB = {
 const App = {
     data: DB, 
     user: null,
-    dbUsers: 'noj_users_v40', dbLogs: 'noj_logs_v40', dbSec: 'noj_sec_v40',
+    dbUsers: 'noj_users_final_v40', dbLogs: 'noj_logs_final_v40', dbSec: 'noj_sec_final_v40',
 
     init: async () => {
         document.addEventListener('keyup', (e) => {
             if(e.key === 'Enter' && !document.getElementById('login-screen').classList.contains('hidden')) App.login();
         });
 
-        // 1. CREACIÓN AUTOMÁTICA DE USUARIOS POR DEFECTO
         if(!localStorage.getItem(App.dbUsers)) {
             const defs = [
                 { u:'master', p:'master', r:'master', boss:'', change:true },
@@ -701,12 +663,10 @@ const App = {
                 { u:'mandodc', p:'1234', r:'mdc', boss:'', change:true },
                 { u:'mandodt', p:'1234', r:'mdt', boss:'', change:true },
                 { u:'mandout', p:'1234', r:'mut', boss:'', change:true },
-                { u:'agentedc', p:'1234', r:'adc', boss:'mandodc', change:true },
-                { u:'agentedt', p:'1234', r:'adt', boss:'mandodt', change:true },
-                { u:'agenteut', p:'1234', r:'aut', boss:'mandout', change:true }
+                { u:'agentedc', p:'1234', r:'adc', boss:'mandodc', change:true }
             ];
             localStorage.setItem(App.dbUsers, JSON.stringify(defs));
-            App.logSec('SYSTEM', 'Init Base Datos');
+            App.logSec('SYSTEM', 'Init Final V40');
         }
 
         // ALEATORIEDAD
@@ -793,28 +753,16 @@ const App = {
     renderBiblio: () => { 
         document.getElementById('file-tree').innerHTML = ''; 
         App.data.bibliografia.forEach(c => { 
-            let l = c.archivos.map(f => `<li><a href="${f.nombre}" target="_blank">${f.desc}</a></li>`).join(''); 
-            document.getElementById('file-tree').innerHTML += `<li><strong>${c.nivel}</strong><ul>${l}</ul></li>`; 
+            let l = c.archivos.map(f => `<li style="margin-bottom:5px;"><a href="${f.nombre}" target="_blank" style="text-decoration:none; color:#0a2e5c; font-weight:500;">📄 ${f.desc}</a></li>`).join(''); 
+            document.getElementById('file-tree').innerHTML += `<li style="margin-bottom:15px;"><strong style="font-size:1.1rem; color:#333;">${c.nivel}</strong><ul style="list-style:none; padding-left:10px; margin-top:5px;">${l}</ul></li>`; 
         }); 
     },
 
     renderMedia: () => {
         const c = document.getElementById('media-container'); c.innerHTML='';
-        App.data.imagenes.forEach(i => c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${i.url}','${i.nombre}')"><img src="${i.url}" onerror="this.src='https://via.placeholder.com/300?text=Error+Imagen'"><p>${i.nombre}</p></div>`);
+        // SECCIÓN SOLO AUDIO, GRÁFICOS PASADOS A BIBLIOTECA
         document.getElementById('main-audio').src = App.data.audio_url;
     },
-
-    // --- VISOR MULTIMEDIA CORREGIDO (ZOOM WIDTH% + SCROLL) ---
-    openLightbox: (url, txt) => {
-        const img = document.getElementById('lightbox-img');
-        img.src = url;
-        img.style.width = "100%"; 
-        document.getElementById('zoom-slider').value = 1;
-        document.getElementById('lightbox-caption').innerText = txt;
-        document.getElementById('lightbox').style.display = 'flex';
-    },
-    closeLightbox: () => document.getElementById('lightbox').style.display='none',
-    zoom: (v) => document.getElementById('lightbox-img').style.width = (v * 100) + "%",
 
     renderFC: () => { App.fcI=0; App.drawFC(); },
     drawFC: () => {
@@ -852,7 +800,6 @@ const App = {
         if(['admin','master'].includes(App.user.r)) App.renderAdmin();
     },
 
-    // --- PANEL GESTIÓN Y PERMISOS ---
     renderAdmin: () => {
         const global = ['admin','master'].includes(App.user.r); const jefatura = App.user.r === 'jef'; const readonly = !global;
         const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]'); const users = JSON.parse(localStorage.getItem(App.dbUsers));
@@ -880,7 +827,7 @@ const App = {
     addUser: () => {
         const u = document.getElementById('new-u').value; const p = document.getElementById('new-p').value; const r = document.getElementById('new-r').value; const b = document.getElementById('new-b').value;
         const users = JSON.parse(localStorage.getItem(App.dbUsers));
-        if(users.find(x=>x.u===u)) return alert("Usuario ya existe");
+        if(users.find(x=>x.u===u)) return alert("Existe");
         users.push({u,p,r,boss:b, change:true}); localStorage.setItem(App.dbUsers, JSON.stringify(users));
         App.logSec('CREATE_USER', u); App.renderAdmin(); alert("Creado");
     },
@@ -896,7 +843,7 @@ const App = {
                 if(!users.find(x=>x.u===p[0])) { users.push({u:p[0], p:p[1], r:r, boss:p[3]||'', change:true}); c++; }
             }
         });
-        localStorage.setItem(App.dbUsers, JSON.stringify(users)); document.getElementById('import-msg').innerText = `+${c} importados`; App.logSec('IMPORT', c); App.renderAdmin();
+        localStorage.setItem(App.dbUsers, JSON.stringify(users)); document.getElementById('import-msg').innerText = `+${c}`; App.logSec('IMPORT', c); App.renderAdmin();
     },
 
     clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(); }},
