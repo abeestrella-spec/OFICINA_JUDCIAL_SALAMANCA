@@ -21,7 +21,7 @@
         .login-card input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing:border-box; font-size: 16px; }
         .btn-enter { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 15px; }
         
-        /* APP LAYOUT */
+        /* LAYOUT */
         #main-app { display: none; height: 100%; flex-direction: column; }
         .app-header { background: white; padding: 10px; text-align: center; border-bottom: 4px solid #d4af37; flex-shrink: 0; }
         .app-header img { height: 80px; width: auto; max-width: 100%; } 
@@ -39,8 +39,8 @@
         .menu-item i { width: 25px; text-align: center; margin-right: 10px; }
 
         .viewport { flex: 1; padding: 30px; overflow-y: auto; background: #f4f7f9; position: relative; }
-        .view-section { display: none; }
-        .view-section.active { display: block; animation: fadeIn 0.3s; }
+        .view-section { display: none; animation: fadeIn 0.3s; }
+        .view-section.active { display: block; }
 
         /* TEMARIO (2 FILAS) */
         .doc-nav { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 20px; }
@@ -72,37 +72,30 @@
         .quiz-option.correct { background: #d4edda; border-color: green; }
         .quiz-option.wrong { background: #f8d7da; border-color: red; }
 
-        /* --- VISOR MULTIMEDIA CORREGIDO (ZOOM + SCROLL) --- */
+        /* VISOR MULTIMEDIA CORREGIDO (SCROLL + ZOOM REAL) */
         #lightbox { 
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.98); z-index: 99999; 
             flex-direction: column; align-items: center; justify-content: center; 
         }
-        
         #lightbox-container { 
-            width: 90%; height: 80%; 
-            background: #222; border: 1px solid #555; 
-            overflow: auto; /* ESTO ACTIVA LAS BARRAS DE SCROLL */
+            width: 90%; height: 80%; background: #222; border: 1px solid #555; 
+            overflow: auto; /* IMPORTANTE: Activa scroll */
             display: flex; align-items: flex-start; justify-content: center; 
         }
-        
         #lightbox-img { 
-            width: 100%; height: auto; 
-            max-width: none !important; /* Permite crecer más allá del contenedor */
+            width: 100%; height: auto; max-width: none !important; 
             transition: width 0.2s ease; transform-origin: top center; 
         }
-        
         #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
-        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
-        input[type=range] { width: 200px; cursor: pointer; }
+        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 4rem; cursor: pointer; z-index: 100000; }
+        input[type=range] { width: 300px; cursor: pointer; }
 
-        /* ADMIN & UTILS */
+        /* ADMIN & MEDIA GRID */
         .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; font-size: 0.9rem; }
         .admin-table th, .admin-table td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         .admin-table th { background: #eee; }
         .import-area { width: 100%; height: 100px; padding: 10px; margin-top: 10px; font-family: monospace; font-size: 11px; }
-        
-        /* MEDIA GRID */
         .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .media-card { background: white; padding: 15px; cursor: pointer; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .media-card:hover { transform: translateY(-5px); }
@@ -116,9 +109,7 @@
 
     <div id="lightbox">
         <span id="lightbox-close" onclick="App.closeLightbox()">&times;</span>
-        <div id="lightbox-container">
-            <img id="lightbox-img" src="">
-        </div>
+        <div id="lightbox-container"><img id="lightbox-img" src=""></div>
         <div id="lightbox-controls">
             <span style="color:white"><i class="fas fa-search-minus"></i></span>
             <input type="range" min="1" max="5" step="0.1" value="1" oninput="App.zoom(this.value)">
@@ -215,14 +206,13 @@
                             <h3>Añadir Usuario</h3>
                             <input type="text" id="new-u" placeholder="Usuario" style="width:100%; padding:8px; margin-bottom:5px;">
                             <input type="text" id="new-p" placeholder="Clave" style="width:100%; padding:8px; margin-bottom:5px;">
-                            
                             <select id="new-r" style="width:100%; padding:8px; margin-bottom:5px;">
                                 <optgroup label="Agentes">
                                     <option value="adc">Agente DC</option>
                                     <option value="adt">Agente DT</option>
                                     <option value="aut">Agente UT</option>
                                 </optgroup>
-                                <optgroup label="Mandos (Jefes de Equipo)">
+                                <optgroup label="Mandos">
                                     <option value="mdc">Mando Calle (MDC)</option>
                                     <option value="mdt">Mando Territorial (MDT)</option>
                                     <option value="mut">Mando Técnico (MUT)</option>
@@ -233,11 +223,9 @@
                                     <option value="master">MASTER</option>
                                 </optgroup>
                             </select>
-                            
                             <select id="new-b" style="width:100%; padding:8px; margin-bottom:10px; background:#f0f7ff;">
-                                <option value="">-- Asignar Mando Responsable --</option>
+                                <option value="">-- Asignar Jefe --</option>
                             </select>
-                            
                             <button class="btn-enter" onclick="App.addUser()">Crear Usuario</button>
                         </div>
                         
@@ -272,61 +260,135 @@
     </div>
 
 <script>
+// --- DATOS INCRUSTADOS PARA EVITAR ERRORES DE CARGA ---
+const DB = {
+    "imagenes": [
+      { "nombre": "Infografía Estructura", "url": "estructura.png" },
+      { "nombre": "Mapa Mental Protocolo", "url": "mapa.png" }
+    ],
+    "audio_url": "audio.m4a",
+    "bibliografia": [
+      {
+        "nivel": "Normativa",
+        "archivos": [
+          { "nombre": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO (1).pdf", "desc": "Protocolo Actuación" },
+          { "nombre": "Anexo-I-Manual-de-Organizacion-Salamanca-firmado.pdf", "desc": "Manual Organización" }
+        ]
+      },
+      {
+        "nivel": "Manuales",
+        "archivos": [
+          { "nombre": "Anexo-II-Manual-del-SCT-Salamanca-firmado.pdf", "desc": "Manual SCT" },
+          { "nombre": "Anexo-III-Manual-del-SCG-Salamanca-firmado - copia.pdf", "desc": "Manual SCG" },
+          { "nombre": "Anexo-IV-Manual-SCEJ-Salamanca-firmado - copia.pdf", "desc": "Manual SCEJ" }
+        ]
+      }
+    ],
+    "secciones_temario": [
+      { "titulo": "1. Introducción", "contenido": "<h3>1. Introducción: La transformación del sistema judicial en Salamanca</h3><p>El presente documento tiene como finalidad servir de manual operativo y de referencia permanente para todos los miembros de la Policía Local de Salamanca...</p><p>Este modelo, que entrará en vigor el <strong>31 de diciembre de 2025</strong>, deriva de la Ley Orgánica 1/2025...</p>" },
+      { "titulo": "2. Visión General", "contenido": "<h3>2. Visión general de la nueva Oficina Judicial (OJ)</h3><p>La nueva OJ redefine completamente la relación funcional entre la Policía Local y la Administración de Justicia...</p><h4>2.1 El Tribunal de Instancia (TI)</h4><p>Eje del nuevo sistema judicial...</p><h4>2.2 Los Servicios Comunes</h4><table class='doc-table'><tr><th>Servicio</th><th>Acrónimo</th><th>Función</th></tr><tr><td>Servicio Común General</td><td>SCG</td><td>Punto único de entrada...</td></tr><tr><td>Servicio Común de Tramitación</td><td>SCT</td><td>Gestión integral...</td></tr><tr><td>Servicio Común de Ejecución</td><td>SCEJ</td><td>Ejecución de resoluciones...</td></tr></table>" },
+      { "titulo": "3. Guía Operativa", "contenido": "<h3>3. Guía operativa para la escala ejecutiva</h3><h4>3.1 Inicio del procedimiento</h4><p><strong>Principio fundamental:</strong> Todo documento policial tiene un único punto de entrada ordinario: el <strong>Servicio Común General (SCG)</strong>.</p><ul><li><strong>Horario:</strong> Lunes a viernes 08:30-15:00.</li><li><strong>Registro:</strong> El SCG registra y reparte.</li></ul>" },
+      { "titulo": "3.2 Guardia", "contenido": "<h4>3.2 Interacción con el Servicio de Guardia (GU)</h4><p>El Servicio de Guardia constituye una excepción... Documentación directa: Atestados con DETENIDO, Solicitudes urgentes...</p>" },
+      { "titulo": "4. Policía Judicial", "contenido": "<h3>4. Manual avanzado para agentes de Policía Judicial</h3><h4>4.1 SCT – Área Penal</h4><p>Gestiona desde el inicio hasta la firmeza. Equipos de Instrucción y Enjuiciamiento.</p>" },
+      { "titulo": "4.2 Unidades Espec.", "contenido": "<h4>4.2 Unidades especializadas (S4M)</h4><ul><li><strong>Violencia sobre la Mujer:</strong> Grupo Instrucción nº 3.</li><li><strong>Menores:</strong> Grupo específico en Enjuiciamiento.</li><li><strong>Familia:</strong> Internamientos no voluntarios.</li></ul>" },
+      { "titulo": "4.3 Ejecución", "contenido": "<h4>4.3 Fase de ejecución (SCEJ)</h4><p>Mandamientos de prisión, busca y captura, libertad, multas, embargos...</p>" },
+      { "titulo": "5. Mandos", "contenido": "<h3>5. Pautas para la escala técnica</h3><h4>5.1 Estructura de mando</h4><p>Director/a (LAJ), Jefatura de Área, Jefatura de Equipo.</p><h4>5.2 Coordinación</h4><p>Comité de Dirección y Comités de Coordinación.</p>" },
+      { "titulo": "6. Instrucción", "contenido": "<h3>6. Instrucción interna de Jefatura</h3><p>Obligatorio y vinculante. Entrada en vigor: 31/12/2025.</p><h4>7. Esquemas operativos</h4><p>Atestado NO urgente -> SCG. Urgente -> Guardia. Ejecución -> SCEJ.</p>" },
+      { "titulo": "Resumen", "contenido": "<h3>9. Versión de bolsillo</h3><p>¿Tengo un atestado? No urgente -> SCG. Detenido -> Guardia. ¿Ejecución? -> SCEJ.</p>" }
+    ],
+    "flashcards": [
+      { "front": "¿Fecha de entrada en vigor?", "back": "31 de diciembre de 2025" },
+      { "front": "¿Ley Orgánica?", "back": "LO 1/2025" },
+      { "front": "¿Qué órgano sustituye a los juzgados?", "back": "El Tribunal de Instancia (TI)" },
+      { "front": "¿Punto único de entrada?", "back": "SCG" },
+      { "front": "¿Dónde van los detenidos?", "back": "Servicio de Guardia" },
+      { "front": "¿Quién gestiona la instrucción?", "back": "SCT Penal" },
+      { "front": "¿Quién ejecuta sentencias?", "back": "SCEJ" },
+      { "front": "¿Máxima autoridad funcional?", "back": "Director (LAJ)" },
+      { "front": "¿Quién resuelve error DNI?", "back": "Jefatura de Equipo" },
+      { "front": "¿Unidad Violencia Mujer?", "back": "Grupo Instrucción nº 3" },
+      { "front": "¿Menores?", "back": "SCT Enjuiciamiento" },
+      { "front": "¿Internamientos?", "back": "SCT Civil (Familia)" },
+      { "front": "¿Busca y captura?", "back": "SCEJ" },
+      { "front": "¿Atenea?", "back": "Sistema de gestión" },
+      { "front": "¿LexNet?", "back": "Comunicaciones" },
+      { "front": "¿Delitos Leves?", "back": "Grupos de Trabajo (SCT)" },
+      { "front": "¿Notificaciones calle?", "back": "SCG" },
+      { "front": "¿Depósito Efectos?", "back": "SCG" },
+      { "front": "¿SCT?", "back": "Servicio Común Tramitación" },
+      { "front": "¿SCEJ?", "back": "Servicio Común Ejecución" },
+      { "front": "¿OJM?", "back": "Oficinas Justicia Municipio" },
+      { "front": "¿Sustituto Juzgado Paz?", "back": "OJM" },
+      { "front": "¿Subastas?", "back": "SCEJ" },
+      { "front": "¿Caja Depósitos?", "back": "SCEJ" },
+      { "front": "¿Videoconferencias?", "back": "EVID" },
+      { "front": "¿Atención público?", "back": "09:00 a 14:00" },
+      { "front": "¿Archivo?", "back": "SCG" },
+      { "front": "¿Registro electrónico?", "back": "SIR" },
+      { "front": "¿Retirada carnet?", "back": "SCEJ" },
+      { "front": "¿Denuncias administrativas?", "back": "SCG" }
+    ],
+    "test": [
+      { "pregunta": "¿Puerta única entrada?", "respuestas": ["Decanato", "SCG", "SCT"], "correcta": 1 },
+      { "pregunta": "¿Horario SCG?", "respuestas": ["09-14", "08:30-15:00", "24h"], "correcta": 1 },
+      { "pregunta": "¿Atestado con DETENIDO?", "respuestas": ["SCG", "Guardia", "SCT"], "correcta": 1 },
+      { "pregunta": "¿Gestión instrucción?", "respuestas": ["SCT", "SCEJ", "SCG"], "correcta": 0 },
+      { "pregunta": "¿Ejecución sentencias?", "respuestas": ["SCT", "SCEJ", "Guardia"], "correcta": 1 },
+      { "pregunta": "¿Autoridad funcional?", "respuestas": ["Decano", "LAJ", "Gestor"], "correcta": 1 },
+      { "pregunta": "¿Violencia Mujer?", "respuestas": ["Grupo 3", "Menores", "SCG"], "correcta": 0 },
+      { "pregunta": "¿Error datos?", "respuestas": ["Comisaría", "Jefatura Equipo", "Decano"], "correcta": 1 },
+      { "pregunta": "¿Sin registrar?", "respuestas": ["Archivar", "Devolver SCG", "Procesar"], "correcta": 1 },
+      { "pregunta": "¿Notificaciones calle?", "respuestas": ["Policía", "SCG", "SCT"], "correcta": 1 },
+      { "pregunta": "¿Delitos leves?", "respuestas": ["SCT", "SCEJ", "Paz"], "correcta": 0 },
+      { "pregunta": "¿Embargos?", "respuestas": ["SCT", "SCEJ", "SCG"], "correcta": 1 },
+      { "pregunta": "¿Estrategia?", "respuestas": ["Comité Dirección", "Sindicato", "Junta"], "correcta": 0 },
+      { "pregunta": "¿Ley?", "respuestas": ["LO 1/2025", "LECrim", "Civil"], "correcta": 0 },
+      { "pregunta": "¿Entrada Registro Urgente?", "respuestas": ["SCG", "Guardia", "SCT"], "correcta": 1 },
+      { "pregunta": "¿Depósito Efectos?", "respuestas": ["SCG", "SCT", "Científica"], "correcta": 0 },
+      { "pregunta": "¿Juzgados Paz?", "respuestas": ["OJM", "Ayto", "Registro"], "correcta": 0 },
+      { "pregunta": "¿Entrada Vigor?", "respuestas": ["31/12/25", "01/01/26", "Ya"], "correcta": 0 },
+      { "pregunta": "¿TI sustituye a?", "respuestas": ["Audiencia", "Juzgados", "Supremo"], "correcta": 1 },
+      { "pregunta": "¿Gestión procesal?", "respuestas": ["Atenea", "LexNet", "Siraj"], "correcta": 0 }
+    ]
+};
+
 const App = {
-    data: null, user: null,
-    // CAMBIO DE VERSION PARA FORZAR RESET Y CREAR USUARIOS MAESTROS
-    dbUsers: 'noj_users_v30_definitivo', dbLogs: 'noj_logs_v30_definitivo', dbSec: 'noj_sec_v30_definitivo',
+    data: DB, // USAMOS LA BASE DE DATOS INCRUSTADA
+    user: null,
+    dbUsers: 'noj_users_v31', dbLogs: 'noj_logs_v31', dbSec: 'noj_sec_v31',
 
     init: async () => {
-        // EVENTOS TECLADO
         document.addEventListener('keyup', (e) => {
             if(e.key === 'Enter' && !document.getElementById('login-screen').classList.contains('hidden')) App.login();
         });
 
-        // 1. CREACIÓN AUTOMÁTICA DE USUARIOS POR DEFECTO CON JERARQUÍA
         if(!localStorage.getItem(App.dbUsers)) {
             const defs = [
-                // SUPER USUARIOS
                 { u:'master', p:'master', r:'master', boss:'', change:true },
                 { u:'admin', p:'admin', r:'admin', boss:'', change:true },
                 { u:'jefatura', p:'jefatura', r:'jef', boss:'', change:true },
-                
-                // MANDOS (JEFES DE EQUIPO)
                 { u:'mandodc', p:'1234', r:'mdc', boss:'', change:true },
                 { u:'mandodt', p:'1234', r:'mdt', boss:'', change:true },
                 { u:'mandout', p:'1234', r:'mut', boss:'', change:true },
-                
-                // AGENTES (ASIGNADOS A SUS MANDOS)
-                { u:'agentedc', p:'1234', r:'adc', boss:'mandodc', change:true },
-                { u:'agentedt', p:'1234', r:'adt', boss:'mandodt', change:true },
-                { u:'agenteut', p:'1234', r:'aut', boss:'mandout', change:true }
+                { u:'agentedc', p:'1234', r:'adc', boss:'mandodc', change:true }
             ];
             localStorage.setItem(App.dbUsers, JSON.stringify(defs));
-            App.logSec('SYSTEM', 'Inicialización Base Datos Jerárquica V30');
+            App.logSec('SYSTEM', 'Init V31');
         }
 
-        try {
-            const r = await fetch('database.json?t='+Date.now());
-            const d = await r.json();
-            App.data = d[0];
+        // ALEATORIEDAD
+        if(App.data.flashcards) App.data.flashcards = App.shuffle(App.data.flashcards).slice(0, 30);
+        if(App.data.test) App.data.test = App.shuffle(App.data.test).slice(0, 20);
 
-            // ALEATORIEDAD
-            if(App.data.flashcards) App.data.flashcards = App.shuffle(App.data.flashcards).slice(0, 30);
-            if(App.data.test) App.data.test = App.shuffle(App.data.test).slice(0, 20);
-
-            // RENDERIZADO GENERAL
-            App.renderTemario();
-            App.renderBiblio(); 
-            App.renderMedia(); 
-            App.renderFC(); 
-            App.renderTest();
-
-        } catch(e) { console.error(e); alert("Error cargando base de datos."); }
+        App.renderTemario();
+        App.renderBiblio(); 
+        App.renderMedia(); 
+        App.renderFC(); 
+        App.renderTest();
     },
 
     shuffle: (a) => { for(let i=a.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; },
 
-    // REGISTRO DE SEGURIDAD
     logSec: (act, det) => {
         const l = JSON.parse(localStorage.getItem(App.dbSec)||'[]');
         l.unshift({d: new Date().toLocaleString(), u: App.user?App.user.u:'GUEST', a:act, t:det});
@@ -358,14 +420,12 @@ const App = {
         const p1 = document.getElementById('new-pass-1').value;
         const p2 = document.getElementById('new-pass-2').value;
         if(p1.length<4 || p1!==p2) return document.getElementById('pass-msg').innerText = "Error contraseña";
-        
         const users = JSON.parse(localStorage.getItem(App.dbUsers));
         const idx = users.findIndex(x => x.u === App.user.u);
         users[idx].p = p1; users[idx].change = false;
         localStorage.setItem(App.dbUsers, JSON.stringify(users));
         App.user.p = p1;
         App.logSec('PASS_CHANGE', App.user.u);
-        
         document.getElementById('password-screen').classList.add('hidden');
         App.enterApp();
     },
@@ -374,11 +434,8 @@ const App = {
         document.getElementById('login-screen').style.display='none';
         document.getElementById('main-app').style.display='flex';
         document.getElementById('user-display').innerText = App.user.u.toUpperCase();
-        
         App.logSec('LOGIN_OK', App.user.u);
-
-        const rolesGestion = ['admin','master','jef','mdc','mdt','mut'];
-        if(rolesGestion.includes(App.user.r)) {
+        if(['admin','master','jef','mdc','mdt','mut'].includes(App.user.r)) {
             document.getElementById('menu-admin').classList.remove('hidden');
             App.renderAdmin();
         }
@@ -410,81 +467,49 @@ const App = {
 
     renderMedia: () => {
         const c = document.getElementById('media-container'); c.innerHTML='';
-        App.data.imagenes.forEach(i => c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${i.url}','${i.nombre}')"><img src="${i.url}" onerror="this.src='//via.placeholder.com/300'"><p>${i.nombre}</p></div>`);
+        App.data.imagenes.forEach(i => c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${i.url}','${i.nombre}')"><img src="${i.url}" onerror="this.src='https://via.placeholder.com/300?text=Error+Imagen'"><p>${i.nombre}</p></div>`);
         document.getElementById('main-audio').src = App.data.audio_url;
     },
 
-    // --- FUNCIÓN DE VISOR CORREGIDA (ZOOM WIDTH% + SCROLL) ---
     openLightbox: (url, txt) => {
         const img = document.getElementById('lightbox-img');
         img.src = url;
-        
-        // Reiniciamos el zoom al 100% al abrir
         img.style.width = "100%"; 
         document.getElementById('zoom-slider').value = 1;
-        
         document.getElementById('lightbox-caption').innerText = txt;
         document.getElementById('lightbox').style.display = 'flex';
     },
+    closeLightbox: () => document.getElementById('lightbox').style.display='none',
+    zoom: (v) => document.getElementById('lightbox-img').style.width = (v * 100) + "%",
 
-    closeLightbox: () => {
-        document.getElementById('lightbox').style.display = 'none';
-    },
-
-    zoom: (val) => {
-        // Cambiamos el ANCHO real en porcentaje. 
-        // 1 = 100%, 4 = 400%. Esto fuerza al navegador a mostrar barras de scroll.
-        document.getElementById('lightbox-img').style.width = (val * 100) + "%";
-    },
-
-    // FLASHCARDS
     renderFC: () => { App.fcI=0; App.drawFC(); },
     drawFC: () => {
         if(!App.data.flashcards || !App.data.flashcards.length) return;
         const c = App.data.flashcards[App.fcI];
-        document.getElementById('fc-canvas').innerHTML = `
-            <div class="fc-inner">
-                <div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div>
-                <div class="fc-face fc-back"><div>${c.back}</div></div>
-            </div>`;
+        document.getElementById('fc-canvas').innerHTML = `<div class="fc-inner"><div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div><div class="fc-face fc-back"><div>${c.back}</div></div></div>`;
         document.getElementById('fc-canvas').onclick = function() { this.classList.toggle('fc-flipped'); };
         document.getElementById('fc-count').innerText = `${App.fcI+1}/${App.data.flashcards.length}`;
     },
     moveFC: (d) => {
-        App.fcI += d;
-        if(App.fcI < 0) App.fcI = App.data.flashcards.length - 1;
+        App.fcI += d; if(App.fcI < 0) App.fcI = App.data.flashcards.length - 1;
         if(App.fcI >= App.data.flashcards.length) App.fcI = 0;
-        document.getElementById('fc-canvas').classList.remove('fc-flipped');
-        App.drawFC();
+        document.getElementById('fc-canvas').classList.remove('fc-flipped'); App.drawFC();
     },
 
-    // TEST
     renderTest: () => {
         const div = document.getElementById('test-container');
-        div.innerHTML = App.data.test.map((q,i) => `
-            <div class="q-block" data-correct="${q.correcta}">
-                <p><b>${i+1}. ${q.pregunta}</b></p>
-                ${q.respuestas.map(r => `<div class="quiz-option" onclick="App.selOpt(this)">${r}</div>`).join('')}
-            </div>
-        `).join('');
+        div.innerHTML = App.data.test.map((q,i) => `<div class="q-block" data-correct="${q.correcta}"><p><b>${i+1}. ${q.pregunta}</b></p>${q.respuestas.map(r => `<div class="quiz-option" onclick="App.selOpt(this)">${r}</div>`).join('')}</div>`).join('');
     },
     selOpt: (el) => {
         el.parentElement.querySelectorAll('.quiz-option').forEach(e => e.classList.remove('selected'));
         el.classList.add('selected');
     },
     submitTest: () => {
-        let s = 0;
-        const blocks = document.querySelectorAll('.q-block');
+        let s = 0; const blocks = document.querySelectorAll('.q-block');
         blocks.forEach(b => {
-            const sel = b.querySelector('.selected');
-            const corr = parseInt(b.dataset.correct);
-            const opts = b.querySelectorAll('.quiz-option');
+            const sel = b.querySelector('.selected'); const corr = parseInt(b.dataset.correct); const opts = b.querySelectorAll('.quiz-option');
             opts.forEach(o => o.classList.remove('correct','wrong'));
-            if(sel) {
-                const idx = Array.from(opts).indexOf(sel);
-                if(idx === corr) { sel.classList.add('correct'); s++; }
-                else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); }
-            }
+            if(sel) { if(Array.from(opts).indexOf(sel) === corr) { sel.classList.add('correct'); s++; } else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); } }
         });
         document.getElementById('test-result').innerText = `Nota: ${s} / ${blocks.length}`;
         const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
@@ -493,97 +518,54 @@ const App = {
         if(['admin','master'].includes(App.user.r)) App.renderAdmin();
     },
 
-    // --- LÓGICA DEL PANEL DE GESTIÓN Y PERMISOS ---
     renderAdmin: () => {
-        const global = ['admin','master'].includes(App.user.r); // Ven todo
-        const jefatura = App.user.r === 'jef'; // Ve todo (lectura)
-        const readonly = !global; // Solo Master/Admin editan
-
-        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
-        const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        const global = ['admin','master'].includes(App.user.r); const jefatura = App.user.r === 'jef'; const readonly = !global;
+        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]'); const users = JSON.parse(localStorage.getItem(App.dbUsers));
         const t = document.getElementById('admin-logs'); t.innerHTML='';
         
         if(readonly) document.getElementById('admin-tools').style.display='none';
         else {
-            // LLENAR DESPLEGABLE DE JEFES DISPONIBLES (MANDOS)
-            const bs = document.getElementById('new-b');
-            bs.innerHTML = '<option value="">-- Sin Jefe Asignado --</option>';
-            // Filtramos usuarios que sean mandos, jefes o admins para que puedan ser "jefes" de otros
-            const bosses = users.filter(u => ['mdc','mdt','mut','jef','admin','master'].includes(u.r));
-            bosses.forEach(b => {
-                bs.innerHTML += `<option value="${b.u}">${b.u} (${b.r.toUpperCase()})</option>`;
-            });
+            const bs = document.getElementById('new-b'); bs.innerHTML = '<option value="">-- Asignar Jefe --</option>';
+            users.filter(u => ['mdc','mdt','mut','jef','admin','master'].includes(u.r)).forEach(b => { bs.innerHTML += `<option value="${b.u}">${b.u} (${b.r})</option>`; });
         }
 
-        // MOSTRAR MÓDULO DE SEGURIDAD SOLO A MASTER/ADMIN
         if(global) {
             document.getElementById('security-box').style.display='block';
-            const sl = JSON.parse(localStorage.getItem(App.dbSec)||'[]');
-            const st = document.getElementById('sec-logs'); st.innerHTML='';
+            const sl = JSON.parse(localStorage.getItem(App.dbSec)||'[]'); const st = document.getElementById('sec-logs'); st.innerHTML='';
             sl.forEach(s => st.innerHTML += `<tr><td>${s.d}</td><td>${s.u}</td><td>${s.a}</td><td>${s.t}</td></tr>`);
-        } else {
-            document.getElementById('security-box').style.display='none';
-        }
+        } else { document.getElementById('security-box').style.display='none'; }
 
-        // FILTRADO DE LA TABLA DE RESULTADOS
         logs.forEach(l => {
-            let show = false;
-            const uData = users.find(x => x.u === l.u);
-            const boss = uData ? uData.boss : '';
-            
-            // LÓGICA DE VISIÓN JERÁRQUICA
-            if(global || jefatura) show = true; // Jefes Supremos ven todo
-            else if(boss === App.user.u) show = true; // Mando ve a sus subordinados
-
-            if(show) {
-                t.innerHTML += `<tr>
-                    <td><b>${l.u}</b></td>
-                    <td>${uData?uData.r.toUpperCase():'?'}</td>
-                    <td>${l.d}</td>
-                    <td style="color:${l.s>10?'green':'red'}">${l.s}</td>
-                    <td>${l.f}</td>
-                    <td>${boss}</td>
-                </tr>`;
-            }
+            let show = false; const uData = users.find(x => x.u === l.u); const boss = uData ? uData.boss : '';
+            if(global || jefatura) show = true; else if(boss === App.user.u) show = true;
+            if(show) t.innerHTML += `<tr><td>${l.u}</td><td>${uData?uData.r.toUpperCase():'?'}</td><td>${l.d}</td><td style="color:${l.s>10?'green':'red'}">${l.s}</td><td>${l.f}</td><td>${boss}</td></tr>`;
         });
     },
 
     addUser: () => {
-        const u = document.getElementById('new-u').value;
-        const p = document.getElementById('new-p').value;
-        const r = document.getElementById('new-r').value;
-        const b = document.getElementById('new-b').value;
+        const u = document.getElementById('new-u').value; const p = document.getElementById('new-p').value; const r = document.getElementById('new-r').value; const b = document.getElementById('new-b').value;
         const users = JSON.parse(localStorage.getItem(App.dbUsers));
-        if(users.find(x=>x.u===u)) return alert("Usuario ya existe");
-        users.push({u,p,r,boss:b, change:true});
-        localStorage.setItem(App.dbUsers, JSON.stringify(users));
-        App.logSec('CREATE_USER', `Usuario: ${u} | Rol: ${r}`);
-        App.renderAdmin();
-        alert("Usuario creado correctamente");
+        if(users.find(x=>x.u===u)) return alert("Existe");
+        users.push({u,p,r,boss:b, change:true}); localStorage.setItem(App.dbUsers, JSON.stringify(users));
+        App.logSec('CREATE_USER', u); App.renderAdmin(); alert("Creado");
     },
 
     importUsers: () => {
-        const raw = document.getElementById('import-data').value;
-        const users = JSON.parse(localStorage.getItem(App.dbUsers));
+        const raw = document.getElementById('import-data').value; const users = JSON.parse(localStorage.getItem(App.dbUsers));
         const map = {'AGENTE (DC)':'adc','AGENTE (DT)':'adt','AGENTE (UT)':'aut','MANDO (DC)':'mdc','MANDO (DT)':'mdt','MANDO (UT)':'mut','JEFATURA':'jef','ADMIN':'admin','MASTER':'master'};
         let c=0;
         raw.split('\n').forEach(l => {
             let p = l.split(/\t+/); if(p.length<2) p=l.split(/\s+/);
             if(p.length>=2) {
                 let r = map[p[2]] || 'adc';
-                if(!users.find(x=>x.u===p[0])) {
-                    users.push({u:p[0], p:p[1], r:r, boss:p[3]||'', change:true});
-                    c++;
-                }
+                if(!users.find(x=>x.u===p[0])) { users.push({u:p[0], p:p[1], r:r, boss:p[3]||'', change:true}); c++; }
             }
         });
-        localStorage.setItem(App.dbUsers, JSON.stringify(users));
-        document.getElementById('import-msg').innerText = `+${c} importados`;
-        App.logSec('IMPORT', c);
-        App.renderAdmin();
+        localStorage.setItem(App.dbUsers, JSON.stringify(users)); document.getElementById('import-msg').innerText = `+${c}`; App.logSec('IMPORT', c); App.renderAdmin();
     },
 
-    clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(); }}
+    clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(); }},
+    nav: (id) => { document.querySelectorAll('.view-section').forEach(x=>x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); }
 };
 window.onload = App.init;
 </script>
