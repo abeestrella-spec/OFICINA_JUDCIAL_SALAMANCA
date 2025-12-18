@@ -73,69 +73,41 @@
         .quiz-option.wrong { background: #f8d7da; border-color: red; }
 
         /* --- VISOR MULTIMEDIA CORREGIDO (ZOOM + SCROLL) --- */
-#lightbox { 
-    display: none; 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: rgba(0,0,0,0.98); 
-    z-index: 10000; /* Asegura que esté por encima de todo */
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-}
-
-#lightbox-container { 
-    width: 90%; 
-    height: 80%; 
-    background: #222; 
-    border: 1px solid #555; 
-    overflow: auto; /* ESTO ACTIVA LAS BARRAS DE SCROLL */
-    display: flex; 
-    align-items: flex-start; /* Alinea arriba para poder hacer scroll */
-    justify-content: center; 
-}
-
-#lightbox-img { 
-    width: 100%; 
-    height: auto; 
-    max-width: none !important; /* Permite que la imagen crezca infinitamente */
-    transition: width 0.2s ease; 
-    transform-origin: top center; 
-}
-
-#lightbox-controls { 
-    margin-top: 15px; 
-    display: flex; 
-    gap: 15px; 
-    align-items: center; 
-    background: rgba(255,255,255,0.2); 
-    padding: 10px 25px; 
-    border-radius: 50px; 
-}
-
-#lightbox-close { 
-    position: absolute; 
-    top: 20px; 
-    right: 30px; 
-    color: white; 
-    font-size: 3rem; 
-    cursor: pointer; 
-    z-index: 10001;
-}
-
-input[type=range] { width: 250px; cursor: pointer; }
+        #lightbox { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.98); z-index: 99999; 
+            flex-direction: column; align-items: center; justify-content: center; 
+        }
+        
+        #lightbox-container { 
+            width: 90%; height: 80%; 
+            background: #222; border: 1px solid #555; 
+            overflow: auto; /* ESTO ACTIVA LAS BARRAS DE SCROLL */
+            display: flex; align-items: flex-start; justify-content: center; 
+        }
+        
+        #lightbox-img { 
+            width: 100%; height: auto; 
+            max-width: none !important; /* Permite crecer más allá del contenedor */
+            transition: width 0.2s ease; transform-origin: top center; 
+        }
+        
+        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
+        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
+        input[type=range] { width: 200px; cursor: pointer; }
 
         /* ADMIN & UTILS */
         .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; font-size: 0.9rem; }
         .admin-table th, .admin-table td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         .admin-table th { background: #eee; }
         .import-area { width: 100%; height: 100px; padding: 10px; margin-top: 10px; font-family: monospace; font-size: 11px; }
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .media-card { background: white; padding: 10px; cursor: pointer; text-align: center; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .media-card img { max-width: 100%; height: 150px; object-fit: cover; }
+        
+        /* MEDIA GRID */
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .media-card { background: white; padding: 15px; cursor: pointer; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .media-card:hover { transform: translateY(-5px); }
+        .media-card img { max-width: 100%; height: 180px; object-fit: cover; border-radius: 4px; }
+        
         .hidden { display: none !important; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
@@ -144,10 +116,12 @@ input[type=range] { width: 250px; cursor: pointer; }
 
     <div id="lightbox">
         <span id="lightbox-close" onclick="App.closeLightbox()">&times;</span>
-        <div id="lightbox-container"><img id="lightbox-img" src=""></div>
+        <div id="lightbox-container">
+            <img id="lightbox-img" src="">
+        </div>
         <div id="lightbox-controls">
             <span style="color:white"><i class="fas fa-search-minus"></i></span>
-            <input type="range" min="1" max="4" step="0.1" value="1" oninput="App.zoom(this.value)">
+            <input type="range" min="1" max="5" step="0.1" value="1" oninput="App.zoom(this.value)">
             <span style="color:white"><i class="fas fa-search-plus"></i></span>
         </div>
         <div id="lightbox-caption" style="color:white; margin-top:10px;"></div>
@@ -300,8 +274,8 @@ input[type=range] { width: 250px; cursor: pointer; }
 <script>
 const App = {
     data: null, user: null,
-    // CAMBIO DE VERSION PARA FORZAR RESET DE USUARIOS Y LOGICA
-    dbUsers: 'noj_users_v25_final', dbLogs: 'noj_logs_v25_final', dbSec: 'noj_sec_v25_final',
+    // CAMBIO DE VERSION PARA FORZAR RESET Y CREAR USUARIOS MAESTROS
+    dbUsers: 'noj_users_v30_definitivo', dbLogs: 'noj_logs_v30_definitivo', dbSec: 'noj_sec_v30_definitivo',
 
     init: async () => {
         // EVENTOS TECLADO
@@ -328,7 +302,7 @@ const App = {
                 { u:'agenteut', p:'1234', r:'aut', boss:'mandout', change:true }
             ];
             localStorage.setItem(App.dbUsers, JSON.stringify(defs));
-            App.logSec('SYSTEM', 'Inicialización Base Datos Jerárquica');
+            App.logSec('SYSTEM', 'Inicialización Base Datos Jerárquica V30');
         }
 
         try {
@@ -436,8 +410,87 @@ const App = {
 
     renderMedia: () => {
         const c = document.getElementById('media-container'); c.innerHTML='';
-        App.data.imagenes.forEach(i => c.innerHTML += `<div class="media-card" onclick="App.openLB('${i.url}','${i.nombre}')"><img src="${i.url}" onerror="this.src='//via.placeholder.com/300'"><p>${i.nombre}</p></div>`);
+        App.data.imagenes.forEach(i => c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${i.url}','${i.nombre}')"><img src="${i.url}" onerror="this.src='//via.placeholder.com/300'"><p>${i.nombre}</p></div>`);
         document.getElementById('main-audio').src = App.data.audio_url;
+    },
+
+    // --- FUNCIÓN DE VISOR CORREGIDA (ZOOM WIDTH% + SCROLL) ---
+    openLightbox: (url, txt) => {
+        const img = document.getElementById('lightbox-img');
+        img.src = url;
+        
+        // Reiniciamos el zoom al 100% al abrir
+        img.style.width = "100%"; 
+        document.getElementById('zoom-slider').value = 1;
+        
+        document.getElementById('lightbox-caption').innerText = txt;
+        document.getElementById('lightbox').style.display = 'flex';
+    },
+
+    closeLightbox: () => {
+        document.getElementById('lightbox').style.display = 'none';
+    },
+
+    zoom: (val) => {
+        // Cambiamos el ANCHO real en porcentaje. 
+        // 1 = 100%, 4 = 400%. Esto fuerza al navegador a mostrar barras de scroll.
+        document.getElementById('lightbox-img').style.width = (val * 100) + "%";
+    },
+
+    // FLASHCARDS
+    renderFC: () => { App.fcI=0; App.drawFC(); },
+    drawFC: () => {
+        if(!App.data.flashcards || !App.data.flashcards.length) return;
+        const c = App.data.flashcards[App.fcI];
+        document.getElementById('fc-canvas').innerHTML = `
+            <div class="fc-inner">
+                <div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div>
+                <div class="fc-face fc-back"><div>${c.back}</div></div>
+            </div>`;
+        document.getElementById('fc-canvas').onclick = function() { this.classList.toggle('fc-flipped'); };
+        document.getElementById('fc-count').innerText = `${App.fcI+1}/${App.data.flashcards.length}`;
+    },
+    moveFC: (d) => {
+        App.fcI += d;
+        if(App.fcI < 0) App.fcI = App.data.flashcards.length - 1;
+        if(App.fcI >= App.data.flashcards.length) App.fcI = 0;
+        document.getElementById('fc-canvas').classList.remove('fc-flipped');
+        App.drawFC();
+    },
+
+    // TEST
+    renderTest: () => {
+        const div = document.getElementById('test-container');
+        div.innerHTML = App.data.test.map((q,i) => `
+            <div class="q-block" data-correct="${q.correcta}">
+                <p><b>${i+1}. ${q.pregunta}</b></p>
+                ${q.respuestas.map(r => `<div class="quiz-option" onclick="App.selOpt(this)">${r}</div>`).join('')}
+            </div>
+        `).join('');
+    },
+    selOpt: (el) => {
+        el.parentElement.querySelectorAll('.quiz-option').forEach(e => e.classList.remove('selected'));
+        el.classList.add('selected');
+    },
+    submitTest: () => {
+        let s = 0;
+        const blocks = document.querySelectorAll('.q-block');
+        blocks.forEach(b => {
+            const sel = b.querySelector('.selected');
+            const corr = parseInt(b.dataset.correct);
+            const opts = b.querySelectorAll('.quiz-option');
+            opts.forEach(o => o.classList.remove('correct','wrong'));
+            if(sel) {
+                const idx = Array.from(opts).indexOf(sel);
+                if(idx === corr) { sel.classList.add('correct'); s++; }
+                else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); }
+            }
+        });
+        document.getElementById('test-result').innerText = `Nota: ${s} / ${blocks.length}`;
+        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
+        logs.push({u:App.user.u, d:new Date().toLocaleDateString(), s:s, f:blocks.length-s});
+        localStorage.setItem(App.dbLogs, JSON.stringify(logs));
+        if(['admin','master'].includes(App.user.r)) App.renderAdmin();
     },
 
     // --- LÓGICA DEL PANEL DE GESTIÓN Y PERMISOS ---
@@ -530,87 +583,7 @@ const App = {
         App.renderAdmin();
     },
 
-    clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(); }},
-    nav: (id) => { document.querySelectorAll('.view-section').forEach(x=>x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); },
-    
-  // --- FUNCIÓN DE VISOR CORREGIDA ---
-    openLightbox: (url, txt) => {
-        const img = document.getElementById('lightbox-img');
-        img.src = url;
-        
-        // Reiniciamos el zoom al 100% al abrir
-        img.style.width = "100%"; 
-        document.getElementById('zoom-slider').value = 1;
-        
-        document.getElementById('lightbox-caption').innerText = txt;
-        document.getElementById('lightbox').style.display = 'flex';
-    },
-
-    closeLightbox: () => {
-        document.getElementById('lightbox').style.display = 'none';
-    },
-
-    zoomImage: (val) => {
-        // Cambiamos el ANCHO real en porcentaje. 
-        // 1 = 100%, 4 = 400%. Esto fuerza al navegador a mostrar barras de scroll.
-        document.getElementById('lightbox-img').style.width = (val * 100) + "%";
-    },
-
-    // FLASHCARDS
-    renderFC: () => { App.fcI=0; App.drawFC(); },
-    drawFC: () => {
-        if(!App.data.flashcards || !App.data.flashcards.length) return;
-        const c = App.data.flashcards[App.fcI];
-        document.getElementById('fc-canvas').innerHTML = `
-            <div class="fc-inner">
-                <div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div>
-                <div class="fc-face fc-back"><div>${c.back}</div></div>
-            </div>`;
-        document.getElementById('fc-canvas').onclick = function() { this.classList.toggle('fc-flipped'); };
-        document.getElementById('fc-count').innerText = `${App.fcI+1}/${App.data.flashcards.length}`;
-    },
-    moveFC: (d) => {
-        App.fcI += d;
-        if(App.fcI < 0) App.fcI = App.data.flashcards.length - 1;
-        if(App.fcI >= App.data.flashcards.length) App.fcI = 0;
-        document.getElementById('fc-canvas').classList.remove('fc-flipped');
-        App.drawFC();
-    },
-
-    // TEST
-    renderTest: () => {
-        const div = document.getElementById('test-container');
-        div.innerHTML = App.data.test.map((q,i) => `
-            <div class="q-block" data-correct="${q.correcta}">
-                <p><b>${i+1}. ${q.pregunta}</b></p>
-                ${q.respuestas.map(r => `<div class="quiz-option" onclick="App.selOpt(this)">${r}</div>`).join('')}
-            </div>
-        `).join('');
-    },
-    selOpt: (el) => {
-        el.parentElement.querySelectorAll('.quiz-option').forEach(e => e.classList.remove('selected'));
-        el.classList.add('selected');
-    },
-    submitTest: () => {
-        let s = 0;
-        const blocks = document.querySelectorAll('.q-block');
-        blocks.forEach(b => {
-            const sel = b.querySelector('.selected');
-            const corr = parseInt(b.dataset.correct);
-            const opts = b.querySelectorAll('.quiz-option');
-            opts.forEach(o => o.classList.remove('correct','wrong'));
-            if(sel) {
-                const idx = Array.from(opts).indexOf(sel);
-                if(idx === corr) { sel.classList.add('correct'); s++; }
-                else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); }
-            }
-        });
-        document.getElementById('test-result').innerText = `Nota: ${s} / ${blocks.length}`;
-        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
-        logs.push({u:App.user.u, d:new Date().toLocaleDateString(), s:s, f:blocks.length-s});
-        localStorage.setItem(App.dbLogs, JSON.stringify(logs));
-        if(['admin','master'].includes(App.user.r)) App.renderAdmin();
-    }
+    clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(); }}
 };
 window.onload = App.init;
 </script>
