@@ -1,6 +1,6 @@
 [
   {
-    "id": "curso_noj_salamanca",
+    "id": "noj_salamanca_master",
     "titulo": "Guía Práctica: Nueva Oficina Judicial Salamanca",
     "meta": "Vigor: 31/12/2025 | LO 1/2025",
     "descripcion": "Manual de referencia esencial para la Policía Local sobre la estructura y operativa de la Nueva Oficina Judicial.",
@@ -13,39 +13,59 @@
       {
         "nivel": "Normativa y Protocolos",
         "archivos": [
-          { "nombre": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO (1).pdf", "desc": "Protocolo de Actuación" },
-          { "nombre": "Anexo-I-Manual-de-Organizacion-Salamanca-firmado.pdf", "desc": "Manual de Organización" }
+          { "nombre": "OJ-PROTOCOLO-ACTUACION.pdf", "desc": "Protocolo de Actuación" },
+          { "nombre": "Manual-Organizacion.pdf", "desc": "Manual de Organización" }
         ]
       },
       {
         "nivel": "Manuales Operativos",
         "archivos": [
-          { "nombre": "Anexo-II-Manual-del-SCT-Salamanca-firmado.pdf", "desc": "Manual SCT" },
-          { "nombre": "Anexo-III-Manual-del-SCG-Salamanca-firmado - copia.pdf", "desc": "Manual SCG" },
-          { "nombre": "Anexo-IV-Manual-SCEJ-Salamanca-firmado - copia.pdf", "desc": "Manual SCEJ" }
+          { "nombre": "Manual-SCT.pdf", "desc": "Manual SCT (Tramitación)" },
+          { "nombre": "Manual-SCG.pdf", "desc": "Manual SCG (General)" },
+          { "nombre": "Manual-SCEJ.pdf", "desc": "Manual SCEJ (Ejecución)" }
         ]
       }
     ],
     "secciones_temario": [
       {
-        "titulo": "1. Introducción y Estructura",
-        "contenido": "<h3>1. Introducción: La transformación del sistema judicial</h3><p>El presente documento tiene como finalidad servir de manual operativo y de referencia permanente para todos los miembros de la Policía Local de Salamanca. Este modelo, que entrará en vigor el <strong>31 de diciembre de 2025</strong>, supone una modificación estructural profunda pasando de juzgados individuales a un sistema de servicios comunes.</p><h3>2. Visión general de la nueva Oficina Judicial (OJ)</h3><p>La nueva OJ redefine la relación funcional. Ya no se interactúa con “un juzgado concreto”, sino con servicios especializados.</p><h4>2.1 El Tribunal de Instancia (TI)</h4><p>Integra en una única estructura todas las anteriores plazas judiciales:</p><ul><li>Sección Civil</li><li>Sección de Instrucción</li><li>Sección de Familia, Infancia y Capacidad</li><li>Sección de lo Penal</li><li>Sección de Menores</li><li>Sección de Vigilancia Penitenciaria</li><li>Sección de lo Contencioso-Administrativo</li><li>Sección de lo Social</li></ul><h4>2.2 Los Servicios Comunes</h4><table class='doc-table'><tr><th>Servicio</th><th>Función Principal</th></tr><tr><td><strong>SCG (General)</strong></td><td>Punto único de entrada: recepción, registro, reparto, actos de comunicación y archivo.</td></tr><tr><td><strong>SCT (Tramitación)</strong></td><td>Gestión integral en fase declarativa (instrucción y enjuiciamiento).</td></tr><tr><td><strong>SCEJ (Ejecución)</strong></td><td>Ejecución de resoluciones judiciales firmes.</td></tr></table>"
+        "titulo": "1. Introducción",
+        "contenido": "<h3>1. Introducción: La transformación del sistema judicial</h3><p>El presente documento tiene como finalidad servir de manual operativo y de referencia permanente para todos los miembros de la Policía Local de Salamanca. Este modelo, que entrará en vigor el <strong>31 de diciembre de 2025</strong>, supone una modificación estructural profunda pasando de juzgados individuales a un sistema de servicios comunes integrados.</p><p>Se abandonan los juzgados estancos para pasar a:</p><ul><li>Incrementar la agilidad.</li><li>Garantizar criterios homogéneos.</li><li>Optimizar recursos.</li><li>Facilitar la interoperabilidad digital.</li></ul>"
       },
       {
-        "titulo": "3. Guía Operativa (Patrulla)",
-        "contenido": "<h3>3. Guía operativa para la escala ejecutiva</h3><h4>3.1 Inicio del procedimiento: destino del atestado</h4><p><strong>Principio fundamental:</strong> Todo documento policial tiene un único punto de entrada ordinario: el <strong>Servicio Común General (SCG)</strong>.</p><ul><li><strong>Presentación:</strong> Preferentemente telemática. Lunes a viernes laborables, 08:30 a 15:00.</li><li><strong>Registro y Reparto:</strong> El SCG registra y asigna a la sección competente.</li><li><strong>Asignación:</strong> En penal, se remite al SCT correspondiente para instrucción.</li></ul><p><em>Importante: Un atestado mal dirigido se devuelve al circuito inicial, generando retrasos.</em></p><h4>3.2 Interacción con el Servicio de Guardia (GU)</h4><p>Se activa exclusivamente para actuaciones urgentes e inaplazables. <strong>Documentación directa a Guardia:</strong></p><ul><li>Atestados con persona detenida.</li><li>Atestados con investigado citado ante el juez de guardia.</li><li>Solicitudes urgentes (Entradas y registros, intervenciones telefónicas, cautelares inmediatas).</li></ul>"
+        "titulo": "2. Visión General",
+        "contenido": "<h3>2. Visión general de la nueva Oficina Judicial (OJ)</h3><p>La nueva OJ redefine la relación funcional. Ya no se interactúa con “un juzgado concreto”, sino con servicios especializados.</p><h4>2.1 El Tribunal de Instancia (TI)</h4><p>Integra en una única estructura todas las anteriores plazas judiciales. Secciones:</p><ul><li>Sección Civil</li><li>Sección de Instrucción</li><li>Sección de Familia, Infancia y Capacidad</li><li>Sección de lo Penal</li><li>Sección de Menores</li><li>Sección de Vigilancia Penitenciaria</li><li>Sección de lo Contencioso-Administrativo</li><li>Sección de lo Social</li></ul>"
       },
       {
-        "titulo": "4. Policía Judicial",
-        "contenido": "<h3>4. Manual avanzado para agentes de Policía Judicial</h3><h4>4.1 Servicio Común de Tramitación (SCT) – Área Penal</h4><p>Gestiona desde el inicio hasta la firmeza. Estructura:</p><ul><li><strong>Equipos de Instrucción:</strong> Investigación, diligencias y pruebas.</li><li><strong>Equipos de Enjuiciamiento:</strong> Apertura de juicio oral, señalamientos y sentencias.</li></ul><h4>4.2 Unidades especializadas (S4M)</h4><ul><li><strong>Violencia sobre la Mujer:</strong> Grupo de Instrucción nº 3. Gestiona instrucción y órdenes de protección.</li><li><strong>Menores:</strong> Grupo específico en Equipo de Enjuiciamiento.</li><li><strong>Familia (Área Civil):</strong> Internamientos no voluntarios y custodias conflictivas.</li></ul><h4>4.3 Fase de ejecución (SCEJ)</h4><p>Una vez firme la sentencia, el SCEJ gestiona: mandamientos de prisión, busca y captura, libertad, multas, embargos y suspensión de penas.</p><h4>4.4 Gestión digital</h4><p>Uso obligatorio de canales telemáticos. Los errores iniciales se propagan por todo el expediente.</p>"
+        "titulo": "3. Servicios Comunes",
+        "contenido": "<h3>2.2 Los Servicios Comunes</h3><p>Columna vertebral de la OJ:</p><table class='doc-table'><tr><th>Servicio</th><th>Acrónimo</th><th>Función Principal</th></tr><tr><td><strong>Servicio Común General</strong></td><td>SCG</td><td>Punto único de entrada: recepción, registro, reparto, actos de comunicación y archivo.</td></tr><tr><td><strong>Servicio Común de Tramitación</strong></td><td>SCT</td><td>Gestión integral de los procedimientos en fase declarativa (instrucción y enjuiciamiento).</td></tr><tr><td><strong>Servicio Común de Ejecución</strong></td><td>SCEJ</td><td>Ejecución de resoluciones judiciales firmes.</td></tr></table>"
       },
       {
-        "titulo": "5. Mandos y Gestión",
-        "contenido": "<h3>5. Pautas para la escala técnica y superior</h3><h4>5.1 Estructura de mando</h4><ul><li><strong>Director/a del Servicio (LAJ):</strong> Máxima autoridad funcional.</li><li><strong>Jefatura de Área (LAJ/GPA):</strong> Coordinación por materias.</li><li><strong>Jefatura de Equipo (GPA/TPA):</strong> Gestión directa operativa.</li></ul><h4>5.2 Coordinación</h4><p><strong>Comité de Dirección:</strong> Órgano estratégico para homogeneizar metodología.<br><strong>Comités de Coordinación:</strong> Resolución de problemas operativos diarios.</p><h4>5.3 Gestión de incidencias comunes</h4><table class='doc-table'><tr><th>Incidencia</th><th>Procedimiento</th></tr><tr><td>Reparto incorrecto</td><td>Devolución al equipo de inicio; corrección vía SCG.</td></tr><tr><td>Errores en datos</td><td>Corrección por la Jefatura de Equipo tramitador.</td></tr><tr><td>Documento sin registro</td><td>Remisión inmediata al SCG (equipo de inicio).</td></tr></table>"
+        "titulo": "4. Guía Operativa",
+        "contenido": "<h3>3. Guía operativa para la escala ejecutiva</h3><h4>3.1 Inicio del procedimiento: destino del atestado</h4><p><strong>Principio fundamental:</strong> Todo documento policial tiene un único punto de entrada ordinario: el <strong>Servicio Común General (SCG)</strong>.</p><ul><li><strong>Presentación:</strong> Preferentemente telemática. Lunes a viernes laborables, 08:30 a 15:00.</li><li><strong>Registro y Reparto:</strong> El SCG registra y asigna a la sección competente.</li><li><strong>Asignación:</strong> En penal, se remite al SCT correspondiente para instrucción.</li></ul><p><em>Importante: Un atestado mal dirigido se devuelve al circuito inicial, generando retrasos.</em></p>"
       },
       {
-        "titulo": "6. Protocolos y Flujos",
-        "contenido": "<h3>6. Instrucción interna de Jefatura</h3><p>Obligatoria y vinculante. Entrada en vigor: 31/12/2025. <strong>Principio:</strong> Punto único SCG (salvo urgencias) y preferencia telemática.</p><h3>7. Esquemas operativos de flujo</h3><ul><li><strong>Atestado NO urgente:</strong> Policía &rarr; SCG &rarr; Registro &rarr; SCT (Instrucción).</li><li><strong>Actuación Urgente:</strong> Detenido/Medida &rarr; Guardia (Directo) &rarr; Resolución inmediata.</li><li><strong>Ejecución:</strong> Sentencia firme &rarr; SCEJ &rarr; Mandamiento a Policía &rarr; Ejecución material.</li></ul><h3>8. Adaptación por materias</h3><ul><li><strong>Tráfico:</strong> Delitos seguridad vial al SCG. Juicios rápidos a Guardia.</li><li><strong>Violencia Género:</strong> Atestados urgentes a Guardia. Unidad: Grupo Instrucción nº 3.</li><li><strong>Contencioso:</strong> Denuncias administrativas judicializadas al SCG.</li></ul><h3>9. Resumen de Bolsillo (Patrulla)</h3><p><strong>¿Tengo un atestado?</strong><br>- No urgente &rarr; SCG.<br>- Detenido/Urgente &rarr; Guardia.</p><p><strong>¿Es ejecución de sentencia?</strong><br>- Siempre SCEJ (Nunca al juzgado directo).</p>"
+        "titulo": "5. Guardia (Urgencias)",
+        "contenido": "<h4>3.2 Interacción con el Servicio de Guardia (GU)</h4><p>Se activa exclusivamente para actuaciones urgentes e inaplazables. <strong>Documentación directa a Guardia:</strong></p><ul><li>Atestados con persona detenida.</li><li>Atestados con investigado citado ante el juez de guardia.</li><li>Solicitudes urgentes (Entradas y registros, intervenciones telefónicas, cautelares inmediatas).</li></ul><p>El juez de guardia adopta decisiones en tiempo real y posteriormente el procedimiento se integra en el SCT.</p>"
+      },
+      {
+        "titulo": "6. Policía Judicial",
+        "contenido": "<h3>4. Manual avanzado para agentes de Policía Judicial</h3><h4>4.1 Servicio Común de Tramitación (SCT) – Área Penal</h4><p>Gestiona desde el inicio hasta la firmeza. Estructura:</p><ul><li><strong>Equipos de Instrucción:</strong> Investigación penal, diligencias, pruebas, medidas cautelares.</li><li><strong>Equipos de Enjuiciamiento:</strong> Apertura de juicio oral, señalamientos y sentencias.</li></ul><p>Existen grupos de trabajo específicos para delitos graves/menos graves y para delitos leves.</p>"
+      },
+      {
+        "titulo": "7. Unidades Espec.",
+        "contenido": "<h4>4.2 Unidades especializadas (S4M)</h4><ul><li><strong>Violencia sobre la Mujer:</strong> Grupo de Instrucción nº 3. Gestiona instrucción, delitos leves asociados y órdenes de protección.</li><li><strong>Menores:</strong> Grupo específico en Equipo de Enjuiciamiento. Competencia integral desde Fiscalía hasta ejecución de medidas.</li><li><strong>Familia (Área Civil):</strong> Internamientos no voluntarios y custodias conflictivas (requerimientos del LAJ).</li></ul>"
+      },
+      {
+        "titulo": "8. Ejecución (SCEJ)",
+        "contenido": "<h4>4.3 Fase de ejecución (SCEJ)</h4><p>Una vez firme la sentencia, el SCEJ gestiona:</p><ul><li>Mandamientos de prisión, busca y captura e ingreso.</li><li>Mandamientos de libertad.</li><li>Ejecución de multas, indemnizaciones, embargos y averiguación patrimonial.</li><li>Suspensión de penas.</li></ul><h4>4.4 Gestión digital</h4><p>Uso obligatorio de canales telemáticos. Los errores iniciales se propagan por todo el expediente.</p>"
+      },
+      {
+        "titulo": "9. Mandos",
+        "contenido": "<h3>5. Pautas para la escala técnica y superior</h3><h4>5.1 Estructura de mando</h4><ul><li><strong>Director/a del Servicio (LAJ):</strong> Máxima autoridad funcional.</li><li><strong>Jefatura de Área (LAJ/GPA):</strong> Coordinación por materias.</li><li><strong>Jefatura de Equipo (GPA/TPA):</strong> Gestión directa operativa.</li></ul><h4>5.2 Coordinación</h4><p><strong>Comité de Dirección:</strong> Órgano estratégico para homogeneizar metodología.<br><strong>Comités de Coordinación:</strong> Resolución de problemas operativos diarios.</p>"
+      },
+      {
+        "titulo": "10. Protocolos",
+        "contenido": "<h3>6. Instrucción interna y Flujos</h3><p>Obligatoria y vinculante. <strong>Principio:</strong> Punto único SCG (salvo urgencias) y preferencia telemática.</p><h4>Flujos Clave:</h4><ul><li><strong>Atestado NO urgente:</strong> Policía &rarr; SCG &rarr; Registro &rarr; SCT (Instrucción).</li><li><strong>Actuación Urgente:</strong> Detenido/Medida &rarr; Guardia (Directo) &rarr; Resolución inmediata.</li><li><strong>Ejecución:</strong> Sentencia firme &rarr; SCEJ &rarr; Mandamiento a Policía &rarr; Ejecución material.</li></ul><h4>Gestión de Incidencias:</h4><p>Reparto incorrecto &rarr; Devolver a equipo de inicio. Sin registrar &rarr; Remitir a SCG.</p>"
       }
     ],
     "flashcards": [
@@ -92,9 +112,9 @@
       { "front": "¿Frecuencia control cuentas consignación?", "back": "Trimestral" },
       { "front": "¿Quién propone el régimen de sustituciones en SCT?", "back": "La Jefatura de Área" },
       { "front": "¿Horario atención al público general?", "back": "09:00 a 14:00 (Verificar protocolo específico)" },
-      { "front": "¿A quién se comunica la entrada en vigor?", "back": "Sala Gobierno TSJ, Fiscalía, Colegios Profesionales, Gerencia, etc." },
-      { "front": "¿Nivel 4 de organización?", "back": "Unidades Funcionales" },
-      { "front": "¿Nivel 1 de organización?", "back": "Equipos" },
+      { "front": "¿A quién se comunica la entrada en vigor?", "back": "Sala Gobierno TSJ, Fiscalía, Colegios, Gerencia, etc." },
+      { "front": "¿Nivel 4 de organización interna?", "back": "Unidades Funcionales" },
+      { "front": "¿Nivel 1 de organización interna?", "back": "Equipos" },
       { "front": "¿Quién firma el protocolo?", "back": "Secretario Coordinador Provincial y Secretario de Gobierno TSJ" },
       { "front": "¿Ubicación personal funcionario?", "back": "Puestos de trabajo próximos por equipos" },
       { "front": "¿Quién gestiona el Archivo Judicial de Gestión?", "back": "SCG - Equipo 2" },
@@ -149,7 +169,8 @@
       { "front": "¿Qué es la LOPJ?", "back": "Ley Orgánica del Poder Judicial" },
       { "front": "¿Qué es el EVID?", "back": "Sistema de Grabación de Vistas" },
       { "front": "¿Qué es la firma digital?", "back": "Autenticación electrónica de documentos" },
-      { "front": "¿Quién nombra a los peritos judiciales?", "back": "El órgano judicial (por listas o sorteo)" }
+      { "front": "¿Quién nombra a los peritos judiciales?", "back": "El órgano judicial (por listas o sorteo)" },
+      { "front": "¿Se pueden usar USB en equipos judiciales?", "back": "No, está prohibido por seguridad informática" }
     ],
     "test": [
       {
@@ -402,56 +423,106 @@
         "respuestas": ["Agilidad y eficiencia", "Ahorrar papel", "Contratar más gente"],
         "correcta": 0
       },
-      { "pregunta": "¿Qué principio rige la actuación de los Servicios Comunes Procesales?", "respuestas": ["Independencia absoluta", "Jerarquía y unidad de actuación", "Autonomía de cada funcionario"], "correcta": 1 },
-      { "pregunta": "¿Quién es el responsable de la dirección técnico-procesal del SCT?", "respuestas": ["El Juez Decano", "El LAJ Director", "El Fiscal Jefe"], "correcta": 1 },
-      { "pregunta": "¿A qué servicio corresponde la expedición de certificaciones sobre asuntos archivados?", "respuestas": ["SCG", "SCT", "Decanato"], "correcta": 0 },
-      { "pregunta": "¿Cómo se denominan las unidades que prestan soporte a varios órganos judiciales?", "respuestas": ["Unidades Procesales de Apoyo Directo (UPAD)", "Servicios Comunes Procesales (SCP)", "Juzgados Bis"], "correcta": 1 },
-      { "pregunta": "¿Quién autoriza la entrada y registro en un domicilio en fase de instrucción?", "respuestas": ["El LAJ", "El Juez de Instrucción / Guardia", "El Comisario"], "correcta": 1 },
-      { "pregunta": "¿Qué ocurre con las piezas de convicción tóxicas o peligrosas?", "respuestas": ["Se guardan en el despacho del Juez", "Se sigue un protocolo especial de destrucción/custodia", "Se entregan al denunciante"], "correcta": 1 },
-      { "pregunta": "¿El Servicio Común de Ejecución (SCEJ) puede realizar lanzamientos?", "respuestas": ["No, eso es del SCG", "Sí, a través de sus funcionarios o comisión", "Solo si va el Juez"], "correcta": 1 },
-      { "pregunta": "¿Dónde se presentan los escritos de mero trámite?", "respuestas": ["Directamente al Juez", "En el SCG (Registro)", "En Comisaría"], "correcta": 1 },
-      { "pregunta": "¿Qué sistema se utiliza para el embargo telemático de cuentas?", "respuestas": ["Punto Neutro Judicial", "Google Pay", "Agencia Tributaria Directa"], "correcta": 0 },
-      { "pregunta": "¿Quién es el superior jerárquico del Cuerpo de Auxilio Judicial en la OJ?", "respuestas": ["El Gestor Procesal", "El LAJ Director del Servicio", "El Policía de la puerta"], "correcta": 1 },
-      { "pregunta": "¿Qué servicio gestiona las Salas de Vistas?", "respuestas": ["SCT / SCG (según protocolo)", "El servicio de limpieza", "Los abogados"], "correcta": 0 },
-      { "pregunta": "¿Quién notifica la sentencia al penado?", "respuestas": ["El Juez oralmente", "El SCG (Actos de Comunicación)", "El abogado siempre"], "correcta": 1 },
-      { "pregunta": "¿Cuál es el plazo para detener a una persona sin ponerla a disposición judicial?", "respuestas": ["72 horas máximo", "24 horas", "48 horas"], "correcta": 0 },
-      { "pregunta": "¿Las citaciones a policías para juicios se hacen a través de...?", "respuestas": ["Teléfono personal", "Conducto reglamentario / Gestión Policial", "Correo postal ordinario"], "correcta": 1 },
-      { "pregunta": "¿Qué es la Oficina de Atención al Ciudadano/Víctima?", "respuestas": ["Un servicio externo", "Una unidad dentro de la OJ/Fiscalía", "Una ONG"], "correcta": 1 },
-      { "pregunta": "¿Quién decreta el secreto de sumario?", "respuestas": ["El LAJ", "El Juez de Instrucción", "La Policía Judicial"], "correcta": 1 },
-      { "pregunta": "¿A quién corresponde la tasación de costas?", "respuestas": ["Al Colegio de Abogados", "Al LAJ del servicio correspondiente", "Al Juez"], "correcta": 1 },
-      { "pregunta": "¿Qué documento inicia el procedimiento de Habeas Corpus?", "respuestas": ["Una querella", "Una solicitud/escrito del detenido o tercero", "Un atestado ordinario"], "correcta": 1 },
-      { "pregunta": "¿Dónde se ubica físicamente el SCG de Salamanca?", "respuestas": ["En la Comisaría Provincial", "En la sede principal de los Juzgados (Plaza Colón/Gran Vía)", "En el Ayuntamiento"], "correcta": 1 },
-      { "pregunta": "¿Quién gestiona el turno de oficio?", "respuestas": ["El Colegio de Abogados", "El Juez Decano", "El SCG"], "correcta": 0 },
-      { "pregunta": "¿Qué recurso cabe contra una diligencia de ordenación del LAJ?", "respuestas": ["Recurso de reposición", "Recurso de amparo", "No cabe recurso"], "correcta": 0 },
-      { "pregunta": "¿Puede la Policía Local acceder directamente al sistema Atenea?", "respuestas": ["Sí, tienen claves totales", "No, solo a través de pasarelas/interoperabilidad", "Sí, desde cualquier ordenador"], "correcta": 1 },
-      { "pregunta": "¿Quién preside la Junta de Jueces?", "respuestas": ["El Juez Decano", "El Presidente de la Audiencia", "El LAJ Coordinador"], "correcta": 0 },
-      { "pregunta": "¿Qué función tiene el médico forense en la guardia?", "respuestas": ["Atender urgencias médicas generales", "Valoración de detenidos, levantamiento de cadáveres, etc.", "Sustituir al Juez"], "correcta": 1 },
-      { "pregunta": "¿Cuándo se considera hábil el mes de agosto en penal?", "respuestas": ["Nunca", "Siempre para causas urgentes/con preso", "Solo por las mañanas"], "correcta": 1 },
-      { "pregunta": "¿Qué unidad tramita los expedientes de jurisdicción voluntaria?", "respuestas": ["SCT Civil", "SCEJ", "Registro Civil"], "correcta": 0 },
-      { "pregunta": "¿Quién da fe pública de las actuaciones judiciales?", "respuestas": ["El Juez", "El LAJ (Letrado A.J.)", "El agente de policía"], "correcta": 1 },
-      { "pregunta": "¿Qué es un exhorto?", "respuestas": ["Una multa", "Una solicitud de auxilio judicial a otro juzgado", "Una sentencia absolutoria"], "correcta": 1 },
-      { "pregunta": "¿Quién ejecuta los desahucios?", "respuestas": ["La Comisión Judicial (SCG/SCEJ)", "El propietario", "El Ayuntamiento"], "correcta": 0 },
-      { "pregunta": "¿Qué sucede con los objetos decomisados de lícito comercio?", "respuestas": ["Se los queda la policía", "Se realizan o destruyen según orden judicial", "Se tiran a la basura"], "correcta": 1 },
-      { "pregunta": "¿Quién ordena la busca y captura de un rebelde?", "respuestas": ["La Policía", "El Juez o Tribunal", "El Fiscal"], "correcta": 1 },
-      { "pregunta": "¿Qué servicio tramita la libertad condicional?", "respuestas": ["Juzgado de Vigilancia Penitenciaria (SCT)", "SCG", "Servicio de Guardia"], "correcta": 0 },
-      { "pregunta": "¿Quién es competente para delitos de homicidio?", "respuestas": ["Juzgado de Paz", "Tribunal del Jurado / Audiencia Provincial", "Juzgado de lo Social"], "correcta": 1 },
-      { "pregunta": "¿Qué documento acredita la notificación a un detenido?", "respuestas": ["La lectura de derechos firmada", "El DNI", "La denuncia"], "correcta": 0 },
-      { "pregunta": "¿Quién gestiona la videoconferencia si falla la conexión?", "respuestas": ["El informático / Auxilio Judicial", "El Juez", "Nadie, se suspende siempre"], "correcta": 0 },
-      { "pregunta": "¿Dónde van los asuntos de incapacidades?", "respuestas": ["SCT Familia/Capacidad", "SCT Penal", "Juzgado de Guardia"], "correcta": 0 },
-      { "pregunta": "¿Qué es la 'dación de cuenta'?", "respuestas": ["Pagar una fianza", "Informar al Juez/LAJ del estado de los autos", "Entregar el atestado"], "correcta": 1 },
-      { "pregunta": "¿Quién puede solicitar una orden de protección?", "respuestas": ["Solo la víctima", "La víctima, fiscalía o de oficio por el Juez", "Solo la policía"], "correcta": 1 },
-      { "pregunta": "¿Qué servicio archiva definitivamente los pleitos terminados?", "respuestas": ["SCG (Archivo Territorial/Judicial)", "SCT", "En el despacho del Juez"], "correcta": 0 },
-      { "pregunta": "¿Quién controla el acceso a la sede judicial?", "respuestas": ["Guardia Civil / Seguridad Privada", "Los LAJ", "Los funcionarios"], "correcta": 0 },
-      { "pregunta": "¿Qué es Apud Acta?", "respuestas": ["Un apoderamiento realizado ante el LAJ", "Una sentencia", "Una detención"], "correcta": 0 },
-      { "pregunta": "¿Las requisitorias policiales caducan?", "respuestas": ["Sí, según prescripción del delito/pena", "No, nunca", "A los 6 meses siempre"], "correcta": 0 },
-      { "pregunta": "¿Quién dirige la investigación antes de la apertura del juicio?", "respuestas": ["Juez de Instrucción", "Policía Local", "Abogado defensor"], "correcta": 0 },
-      { "pregunta": "¿Qué es un juicio rápido?", "respuestas": ["Diligencias Urgentes", "Procedimiento Abreviado", "Sumario"], "correcta": 0 },
-      { "pregunta": "¿Dónde se entrega un menor detenido?", "respuestas": ["Fiscalía de Menores / GRUME", "Juzgado de Guardia de adultos", "Cárcel provincial"], "correcta": 0 },
-      { "pregunta": "¿Quién firma las diligencias de constancia?", "respuestas": ["El LAJ o funcionario competente", "El Juez", "El detenido"], "correcta": 0 },
-      { "pregunta": "¿El atestado tiene valor de...?", "respuestas": ["Prueba plena", "Denuncia / Prueba documental si se ratifica", "Sentencia"], "correcta": 1 },
-      { "pregunta": "¿Quién resuelve los conflictos de competencia entre juzgados?", "respuestas": ["La Audiencia Provincial / TSJ", "El SCG", "La Policía"], "correcta": 0 },
-      { "pregunta": "¿Qué servicio gestiona la subasta de bienes embargados?", "respuestas": ["SCEJ (Portal de Subastas BOE)", "SCT", "SCG"], "correcta": 0 },
-      { "pregunta": "¿Es posible presentar escritos 24h al día?", "respuestas": ["Sí, vía LexNet", "No, solo en horario de oficina", "Solo si está de guardia el funcionario"], "correcta": 0 }
+      {
+        "pregunta": "¿Qué principio rige la actuación de los Servicios Comunes Procesales?",
+        "respuestas": ["Independencia absoluta", "Jerarquía y unidad de actuación", "Autonomía de cada funcionario"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Quién es el responsable de la dirección técnico-procesal del SCT?",
+        "respuestas": ["El Juez Decano", "El LAJ Director", "El Fiscal Jefe"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿A qué servicio corresponde la expedición de certificaciones sobre asuntos archivados?",
+        "respuestas": ["SCG", "SCT", "Decanato"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Cómo se denominan las unidades que prestan soporte a varios órganos judiciales?",
+        "respuestas": ["Unidades Procesales de Apoyo Directo (UPAD)", "Servicios Comunes Procesales (SCP)", "Juzgados Bis"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Quién autoriza la entrada y registro en un domicilio en fase de instrucción?",
+        "respuestas": ["El LAJ", "El Juez de Instrucción / Guardia", "El Comisario"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué ocurre con las piezas de convicción tóxicas o peligrosas?",
+        "respuestas": ["Se guardan en el despacho del Juez", "Se sigue un protocolo especial de destrucción/custodia", "Se entregan al denunciante"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿El Servicio Común de Ejecución (SCEJ) puede realizar lanzamientos?",
+        "respuestas": ["No, eso es del SCG", "Sí, a través de sus funcionarios o comisión", "Solo si va el Juez"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Dónde se presentan los escritos de mero trámite?",
+        "respuestas": ["Directamente al Juez", "En el SCG (Registro)", "En Comisaría"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué sistema se utiliza para el embargo telemático de cuentas?",
+        "respuestas": ["Punto Neutro Judicial", "Google Pay", "Agencia Tributaria Directa"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién es el superior jerárquico del Cuerpo de Auxilio Judicial en la OJ?",
+        "respuestas": ["El Gestor Procesal", "El LAJ Director del Servicio", "El Policía de la puerta"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué servicio gestiona las Salas de Vistas?",
+        "respuestas": ["SCT / SCG (según protocolo)", "El servicio de limpieza", "Los abogados"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién notifica la sentencia al penado?",
+        "respuestas": ["El Juez oralmente", "El SCG (Actos de Comunicación)", "El abogado siempre"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Cuál es el plazo para detener a una persona sin ponerla a disposición judicial?",
+        "respuestas": ["72 horas máximo", "24 horas", "48 horas"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Las citaciones a policías para juicios se hacen a través de...?",
+        "respuestas": ["Teléfono personal", "Conducto reglamentario / Gestión Policial", "Correo postal ordinario"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué es la Oficina de Atención al Ciudadano/Víctima?",
+        "respuestas": ["Un servicio externo", "Una unidad dentro de la OJ/Fiscalía", "Una ONG"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Quién decreta el secreto de sumario?",
+        "respuestas": ["El LAJ", "El Juez de Instrucción", "La Policía Judicial"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿A quién corresponde la tasación de costas?",
+        "respuestas": ["Al Colegio de Abogados", "Al LAJ del servicio correspondiente", "Al Juez"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué documento inicia el procedimiento de Habeas Corpus?",
+        "respuestas": ["Una querella", "Una solicitud/escrito del detenido o tercero", "Un atestado ordinario"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Dónde se ubica físicamente el SCG de Salamanca?",
+        "respuestas": ["En la Comisaría Provincial", "En la sede principal de los Juzgados (Plaza Colón/Gran Vía)", "En el Ayuntamiento"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Quién gestiona el turno de oficio?",
+        "respuestas": ["El Colegio de Abogados", "El Juez Decano", "El SCG"],
+        "correcta": 0
+      }
     ]
   }
 ]
