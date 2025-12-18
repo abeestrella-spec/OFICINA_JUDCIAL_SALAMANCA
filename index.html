@@ -42,7 +42,7 @@
         .view-section { display: none; animation: fadeIn 0.3s; }
         .view-section.active { display: block; }
 
-        /* TEMARIO (2 FILAS) */
+        /* TEMARIO */
         .doc-nav { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 20px; }
         .doc-tab { padding: 10px; background: #e0e0e0; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.8rem; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .doc-tab.active { background: var(--primary); color: white; }
@@ -51,6 +51,21 @@
         .doc-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .doc-table th, .doc-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
         .doc-table th { background: #f1f1f1; }
+
+        /* MULTIMEDIA GRID */
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .media-card { background: white; padding: 15px; cursor: pointer; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .media-card:hover { transform: translateY(-5px); border: 2px solid var(--primary); }
+        .media-card img { max-width: 100%; height: 200px; object-fit: cover; border-radius: 4px; }
+        .media-card p { font-weight: bold; margin-top: 10px; color: var(--primary); }
+
+        /* VISOR (ZOOM + SCROLL FIXED) */
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; flex-direction: column; align-items: center; justify-content: center; }
+        #lightbox-container { width: 90%; height: 80%; background: #222; border: 1px solid #555; overflow: auto; display: flex; align-items: flex-start; justify-content: center; position: relative; }
+        #lightbox-img { width: 100%; height: auto; max-width: none !important; transition: width 0.2s ease; transform-origin: top center; }
+        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
+        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 4rem; cursor: pointer; z-index: 10001; }
+        input[type=range] { width: 300px; cursor: pointer; }
 
         /* FLASHCARDS */
         .fc-wrapper { display: flex; flex-direction: column; align-items: center; gap: 20px; }
@@ -72,50 +87,27 @@
         .quiz-option.correct { background: #d4edda; border-color: green; }
         .quiz-option.wrong { background: #f8d7da; border-color: red; }
 
-        /* VISOR MULTIMEDIA CORREGIDO (SCROLL + ZOOM REAL) */
-        #lightbox { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.98); z-index: 99999; 
-            flex-direction: column; align-items: center; justify-content: center; 
-        }
-        #lightbox-container { 
-            width: 90%; height: 80%; background: #222; border: 1px solid #555; 
-            overflow: auto; /* IMPORTANTE: Activa scroll */
-            display: flex; align-items: flex-start; justify-content: center; 
-        }
-        #lightbox-img { 
-            width: 100%; height: auto; max-width: none !important; 
-            transition: width 0.2s ease; transform-origin: top center; 
-        }
-        #lightbox-controls { margin-top: 15px; display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 50px; }
-        #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 4rem; cursor: pointer; z-index: 100000; }
-        input[type=range] { width: 300px; cursor: pointer; }
-
-        /* ADMIN & MEDIA GRID */
+        /* ADMIN */
         .admin-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; font-size: 0.9rem; }
         .admin-table th, .admin-table td { padding: 10px; border: 1px solid #ddd; text-align: left; }
         .admin-table th { background: #eee; }
         .import-area { width: 100%; height: 100px; padding: 10px; margin-top: 10px; font-family: monospace; font-size: 11px; }
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .media-card { background: white; padding: 15px; cursor: pointer; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .media-card:hover { transform: translateY(-5px); }
-        .media-card img { max-width: 100%; height: 180px; object-fit: cover; border-radius: 4px; }
-        
         .hidden { display: none !important; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="lightbox">
         <span id="lightbox-close" onclick="App.closeLightbox()">&times;</span>
-        <div id="lightbox-container"><img id="lightbox-img" src=""></div>
+        <div id="lightbox-container">
+            <img id="lightbox-img" src="">
+        </div>
         <div id="lightbox-controls">
             <span style="color:white"><i class="fas fa-search-minus"></i></span>
             <input type="range" min="1" max="5" step="0.1" value="1" oninput="App.zoom(this.value)">
             <span style="color:white"><i class="fas fa-search-plus"></i></span>
         </div>
-        <div id="lightbox-caption" style="color:white; margin-top:10px;"></div>
+        <div id="lightbox-caption" style="color:white; margin-top:10px; font-weight:bold;"></div>
     </div>
 
     <div id="login-screen">
@@ -166,12 +158,12 @@
                 </div>
 
                 <div id="view-biblio" class="view-section">
-                    <h2>Biblioteca</h2>
+                    <h2>Biblioteca Digital</h2>
                     <ul id="file-tree" style="list-style:none; padding:0;"></ul>
                 </div>
 
                 <div id="view-media" class="view-section">
-                    <h2>Multimedia</h2>
+                    <h2>Recursos Visuales</h2>
                     <div id="media-container" class="media-grid"></div>
                     <div style="margin-top:20px; background:white; padding:20px; border-radius:8px;">
                         <h3>Audio Resumen</h3>
@@ -200,35 +192,19 @@
 
                 <div id="view-admin" class="view-section">
                     <h2>Panel de Gestión</h2>
-                    
                     <div id="admin-tools">
                         <div style="background:white; padding:20px; border-radius:8px; margin-bottom:20px;">
                             <h3>Añadir Usuario</h3>
                             <input type="text" id="new-u" placeholder="Usuario" style="width:100%; padding:8px; margin-bottom:5px;">
                             <input type="text" id="new-p" placeholder="Clave" style="width:100%; padding:8px; margin-bottom:5px;">
                             <select id="new-r" style="width:100%; padding:8px; margin-bottom:5px;">
-                                <optgroup label="Agentes">
-                                    <option value="adc">Agente DC</option>
-                                    <option value="adt">Agente DT</option>
-                                    <option value="aut">Agente UT</option>
-                                </optgroup>
-                                <optgroup label="Mandos">
-                                    <option value="mdc">Mando Calle (MDC)</option>
-                                    <option value="mdt">Mando Territorial (MDT)</option>
-                                    <option value="mut">Mando Técnico (MUT)</option>
-                                </optgroup>
-                                <optgroup label="Dirección">
-                                    <option value="jef">Jefatura (JEF)</option>
-                                    <option value="admin">Administrador</option>
-                                    <option value="master">MASTER</option>
-                                </optgroup>
+                                <optgroup label="Agentes"><option value="adc">Agente DC</option><option value="adt">Agente DT</option><option value="aut">Agente UT</option></optgroup>
+                                <optgroup label="Mandos"><option value="mdc">Mando MDC</option><option value="mdt">Mando MDT</option><option value="mut">Mando MUT</option></optgroup>
+                                <optgroup label="Dirección"><option value="jef">Jefatura</option><option value="admin">Admin</option><option value="master">MASTER</option></optgroup>
                             </select>
-                            <select id="new-b" style="width:100%; padding:8px; margin-bottom:10px; background:#f0f7ff;">
-                                <option value="">-- Asignar Jefe --</option>
-                            </select>
+                            <select id="new-b" style="width:100%; padding:8px; margin-bottom:10px; background:#f0f7ff;"><option value="">-- Asignar Mando --</option></select>
                             <button class="btn-enter" onclick="App.addUser()">Crear Usuario</button>
                         </div>
-                        
                         <div style="background:white; padding:20px; border-radius:8px; margin-bottom:20px;">
                             <h3>Importar Excel</h3>
                             <textarea id="import-data" class="import-area" placeholder="Usuario | Clave | Rol | Jefe"></textarea>
@@ -236,23 +212,15 @@
                             <p id="import-msg" style="color:green; font-weight:bold;"></p>
                         </div>
                     </div>
-
                     <h3>Resultados Académicos</h3>
                     <table class="admin-table">
                         <thead><tr><th>Usuario</th><th>Rol</th><th>Fecha</th><th>Nota</th><th>Fallos</th><th>Mando Asignado</th></tr></thead>
                         <tbody id="admin-logs"></tbody>
                     </table>
-                    
                     <div id="security-box" style="margin-top:30px; display:none;">
                         <h3 style="color:#c0392b"><i class="fas fa-shield-alt"></i> Auditoría de Seguridad</h3>
-                        <div style="max-height:200px; overflow-y:auto; border:1px solid #ccc;">
-                            <table class="admin-table" style="margin:0;">
-                                <thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Detalle</th></tr></thead>
-                                <tbody id="sec-logs"></tbody>
-                            </table>
-                        </div>
+                        <div style="max-height:200px; overflow-y:auto; border:1px solid #ccc;"><table class="admin-table" style="margin:0;"><thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Detalle</th></tr></thead><tbody id="sec-logs"></tbody></table></div>
                     </div>
-                    
                     <button class="btn-enter" style="background:#c0392b; width:auto; margin-top:20px;" onclick="App.clearLogs()">Borrar Historial</button>
                 </div>
             </div>
@@ -260,7 +228,7 @@
     </div>
 
 <script>
-// --- DATOS INCRUSTADOS PARA EVITAR ERRORES DE CARGA ---
+// --- BASE DE DATOS INCRUSTADA PARA EVITAR ERRORES DE CARGA ---
 const DB = {
     "imagenes": [
       { "nombre": "Infografía Estructura", "url": "estructura.png" },
@@ -271,8 +239,8 @@ const DB = {
       {
         "nivel": "Normativa",
         "archivos": [
-          { "nombre": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO (1).pdf", "desc": "Protocolo Actuación" },
-          { "nombre": "Anexo-I-Manual-de-Organizacion-Salamanca-firmado.pdf", "desc": "Manual Organización" }
+          { "nombre": "OJ-PROTOCOLO-ACTUACION-SALAMANCA-FIRMADO (1).pdf", "desc": "Protocolo de Actuación" },
+          { "nombre": "Anexo-I-Manual-de-Organizacion-Salamanca-firmado.pdf", "desc": "Manual de Organización" }
         ]
       },
       {
@@ -285,289 +253,393 @@ const DB = {
       }
     ],
     "secciones_temario": [
-      { "titulo": "1. Introducción", "contenido": "<h3>1. Introducción: La transformación del sistema judicial en Salamanca</h3><p>El presente documento tiene como finalidad servir de manual operativo y de referencia permanente para todos los miembros de la Policía Local de Salamanca...</p><p>Este modelo, que entrará en vigor el <strong>31 de diciembre de 2025</strong>, deriva de la Ley Orgánica 1/2025...</p>" },
-      { "titulo": "2. Visión General", "contenido": "<h3>2. Visión general de la nueva Oficina Judicial (OJ)</h3><p>La nueva OJ redefine completamente la relación funcional entre la Policía Local y la Administración de Justicia...</p><h4>2.1 El Tribunal de Instancia (TI)</h4><p>Eje del nuevo sistema judicial...</p><h4>2.2 Los Servicios Comunes</h4><table class='doc-table'><tr><th>Servicio</th><th>Acrónimo</th><th>Función</th></tr><tr><td>Servicio Común General</td><td>SCG</td><td>Punto único de entrada...</td></tr><tr><td>Servicio Común de Tramitación</td><td>SCT</td><td>Gestión integral...</td></tr><tr><td>Servicio Común de Ejecución</td><td>SCEJ</td><td>Ejecución de resoluciones...</td></tr></table>" },
-      { "titulo": "3. Guía Operativa", "contenido": "<h3>3. Guía operativa para la escala ejecutiva</h3><h4>3.1 Inicio del procedimiento</h4><p><strong>Principio fundamental:</strong> Todo documento policial tiene un único punto de entrada ordinario: el <strong>Servicio Común General (SCG)</strong>.</p><ul><li><strong>Horario:</strong> Lunes a viernes 08:30-15:00.</li><li><strong>Registro:</strong> El SCG registra y reparte.</li></ul>" },
-      { "titulo": "3.2 Guardia", "contenido": "<h4>3.2 Interacción con el Servicio de Guardia (GU)</h4><p>El Servicio de Guardia constituye una excepción... Documentación directa: Atestados con DETENIDO, Solicitudes urgentes...</p>" },
-      { "titulo": "4. Policía Judicial", "contenido": "<h3>4. Manual avanzado para agentes de Policía Judicial</h3><h4>4.1 SCT – Área Penal</h4><p>Gestiona desde el inicio hasta la firmeza. Equipos de Instrucción y Enjuiciamiento.</p>" },
-      { "titulo": "4.2 Unidades Espec.", "contenido": "<h4>4.2 Unidades especializadas (S4M)</h4><ul><li><strong>Violencia sobre la Mujer:</strong> Grupo Instrucción nº 3.</li><li><strong>Menores:</strong> Grupo específico en Enjuiciamiento.</li><li><strong>Familia:</strong> Internamientos no voluntarios.</li></ul>" },
-      { "titulo": "4.3 Ejecución", "contenido": "<h4>4.3 Fase de ejecución (SCEJ)</h4><p>Mandamientos de prisión, busca y captura, libertad, multas, embargos...</p>" },
-      { "titulo": "5. Mandos", "contenido": "<h3>5. Pautas para la escala técnica</h3><h4>5.1 Estructura de mando</h4><p>Director/a (LAJ), Jefatura de Área, Jefatura de Equipo.</p><h4>5.2 Coordinación</h4><p>Comité de Dirección y Comités de Coordinación.</p>" },
-      { "titulo": "6. Instrucción", "contenido": "<h3>6. Instrucción interna de Jefatura</h3><p>Obligatorio y vinculante. Entrada en vigor: 31/12/2025.</p><h4>7. Esquemas operativos</h4><p>Atestado NO urgente -> SCG. Urgente -> Guardia. Ejecución -> SCEJ.</p>" },
-      { "titulo": "Resumen", "contenido": "<h3>9. Versión de bolsillo</h3><p>¿Tengo un atestado? No urgente -> SCG. Detenido -> Guardia. ¿Ejecución? -> SCEJ.</p>" }
+      { "titulo": "1. Introducción", "contenido": "<h3>1. Introducción: La transformación del sistema judicial en Salamanca</h3><p>El presente documento tiene como finalidad servir de manual operativo y de referencia permanente para todos los miembros de la Policía Local de Salamanca, con independencia de su escala o destino funcional, ante la implantación del nuevo modelo de Oficina Judicial (OJ).</p><p>Este modelo, que entrará en vigor el <strong>31 de diciembre de 2025</strong>, deriva de la Ley Orgánica 1/2025, y supone una modificación estructural profunda del funcionamiento de la Administración de Justicia. Se abandona definitivamente el esquema tradicional de juzgados individuales y aislados para pasar a un sistema integrado, centralizado y especializado de servicios comunes, orientado a:</p><ul><li>Incrementar la agilidad en la tramitación de los procedimientos.</li><li>Garantizar criterios homogéneos de actuación.</li><li>Optimizar los recursos humanos y materiales.</li><li>Facilitar la interoperabilidad digital entre operadores jurídicos.</li></ul><p>Para la Policía Local, este cambio tiene una repercusión directa y diaria: varían los puntos de entrada de la documentación, los interlocutores, los circuitos de tramitación y los responsables de cada fase del procedimiento. Un conocimiento preciso de esta arquitectura es indispensable para evitar errores, retrasos, devoluciones de atestados y disfunciones operativas.</p>" },
+      { "titulo": "2. Visión General", "contenido": "<h3>2. Visión general de la nueva Oficina Judicial (OJ)</h3><p>La nueva OJ redefine completamente la relación funcional entre la Policía Local y la Administración de Justicia. Ya no se interactúa con “un juzgado concreto”, sino con servicios especializados que asumen funciones bien delimitadas.</p><p>Conocer este mapa organizativo permite:</p><ul><li>Dirigir correctamente cada actuación policial.</li><li>Identificar con rapidez el órgano competente.</li><li>Reducir tiempos muertos y reiteraciones documentales.</li><li>Mejorar la coordinación en actuaciones urgentes y complejas.</li></ul><h4>2.1 El Tribunal de Instancia (TI): eje del nuevo sistema judicial</h4><p>El Tribunal de Instancia (TI) de Salamanca constituye el núcleo jurisdiccional del nuevo modelo. Integra en una única estructura todas las anteriores plazas judiciales del partido judicial, organizadas internamente en secciones por materias, lo que favorece la especialización y la coherencia en la respuesta judicial.</p><p><strong>Secciones del Tribunal de Instancia de Salamanca:</strong></p><ul><li>Sección Civil</li><li>Sección de Instrucción</li><li>Sección de Familia, Infancia y Capacidad</li><li>Sección de lo Penal</li><li>Sección de Menores</li><li>Sección de Vigilancia Penitenciaria</li><li>Sección de lo Contencioso-Administrativo</li><li>Sección de lo Social</li></ul><p>Cada sección ejerce la función jurisdiccional (juzgar y resolver), mientras que la tramitación material de los procedimientos se encomienda a los Servicios Comunes.</p>" },
+      { "titulo": "3. Servicios Comunes", "contenido": "<h3>2.2 Los Servicios Comunes: columna vertebral de la Oficina Judicial</h3><p>La Oficina Judicial se estructura en tres Servicios Comunes, que prestan apoyo tanto al Tribunal de Instancia como a la Audiencia Provincial. Cada uno tiene competencias exclusivas y claramente delimitadas.</p><table class='doc-table'><tr><th>Servicio Común</th><th>Acrónimo</th><th>Función principal</th></tr><tr><td>Servicio Común General</td><td><strong>SCG</strong></td><td>Punto único de entrada: recepción, registro, reparto, actos de comunicación y archivo</td></tr><tr><td>Servicio Común de Tramitación</td><td><strong>SCT</strong></td><td>Gestión integral de los procedimientos en fase declarativa (instrucción y enjuiciamiento)</td></tr><tr><td>Servicio Común de Ejecución</td><td><strong>SCEJ</strong></td><td>Ejecución de resoluciones judiciales firmes</td></tr></table><p>Este modelo elimina duplicidades y asegura que cada documento policial siga un circuito previsible y trazable.</p>" },
+      { "titulo": "4. Guía Operativa", "contenido": "<h3>3. Guía operativa para la escala ejecutiva de la Policía Local</h3><p>Esta sección está orientada al personal operativo y de patrulla, que constituye el primer eslabón del procedimiento judicial. Se centra en las actuaciones más frecuentes y críticas.</p><h4>3.1 Inicio del procedimiento: destino correcto del atestado o informe policial</h4><p><strong>Principio fundamental:</strong> Todo documento policial tiene un único punto de entrada ordinario: el <strong>Servicio Común General (SCG)</strong>.</p><p><strong>Circuito ordinario del atestado:</strong></p><ul><li><strong>Presentación en el SCG:</strong> Preferentemente por vía telemática. El formato físico solo se utilizará cuando esté expresamente autorizado. <strong>Horario:</strong> lunes a viernes laborables, de 08:30 a 15:00 horas.</li><li><strong>Registro oficial:</strong> El SCG registra el documento en el sistema de gestión procesal. Se garantiza la trazabilidad y la validez procesal del atestado.</li><li><strong>Reparto competencial:</strong> El SCG asigna el asunto a la sección judicial competente.</li><li><strong>Remisión al SCT correspondiente:</strong> En materia penal, el atestado se remite al Servicio Común de Tramitación – Área Penal, que asume la instrucción.</li></ul><p><strong>Importancia operativa:</strong> Un atestado mal dirigido no se corrige en destino: se devuelve al circuito inicial. Los errores en el punto de entrada generan retrasos que afectan a medidas cautelares, citaciones y señalamientos.</p>" },
+      { "titulo": "5. Guardia (Urgencias)", "contenido": "<h4>3.2 Interacción con el Servicio de Guardia (GU)</h4><p>El Servicio de Guardia constituye una excepción al circuito ordinario y se activa exclusivamente para actuaciones urgentes e inaplazables.</p><p><strong>Documentación que debe remitirse directamente a Guardia:</strong></p><ul><li>Atestados con persona detenida.</li><li>Atestados con investigado citado para comparecer ante el juez de guardia.</li><li>Solicitudes urgentes: Entradas y registros, Intervenciones telefónicas, Medidas cautelares inmediatas.</li></ul><p><strong>Funcionamiento:</strong> El personal de guardia recepciona, registra y da curso inmediato a la actuación. El juez de guardia adopta decisiones en tiempo real. Posteriormente, el procedimiento se integra en el circuito ordinario del SCT.</p>" },
+      { "titulo": "6. Policía Judicial", "contenido": "<h3>4. Manual avanzado para agentes de Policía Judicial</h3><p>Dirigido a unidades de investigación y policía judicial, este apartado detalla la estructura interna con la que se trabajará de forma continuada.</p><h4>4.1 Servicio Común de Tramitación (SCT) – Área Penal</h4><p>El SCT Penal gestiona los procedimientos penales desde el inicio hasta la firmeza de la resolución.</p><p><strong>Estructura interna:</strong></p><ul><li><strong>Equipos de Instrucción:</strong> Investigación penal. Diligencias, pruebas, medidas cautelares.</li><li><strong>Equipos de Enjuiciamiento:</strong> Apertura de juicio oral. Señalamientos y celebración de vistas. Sentencias.</li><li><strong>Grupos de trabajo:</strong> Delitos graves y menos graves. Delitos leves (tramitación y enjuiciamiento).</li></ul>" },
+      { "titulo": "7. Unidades Espec.", "contenido": "<h4>4.2 Unidades especializadas (S4M)</h4><ul><li><strong>Violencia sobre la Mujer:</strong> Grupo de Instrucción nº 3. Competencias: Instrucción penal, Delitos leves asociados, Órdenes de protección y medidas cautelares.</li><li><strong>Menores:</strong> Grupo específico del Equipo de Enjuiciamiento. Competencia integral: Desde Fiscalía de Menores hasta ejecución de medidas.</li><li><strong>Familia, Infancia y Capacidad (Área Civil):</strong> Internamientos no voluntarios. Custodias y regímenes de visitas. Medidas de protección a personas vulnerables. Intervención policial bajo mandato del LAJ.</li></ul>" },
+      { "titulo": "8. Ejecución (SCEJ)", "contenido": "<h4>4.3 Fase de ejecución: Servicio Común de Ejecución (SCEJ) – Área Penal</h4><p>Una vez firme la sentencia, la competencia pasa al SCEJ.</p><p><strong>Actuaciones con impacto policial:</strong></p><ul><li>Mandamientos de prisión.</li><li>Órdenes de búsqueda, captura e ingreso.</li><li>Mandamientos de libertad.</li><li>Ejecución de multas e indemnizaciones.</li><li>Embargos y averiguaciones patrimoniales.</li><li>Suspensión de penas y acumulaciones.</li></ul><h4>4.4 Gestión digital y comunicaciones</h4><p>La Oficina Judicial es íntegramente digital. La calidad del expediente depende del primer envío policial. <strong>Principios clave:</strong> Uso obligatorio de canales telemáticos. Datos completos, correctos y normalizados. Evitar duplicidades y anexos mal identificados.</p>" },
+      { "titulo": "9. Mandos", "contenido": "<h3>5. Pautas para la escala técnica y superior</h3><p>Este apartado se dirige a jefaturas y mandos, responsables de la coordinación estratégica.</p><h4>5.1 Estructura de mando de la Oficina Judicial</h4><ul><li><strong>Director/a del Servicio Común (LAJ):</strong> máxima autoridad funcional.</li><li><strong>Jefatura de Área (LAJ o GPA):</strong> coordinación por materias.</li><li><strong>Jefatura de Equipo (GPA, TPA o AJ):</strong> gestión directa operativa.</li></ul><h4>5.2 Coordinación institucional</h4><p><strong>Órganos relevantes:</strong> Comité de Dirección (órgano estratégico) y Comités de Coordinación (resolución de problemas operativos). Canales formales para elevar incidencias estructurales o recurrentes.</p><h4>5.3 Gestión de incidencias comunes</h4><table class='doc-table'><tr><th>Incidencia</th><th>Procedimiento</th></tr><tr><td>Reparto incorrecto</td><td>Devolución al equipo de inicio; corrección vía SCG</td></tr><tr><td>Errores en datos</td><td>Corrección por la Jefatura de Equipo tramitador</td></tr><tr><td>Documento sin registro</td><td>Remisión inmediata al SCG</td></tr></table>" },
+      { "titulo": "10. Protocolos", "contenido": "<h3>6. Instrucción interna de Jefatura – Formato Circular</h3><p><strong>6.1 Naturaleza:</strong> Obligatorio y vinculante. <strong>6.2 Entrada en vigor:</strong> 31 de diciembre de 2025.</p><h4>7. Esquemas operativos de flujo</h4><ul><li><strong>Flujo general de atestado penal (no urgente):</strong> Actuación policial → Redacción → Remisión telemática → Servicio Común General (SCG) → Registro y reparto → SCT (Área Penal) → Instrucción.</li><li><strong>Flujo de actuación urgente (Servicio de Guardia):</strong> Hecho urgente → Atestado inmediato → Remisión directa a Servicio de Guardia → Registro en Guardia → Resolución judicial inmediata → Integración posterior en SCT.</li><li><strong>Flujo de ejecución penal:</strong> Sentencia firme → Servicio Común de Ejecución (SCEJ) → Mandamiento (prisión, libertad, embargo…) → Requerimiento a Policía Local → Ejecución material.</li></ul><h4>8. Adaptación por materias específicas</h4><ul><li><strong>Tráfico:</strong> Atestados delitos seguridad vial → SCG → SCT Penal. Juicios rápidos → Guardia.</li><li><strong>Violencia de Género:</strong> Atestados urgentes → Servicio de Guardia. Grupo de Instrucción nº 3 VSM.</li><li><strong>Menores:</strong> Atestados → SCG → SCT (Grupo de Menores).</li><li><strong>Contencioso:</strong> Denuncias administrativas judicializadas → SCG.</li></ul><h3>9. Versión de bolsillo para patrulla</h3><p>¿Tengo un atestado? No urgente → SCG. Detenido / urgente → Guardia. ¿Es ejecución de sentencia? Siempre SCEJ. Nunca enviar directamente a un juzgado.</p><h3>10. Versión estratégica para mandos</h3><p>Canal único ordinario: SCG. Guardia solo para urgencias reales. SCT = fase declarativa. SCEJ = ejecución. Incidencias estructurales → Comité de Dirección.</p><p><strong>Cierre:</strong> La correcta aplicación de esta instrucción es responsabilidad de toda la cadena de mando. Su incumplimiento podrá generar responsabilidades disciplinarias por disfunción operativa o perjuicio procesal.</p>" }
     ],
     "flashcards": [
-      { "front": "¿Fecha de entrada en vigor?", "back": "31 de diciembre de 2025" },
-      { "front": "¿Ley Orgánica?", "back": "LO 1/2025" },
-      { "front": "¿Qué órgano sustituye a los juzgados?", "back": "El Tribunal de Instancia (TI)" },
-      { "front": "¿Punto único de entrada?", "back": "SCG" },
-      { "front": "¿Dónde van los detenidos?", "back": "Servicio de Guardia" },
-      { "front": "¿Quién gestiona la instrucción?", "back": "SCT Penal" },
-      { "front": "¿Quién ejecuta sentencias?", "back": "SCEJ" },
-      { "front": "¿Máxima autoridad funcional?", "back": "Director (LAJ)" },
-      { "front": "¿Quién resuelve error DNI?", "back": "Jefatura de Equipo" },
-      { "front": "¿Unidad Violencia Mujer?", "back": "Grupo Instrucción nº 3" },
-      { "front": "¿Menores?", "back": "SCT Enjuiciamiento" },
-      { "front": "¿Internamientos?", "back": "SCT Civil (Familia)" },
-      { "front": "¿Busca y captura?", "back": "SCEJ" },
-      { "front": "¿Atenea?", "back": "Sistema de gestión" },
-      { "front": "¿LexNet?", "back": "Comunicaciones" },
-      { "front": "¿Delitos Leves?", "back": "Grupos de Trabajo (SCT)" },
-      { "front": "¿Notificaciones calle?", "back": "SCG" },
-      { "front": "¿Depósito Efectos?", "back": "SCG" },
-      { "front": "¿SCT?", "back": "Servicio Común Tramitación" },
-      { "front": "¿SCEJ?", "back": "Servicio Común Ejecución" },
-      { "front": "¿OJM?", "back": "Oficinas Justicia Municipio" },
-      { "front": "¿Sustituto Juzgado Paz?", "back": "OJM" },
-      { "front": "¿Subastas?", "back": "SCEJ" },
-      { "front": "¿Caja Depósitos?", "back": "SCEJ" },
-      { "front": "¿Videoconferencias?", "back": "EVID" },
-      { "front": "¿Atención público?", "back": "09:00 a 14:00" },
-      { "front": "¿Archivo?", "back": "SCG" },
-      { "front": "¿Registro electrónico?", "back": "SIR" },
-      { "front": "¿Retirada carnet?", "back": "SCEJ" },
-      { "front": "¿Denuncias administrativas?", "back": "SCG" }
+      { "front": "¿Fecha de entrada en vigor de la Nueva OJ?", "back": "31 de diciembre de 2025" },
+      { "front": "¿Ley que impulsa la transformación?", "back": "Ley Orgánica 1/2025" },
+      { "front": "¿Qué órgano sustituye a los juzgados individuales?", "back": "El Tribunal de Instancia (TI)" },
+      { "front": "¿Cuál es el punto único de entrada de documentos ordinarios?", "back": "El Servicio Común General (SCG)" },
+      { "front": "¿Horario de recepción del SCG?", "back": "Lunes a viernes laborables, 08:30 a 15:00" },
+      { "front": "¿Dónde se entregan atestados con DETENIDO?", "back": "Directamente al Servicio de Guardia (GU)" },
+      { "front": "¿Dónde van las solicitudes urgentes de entradas y registros?", "back": "Al Servicio de Guardia (GU)" },
+      { "front": "¿Qué servicio gestiona la fase de Instrucción?", "back": "SCT (Servicio Común de Tramitación) - Área Penal" },
+      { "front": "¿Qué servicio gestiona la ejecución de sentencias firmes?", "back": "SCEJ (Servicio Común de Ejecución)" },
+      { "front": "¿Quién dirige un Servicio Común (Máxima autoridad)?", "back": "El Director/a del Servicio (LAJ)" },
+      { "front": "¿Quién resuelve un error de datos en un escrito?", "back": "La Jefatura de Equipo de la unidad tramitadora" },
+      { "front": "¿Quién resuelve una devolución por reparto incorrecto?", "back": "La Jefatura de Equipo (se devuelve al equipo de inicio)" },
+      { "front": "¿Qué hacer con un documento no registrado?", "back": "Remitirlo al equipo de inicio para su registro oficial" },
+      { "front": "¿Qué unidad gestiona Violencia sobre la Mujer?", "back": "Grupo de Trabajo Instrucción nº 3" },
+      { "front": "¿Qué unidad gestiona Menores (enjuiciamiento y ejecución)?", "back": "SCT - Equipo de Enjuiciamiento (Sección Menores)" },
+      { "front": "¿Quién gestiona internamientos no voluntarios?", "back": "SCT Civil - Negociado de familia" },
+      { "front": "¿Qué servicio tramita una orden de busca y captura POST-sentencia?", "back": "SCEJ (Ejecución)" },
+      { "front": "¿Qué servicio realiza la averiguación patrimonial?", "back": "SCEJ (Ejecución)" },
+      { "front": "¿Principal órgano estratégico de la OJ?", "back": "Comité de Dirección" },
+      { "front": "¿Quién compone el Comité de Dirección?", "back": "Dirección, Jefaturas de Área y Jefaturas de Equipo" },
+      { "front": "¿Plataforma de comunicación con operadores?", "back": "LexNet" },
+      { "front": "¿Sistema de gestión procesal interno?", "back": "Atenea" },
+      { "front": "¿Forma preferente de presentación de atestados?", "back": "Telemática" },
+      { "front": "¿Quién gestiona los juicios por delitos leves?", "back": "Grupos de Trabajo de Delitos Leves (SCT)" },
+      { "front": "¿Quién coordina un Área dentro de un servicio?", "back": "Jefatura de Área (LAJ o GPA)" },
+      { "front": "¿Función principal del SCG?", "back": "Registro, reparto, actos de comunicación, archivo y depósito" },
+      { "front": "¿Qué equipo del SCG realiza notificaciones en calle?", "back": "Equipo 2: Servicios Transversales (Actos de Comunicación)" },
+      { "front": "¿Quién gestiona el Depósito de Efectos Judiciales?", "back": "SCG - Equipo 2" },
+      { "front": "¿Qué grupo gestiona el Apud-Acta?", "back": "Grupo de Trabajo de Apud-Actas (Equipo 1 SCG)" },
+      { "front": "¿Qué significa SCT?", "back": "Servicio Común de Tramitación" },
+      { "front": "¿El SCT de la Audiencia Provincial es independiente?", "back": "Sí, existe un SCT para el TI y otro para la AP" },
+      { "front": "¿Qué significa SCEJ?", "back": "Servicio Común de Ejecución" },
+      { "front": "¿Quién tramita las subastas judiciales?", "back": "SCEJ" },
+      { "front": "¿Quién gestiona la Cuenta de Depósitos y Consignaciones?", "back": "SCEJ" },
+      { "front": "¿Qué significa OJM?", "back": "Oficinas de Justicia en el Municipio (Sustituyen Juzgados Paz)" },
+      { "front": "¿Dónde se publicita el protocolo?", "back": "Punto de Acceso General de la Administración de Justicia (PAGAJ)" },
+      { "front": "¿Quién cuida la aplicación de protección de datos?", "back": "El titular de la Dirección de cada servicio común" },
+      { "front": "¿Normativa de protección de datos aplicable?", "back": "LOPJ, Reglamento (UE) 2016/679 y LO 3/2018" },
+      { "front": "¿Carácter del protocolo?", "back": "Normativo, flexible y dinámico" },
+      { "front": "¿Sistema para videoconferencias?", "back": "EVID" },
+      { "front": "¿Frecuencia control cuentas consignación?", "back": "Trimestral" },
+      { "front": "¿Quién propone el régimen de sustituciones en SCT?", "back": "La Jefatura de Área" },
+      { "front": "¿Horario atención al público general?", "back": "09:00 a 14:00 (Verificar protocolo específico)" },
+      { "front": "¿A quién se comunica la entrada en vigor?", "back": "Sala Gobierno TSJ, Fiscalía, Colegios, Gerencia, etc." },
+      { "front": "¿Nivel 4 de organización interna?", "back": "Unidades Funcionales" },
+      { "front": "¿Nivel 1 de organización interna?", "back": "Equipos" },
+      { "front": "¿Quién firma el protocolo?", "back": "Secretario Coordinador Provincial y Secretario de Gobierno TSJ" },
+      { "front": "¿Ubicación personal funcionario?", "back": "Puestos de trabajo próximos por equipos" },
+      { "front": "¿Quién gestiona el Archivo Judicial de Gestión?", "back": "SCG - Equipo 2" },
+      { "front": "¿Registro electrónico habilitado?", "back": "Registro SIR" },
+      { "front": "¿Objetivo de las OJM?", "back": "Acercar la justicia al ciudadano en municipios sin sede TI" },
+      { "front": "¿Quién dirige técnico-procesalmente la oficina?", "back": "El Letrado de la Admon. de Justicia (LAJ)" },
+      { "front": "¿Qué es la UPAD?", "back": "Unidad Procesal de Apoyo Directo al Juez" },
+      { "front": "¿Qué es un SCP?", "back": "Servicio Común Procesal (Transversal)" },
+      { "front": "¿Plazo detención policial máxima?", "back": "72 horas (Constitución)" },
+      { "front": "¿Plazo Habeas Corpus?", "back": "Resolución en 24 horas" },
+      { "front": "¿Quién instruye causas con aforados?", "back": "Tribunales Superiores (TSJ / Supremo)" },
+      { "front": "¿Qué es el PNJ?", "back": "Punto Neutro Judicial (Base de datos)" },
+      { "front": "¿Quién autoriza el levantamiento de cadáver?", "back": "Juez de Guardia (con Médico Forense)" },
+      { "front": "¿Dónde se notifican resoluciones a la Policía?", "back": "A través de la unidad de enlace / Gestión" },
+      { "front": "¿Qué es un exhorto?", "back": "Comunicación entre órganos judiciales" },
+      { "front": "¿Qué es un mandamiento?", "back": "Orden judicial a registrador, funcionario o policía" },
+      { "front": "¿Qué es una providencia?", "back": "Resolución judicial de trámite (Juez)" },
+      { "front": "¿Qué es una diligencia de ordenación?", "back": "Resolución de impulso procesal (LAJ)" },
+      { "front": "¿Qué es un Decreto?", "back": "Resolución finalizadora o de admisión del LAJ" },
+      { "front": "¿Recurso contra Providencia?", "back": "Recurso de Reforma" },
+      { "front": "¿Quién hace la tasación de costas?", "back": "El LAJ" },
+      { "front": "¿Qué es el turno de oficio?", "back": "Justicia Gratuita (Abogados designados)" },
+      { "front": "¿Quién custodia los expedientes activos?", "back": "El servicio tramitador (SCT/SCEJ)" },
+      { "front": "¿Quién custodia los expedientes archivados?", "back": "El Archivo (SCG)" },
+      { "front": "¿Qué es el SIRAJ?", "back": "Sistema de Registros Administrativos de Apoyo a la Admon. Justicia" },
+      { "front": "¿Qué se inscribe en el Registro Central de Penados?", "back": "Sentencias firmes condenatorias" },
+      { "front": "¿Quién expide la orden de alejamiento?", "back": "El Juez (Auto de medidas cautelares)" },
+      { "front": "¿Qué es un juicio 'in voce'?", "back": "Sentencia dictada oralmente en el acto" },
+      { "front": "¿Plazo para recurrir en apelación (general penal)?", "back": "10 días" },
+      { "front": "¿Qué es la conformidad?", "back": "Acusado reconoce hechos y acepta pena reducida" },
+      { "front": "¿Quién asiste al levantamiento de cadáver si no va el Juez?", "back": "El LAJ (por delegación) y el Forense" },
+      { "front": "¿Qué es el 'reparto'?", "back": "Distribución de asuntos entre juzgados (SCG)" },
+      { "front": "¿Qué es una pieza separada?", "back": "Expediente paralelo para un tema concreto (ej. situación personal)" },
+      { "front": "¿Qué es el 'secreto de sumario'?", "back": "Restricción de acceso a las partes (no al Fiscal)" },
+      { "front": "¿Quién solicita la prisión provisional?", "back": "Fiscal o Acusación Particular (nunca el Juez de oficio)" },
+      { "front": "¿Máximo prisión provisional (regla general)?", "back": "1 año (delitos < 9 años) o 2 años (delitos > 9 años)" },
+      { "front": "¿Qué es la fianza 'pudendo'?", "back": "Fianza para asegurar la libertad provisional" },
+      { "front": "¿Qué es la responsabilidad civil?", "back": "Indemnización económica por el delito" },
+      { "front": "¿Quién ejecuta la pena de trabajos en beneficio comunidad?", "back": "Servicios de Gestión de Penas (Instituciones Penitenciarias)" },
+      { "front": "¿Qué es el 'expurgo'?", "back": "Destrucción de expedientes antiguos sin valor" },
+      { "front": "¿Qué es un 'lanzamiento'?", "back": "Desahucio forzoso de un inmueble" },
+      { "front": "¿Quién acompaña a la Comisión Judicial?", "back": "Agentes de la autoridad (si se solicita auxilio)" },
+      { "front": "¿Qué es la 'averiguación patrimonial'?", "back": "Búsqueda de bienes del condenado (PNJ)" },
+      { "front": "¿Qué es una requisitoria?", "back": "Orden de busca y captura" },
+      { "front": "¿Qué es la rebeldía procesal?", "back": "Ausencia injustificada del acusado" },
+      { "front": "¿Cuándo prescribe una falta (delito leve)?", "back": "Al año" },
+      { "front": "¿Cuándo prescribe un delito grave (general)?", "back": "A los 20 años (si pena > 15 años)" },
+      { "front": "¿Qué es el 'habeas corpus'?", "back": "Procedimiento por detención ilegal" },
+      { "front": "¿Ante quién se pide el habeas corpus?", "back": "Juez de Instrucción del lugar" },
+      { "front": "¿Es obligatorio abogado en habeas corpus?", "back": "No" },
+      { "front": "¿Qué es la LECrim?", "back": "Ley de Enjuiciamiento Criminal" },
+      { "front": "¿Qué es la LOPJ?", "back": "Ley Orgánica del Poder Judicial" },
+      { "front": "¿Qué es el EVID?", "back": "Sistema de Grabación de Vistas" },
+      { "front": "¿Qué es la firma digital?", "back": "Autenticación electrónica de documentos" },
+      { "front": "¿Quién nombra a los peritos judiciales?", "back": "El órgano judicial (por listas o sorteo)" },
+      { "front": "¿Se pueden usar USB en equipos judiciales?", "back": "No, está prohibido por seguridad informática" }
     ],
     "test": [
-      { "pregunta": "¿Puerta única entrada?", "respuestas": ["Decanato", "SCG", "SCT"], "correcta": 1 },
-      { "pregunta": "¿Horario SCG?", "respuestas": ["09-14", "08:30-15:00", "24h"], "correcta": 1 },
-      { "pregunta": "¿Atestado con DETENIDO?", "respuestas": ["SCG", "Guardia", "SCT"], "correcta": 1 },
-      { "pregunta": "¿Gestión instrucción?", "respuestas": ["SCT", "SCEJ", "SCG"], "correcta": 0 },
-      { "pregunta": "¿Ejecución sentencias?", "respuestas": ["SCT", "SCEJ", "Guardia"], "correcta": 1 },
-      { "pregunta": "¿Autoridad funcional?", "respuestas": ["Decano", "LAJ", "Gestor"], "correcta": 1 },
-      { "pregunta": "¿Violencia Mujer?", "respuestas": ["Grupo 3", "Menores", "SCG"], "correcta": 0 },
-      { "pregunta": "¿Error datos?", "respuestas": ["Comisaría", "Jefatura Equipo", "Decano"], "correcta": 1 },
-      { "pregunta": "¿Sin registrar?", "respuestas": ["Archivar", "Devolver SCG", "Procesar"], "correcta": 1 },
-      { "pregunta": "¿Notificaciones calle?", "respuestas": ["Policía", "SCG", "SCT"], "correcta": 1 },
-      { "pregunta": "¿Delitos leves?", "respuestas": ["SCT", "SCEJ", "Paz"], "correcta": 0 },
-      { "pregunta": "¿Embargos?", "respuestas": ["SCT", "SCEJ", "SCG"], "correcta": 1 },
-      { "pregunta": "¿Estrategia?", "respuestas": ["Comité Dirección", "Sindicato", "Junta"], "correcta": 0 },
-      { "pregunta": "¿Ley?", "respuestas": ["LO 1/2025", "LECrim", "Civil"], "correcta": 0 },
-      { "pregunta": "¿Entrada Registro Urgente?", "respuestas": ["SCG", "Guardia", "SCT"], "correcta": 1 },
-      { "pregunta": "¿Depósito Efectos?", "respuestas": ["SCG", "SCT", "Científica"], "correcta": 0 },
-      { "pregunta": "¿Juzgados Paz?", "respuestas": ["OJM", "Ayto", "Registro"], "correcta": 0 },
-      { "pregunta": "¿Entrada Vigor?", "respuestas": ["31/12/25", "01/01/26", "Ya"], "correcta": 0 },
-      { "pregunta": "¿TI sustituye a?", "respuestas": ["Audiencia", "Juzgados", "Supremo"], "correcta": 1 },
-      { "pregunta": "¿Gestión procesal?", "respuestas": ["Atenea", "LexNet", "Siraj"], "correcta": 0 }
+      {
+        "pregunta": "¿Cuál es la 'puerta única' de entrada para documentación ordinaria?",
+        "respuestas": ["Decanato", "SCG (Servicio Común General)", "SCT Penal"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Hasta qué hora se pueden presentar atestados en el SCG?",
+        "respuestas": ["14:00", "15:00", "24 horas"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Dónde se entrega un atestado con DETENIDO?",
+        "respuestas": ["SCG", "Servicio de Guardia (GU)", "SCT"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué servicio gestiona la fase de instrucción?",
+        "respuestas": ["SCT (Tramitación)", "SCEJ (Ejecución)", "SCG"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué servicio ejecuta una sentencia firme de prisión?",
+        "respuestas": ["SCT", "SCEJ (Ejecución)", "Servicio de Guardia"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Quién es la máxima autoridad funcional de un Servicio Común?",
+        "respuestas": ["El Juez Decano", "El Director/a del Servicio (LAJ)", "El Gestor Procesal"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué unidad lleva los casos de Violencia de Género?",
+        "respuestas": ["Grupo Instrucción nº 3", "Sección de Menores", "SCG"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién resuelve un error en el DNI de un atestado?",
+        "respuestas": ["Se devuelve a comisaría", "Jefatura de Equipo de la unidad tramitadora", "El Decanato"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué ocurre si presentas un documento sin registrar?",
+        "respuestas": ["Se archiva", "Se devuelve al equipo de inicio para registro", "Se procesa igual"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Quién realiza las notificaciones en la calle?",
+        "respuestas": ["Policía Local", "SCG (Actos de Comunicación)", "SCT"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Dónde se tramitan los delitos leves?",
+        "respuestas": ["Grupos de Trabajo de Delitos Leves (SCT)", "SCEJ", "Juzgados de Paz"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién gestiona la averiguación patrimonial para embargos?",
+        "respuestas": ["SCT", "SCEJ", "SCG"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué órgano decide las estrategias de la OJ?",
+        "respuestas": ["Comité de Dirección", "Junta de Personal", "Sindicatos"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué ley regula la NOJ de Salamanca?",
+        "respuestas": ["LO 1/2025", "LECrim", "Ley de Enjuiciamiento Civil"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Las solicitudes de entrada y registro urgentes van a...?",
+        "respuestas": ["SCG", "Servicio de Guardia", "SCT"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Quién gestiona el Depósito de Efectos Judiciales?",
+        "respuestas": ["SCG", "SCT", "Policía Científica"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué sustituye a los Juzgados de Paz?",
+        "respuestas": ["OJM (Oficinas de Justicia en el Municipio)", "Ayuntamientos", "Registros Civiles"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Cuándo entra en vigor el modelo?",
+        "respuestas": ["31/12/2025", "01/01/2026", "Inmediatamente"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿El Tribunal de Instancia sustituye a...?",
+        "respuestas": ["La Audiencia Provincial", "Los juzgados unipersonales", "El Tribunal Supremo"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Cómo se llama el sistema de gestión procesal?",
+        "respuestas": ["Atenea", "LexNet", "Siraj"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién realiza el reparto de asuntos?",
+        "respuestas": ["El Juez Decano", "El SCG", "El SCT"],
+        "correcta": 1
+      },
+      {
+        "pregunta": "¿Qué servicio tramita un divorcio contencioso?",
+        "respuestas": ["SCT Civil", "SCEJ", "SCG"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién coordina a los equipos de un servicio?",
+        "respuestas": ["Jefatura de Área", "Jefatura de Equipo", "Dirección"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Dónde se ubica la Sección de Menores?",
+        "respuestas": ["SCT Penal - Enjuiciamiento", "SCT Civil", "SCEJ"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién firma los mandamientos de prisión?",
+        "respuestas": ["El Juez/Magistrado", "El LAJ", "El Gestor"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué es el PAGAJ?",
+        "respuestas": ["Punto de Acceso General de la Admon. Justicia", "Un sindicato", "Un juzgado"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién asume las competencias de los antiguos Secretarios Judiciales?",
+        "respuestas": ["LAJ (Letrados de la Admon. Justicia)", "Jueces", "Fiscales"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿El Servicio de Guardia funciona las 24h?",
+        "respuestas": ["Sí", "No, solo mañanas", "Solo fines de semana"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién gestiona la agenda de señalamientos?",
+        "respuestas": ["SCT", "SCG", "SCEJ"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué pasa si un atestado va al SCT sin pasar por SCG?",
+        "respuestas": ["Se devuelve a SCG para registro", "Se tramita igual", "Se archiva"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién custodia las grabaciones de los juicios?",
+        "respuestas": ["LAJ", "Policía", "Juez"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué servicio lleva la ejecución de penas de multa?",
+        "respuestas": ["SCEJ", "SCT", "Hacienda"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué es la fase declarativa?",
+        "respuestas": ["Desde inicio hasta sentencia firme", "Solo el juicio", "La ejecución"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién resuelve dudas sobre protección de datos?",
+        "respuestas": ["Director del Servicio Común", "Jefe de Policía", "Delegado del Gobierno"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Las OJM dependen funcionalmente de...?",
+        "respuestas": ["La Oficina Judicial", "El Ayuntamiento", "La Comunidad Autónoma"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién dirige al personal funcionario en el día a día?",
+        "respuestas": ["Jefatura de Equipo", "Juez", "Fiscal"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Dónde se solicitan los antecedentes penales?",
+        "respuestas": ["Gerencia Territorial / SCG", "Comisaría", "Ayuntamiento"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién realiza el expurgo de expedientes?",
+        "respuestas": ["Junta de Expurgo / SCG Archivo", "Empresa de limpieza", "Policía"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué es SIR?",
+        "respuestas": ["Sistema de Interconexión de Registros", "Sistema Interno Rápido", "Servicio Integral"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿El TI tiene presidente?",
+        "respuestas": ["Sí", "No", "Depende del tamaño"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién gestiona la caja de depósitos?",
+        "respuestas": ["SCEJ", "Banco Santander", "SCG"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué ley modifica la planta judicial?",
+        "respuestas": ["LO 1/2025", "Constitución", "Estatuto Autonomía"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién asiste a la Comisión Judicial en lanzamientos?",
+        "respuestas": ["SCG - Actos de Comunicación", "SCT", "SCEJ"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién gestiona las videoconferencias con prisiones?",
+        "respuestas": ["SCG / SCT según fase", "Policía", "Director Prisión"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Es obligatorio el uso de medios telemáticos para Policía?",
+        "respuestas": ["Sí", "No", "Solo para delitos graves"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién controla el cumplimiento de penas de trabajos en beneficio de la comunidad?",
+        "respuestas": ["SCEJ / Servicios Sociales Penitenciarios", "SCT", "Policía Local"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Qué pasa con los Juzgados de Paz?",
+        "respuestas": ["Se transforman en OJM", "Desaparecen sin más", "Se mantienen igual"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Quién coordina a los médicos forenses?",
+        "respuestas": ["Director IML", "Juez Decano", "Comisario"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Dónde se presentan las denuncias por particulares?",
+        "respuestas": ["SCG o Comisaría", "SCT", "SCEJ"],
+        "correcta": 0
+      },
+      {
+        "pregunta": "¿Cuál es el objetivo principal de la NOJ?",
+        "respuestas": ["Agilidad y eficiencia", "Ahorrar papel", "Contratar más gente"],
+        "correcta": 0
+      },
+      { "pregunta": "¿Qué principio rige la actuación de los Servicios Comunes Procesales?", "respuestas": ["Independencia absoluta", "Jerarquía y unidad de actuación", "Autonomía de cada funcionario"], "correcta": 1 },
+      { "pregunta": "¿Quién es el responsable de la dirección técnico-procesal del SCT?", "respuestas": ["El Juez Decano", "El LAJ Director", "El Fiscal Jefe"], "correcta": 1 },
+      { "pregunta": "¿A qué servicio corresponde la expedición de certificaciones sobre asuntos archivados?", "respuestas": ["SCG", "SCT", "Decanato"], "correcta": 0 },
+      { "pregunta": "¿Cómo se denominan las unidades que prestan soporte a varios órganos judiciales?", "respuestas": ["Unidades Procesales de Apoyo Directo (UPAD)", "Servicios Comunes Procesales (SCP)", "Juzgados Bis"], "correcta": 1 },
+      { "pregunta": "¿Quién autoriza la entrada y registro en un domicilio en fase de instrucción?", "respuestas": ["El LAJ", "El Juez de Instrucción / Guardia", "El Comisario"], "correcta": 1 },
+      { "pregunta": "¿Qué ocurre con las piezas de convicción tóxicas o peligrosas?", "respuestas": ["Se guardan en el despacho del Juez", "Se sigue un protocolo especial de destrucción/custodia", "Se entregan al denunciante"], "correcta": 1 },
+      { "pregunta": "¿El Servicio Común de Ejecución (SCEJ) puede realizar lanzamientos?", "respuestas": ["No, eso es del SCG", "Sí, a través de sus funcionarios o comisión", "Solo si va el Juez"], "correcta": 1 },
+      { "pregunta": "¿Dónde se presentan los escritos de mero trámite?", "respuestas": ["Directamente al Juez", "En el SCG (Registro)", "En Comisaría"], "correcta": 1 },
+      { "pregunta": "¿Qué sistema se utiliza para el embargo telemático de cuentas?", "respuestas": ["Punto Neutro Judicial", "Google Pay", "Agencia Tributaria Directa"], "correcta": 0 },
+      { "pregunta": "¿Quién es el superior jerárquico del Cuerpo de Auxilio Judicial en la OJ?", "respuestas": ["El Gestor Procesal", "El LAJ Director del Servicio", "El Policía de la puerta"], "correcta": 1 },
+      { "pregunta": "¿Qué servicio gestiona las Salas de Vistas?", "respuestas": ["SCT / SCG (según protocolo)", "El servicio de limpieza", "Los abogados"], "correcta": 0 },
+      { "pregunta": "¿Quién notifica la sentencia al penado?", "respuestas": ["El Juez oralmente", "El SCG (Actos de Comunicación)", "El abogado siempre"], "correcta": 1 },
+      { "pregunta": "¿Cuál es el plazo para detener a una persona sin ponerla a disposición judicial?", "respuestas": ["72 horas máximo", "24 horas", "48 horas"], "correcta": 0 },
+      { "pregunta": "¿Las citaciones a policías para juicios se hacen a través de...?", "respuestas": ["Teléfono personal", "Conducto reglamentario / Gestión Policial", "Correo postal ordinario"], "correcta": 1 },
+      { "pregunta": "¿Qué es la Oficina de Atención al Ciudadano/Víctima?", "respuestas": ["Un servicio externo", "Una unidad dentro de la OJ/Fiscalía", "Una ONG"], "correcta": 1 },
+      { "pregunta": "¿Quién decreta el secreto de sumario?", "respuestas": ["El LAJ", "El Juez de Instrucción", "La Policía Judicial"], "correcta": 1 },
+      { "pregunta": "¿A quién corresponde la tasación de costas?", "respuestas": ["Al Colegio de Abogados", "Al LAJ del servicio correspondiente", "Al Juez"], "correcta": 1 },
+      { "pregunta": "¿Qué documento inicia el procedimiento de Habeas Corpus?", "respuestas": ["Una querella", "Una solicitud/escrito del detenido o tercero", "Un atestado ordinario"], "correcta": 1 },
+      { "pregunta": "¿Dónde se ubica físicamente el SCG de Salamanca?", "respuestas": ["En la Comisaría Provincial", "En la sede principal de los Juzgados (Plaza Colón/Gran Vía)", "En el Ayuntamiento"], "correcta": 1 },
+      { "pregunta": "¿Quién gestiona el turno de oficio?", "respuestas": ["El Colegio de Abogados", "El Juez Decano", "El SCG"], "correcta": 0 }
     ]
-};
-
-const App = {
-    data: DB, // USAMOS LA BASE DE DATOS INCRUSTADA
-    user: null,
-    dbUsers: 'noj_users_v31', dbLogs: 'noj_logs_v31', dbSec: 'noj_sec_v31',
-
-    init: async () => {
-        document.addEventListener('keyup', (e) => {
-            if(e.key === 'Enter' && !document.getElementById('login-screen').classList.contains('hidden')) App.login();
-        });
-
-        if(!localStorage.getItem(App.dbUsers)) {
-            const defs = [
-                { u:'master', p:'master', r:'master', boss:'', change:true },
-                { u:'admin', p:'admin', r:'admin', boss:'', change:true },
-                { u:'jefatura', p:'jefatura', r:'jef', boss:'', change:true },
-                { u:'mandodc', p:'1234', r:'mdc', boss:'', change:true },
-                { u:'mandodt', p:'1234', r:'mdt', boss:'', change:true },
-                { u:'mandout', p:'1234', r:'mut', boss:'', change:true },
-                { u:'agentedc', p:'1234', r:'adc', boss:'mandodc', change:true }
-            ];
-            localStorage.setItem(App.dbUsers, JSON.stringify(defs));
-            App.logSec('SYSTEM', 'Init V31');
-        }
-
-        // ALEATORIEDAD
-        if(App.data.flashcards) App.data.flashcards = App.shuffle(App.data.flashcards).slice(0, 30);
-        if(App.data.test) App.data.test = App.shuffle(App.data.test).slice(0, 20);
-
-        App.renderTemario();
-        App.renderBiblio(); 
-        App.renderMedia(); 
-        App.renderFC(); 
-        App.renderTest();
-    },
-
-    shuffle: (a) => { for(let i=a.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; },
-
-    logSec: (act, det) => {
-        const l = JSON.parse(localStorage.getItem(App.dbSec)||'[]');
-        l.unshift({d: new Date().toLocaleString(), u: App.user?App.user.u:'GUEST', a:act, t:det});
-        if(l.length>100) l.pop();
-        localStorage.setItem(App.dbSec, JSON.stringify(l));
-    },
-
-    login: () => {
-        const u = document.getElementById('user').value.trim();
-        const p = document.getElementById('pass').value.trim();
-        const users = JSON.parse(localStorage.getItem(App.dbUsers));
-        const found = users.find(x => x.u === u && x.p === p);
-
-        if(found) {
-            App.user = found;
-            if(found.change) {
-                document.getElementById('login-screen').style.display='none';
-                document.getElementById('password-screen').classList.remove('hidden');
-                return;
-            }
-            App.enterApp();
-        } else {
-            document.getElementById('msg').innerText = "Credenciales incorrectas";
-            App.logSec('LOGIN_FAIL', u);
-        }
-    },
-
-    changePassword: () => {
-        const p1 = document.getElementById('new-pass-1').value;
-        const p2 = document.getElementById('new-pass-2').value;
-        if(p1.length<4 || p1!==p2) return document.getElementById('pass-msg').innerText = "Error contraseña";
-        const users = JSON.parse(localStorage.getItem(App.dbUsers));
-        const idx = users.findIndex(x => x.u === App.user.u);
-        users[idx].p = p1; users[idx].change = false;
-        localStorage.setItem(App.dbUsers, JSON.stringify(users));
-        App.user.p = p1;
-        App.logSec('PASS_CHANGE', App.user.u);
-        document.getElementById('password-screen').classList.add('hidden');
-        App.enterApp();
-    },
-
-    enterApp: () => {
-        document.getElementById('login-screen').style.display='none';
-        document.getElementById('main-app').style.display='flex';
-        document.getElementById('user-display').innerText = App.user.u.toUpperCase();
-        App.logSec('LOGIN_OK', App.user.u);
-        if(['admin','master','jef','mdc','mdt','mut'].includes(App.user.r)) {
-            document.getElementById('menu-admin').classList.remove('hidden');
-            App.renderAdmin();
-        }
-    },
-    logout: () => location.reload(),
-
-    renderTemario: () => {
-        const t = document.getElementById('doc-tabs'), c = document.getElementById('doc-content');
-        t.innerHTML=''; c.innerHTML='';
-        App.data.secciones_temario.forEach((s,i) => {
-            t.innerHTML += `<button class="doc-tab ${i===0?'active':''}" onclick="App.tab(${i})">${s.titulo}</button>`;
-            c.innerHTML += `<div id="p${i}" class="doc-page ${i===0?'active':''}">${s.contenido}</div>`;
-        });
-    },
-    tab: (i) => {
-        document.querySelectorAll('.doc-tab').forEach(x=>x.classList.remove('active'));
-        document.querySelectorAll('.doc-page').forEach(x=>x.classList.remove('active'));
-        document.querySelectorAll('.doc-tab')[i].classList.add('active');
-        document.getElementById('p'+i).classList.add('active');
-    },
-
-    renderBiblio: () => { 
-        document.getElementById('file-tree').innerHTML = ''; 
-        App.data.bibliografia.forEach(c => { 
-            let l = c.archivos.map(f => `<li><a href="${f.nombre}" target="_blank">${f.desc}</a></li>`).join(''); 
-            document.getElementById('file-tree').innerHTML += `<li><strong>${c.nivel}</strong><ul>${l}</ul></li>`; 
-        }); 
-    },
-
-    renderMedia: () => {
-        const c = document.getElementById('media-container'); c.innerHTML='';
-        App.data.imagenes.forEach(i => c.innerHTML += `<div class="media-card" onclick="App.openLightbox('${i.url}','${i.nombre}')"><img src="${i.url}" onerror="this.src='https://via.placeholder.com/300?text=Error+Imagen'"><p>${i.nombre}</p></div>`);
-        document.getElementById('main-audio').src = App.data.audio_url;
-    },
-
-    openLightbox: (url, txt) => {
-        const img = document.getElementById('lightbox-img');
-        img.src = url;
-        img.style.width = "100%"; 
-        document.getElementById('zoom-slider').value = 1;
-        document.getElementById('lightbox-caption').innerText = txt;
-        document.getElementById('lightbox').style.display = 'flex';
-    },
-    closeLightbox: () => document.getElementById('lightbox').style.display='none',
-    zoom: (v) => document.getElementById('lightbox-img').style.width = (v * 100) + "%",
-
-    renderFC: () => { App.fcI=0; App.drawFC(); },
-    drawFC: () => {
-        if(!App.data.flashcards || !App.data.flashcards.length) return;
-        const c = App.data.flashcards[App.fcI];
-        document.getElementById('fc-canvas').innerHTML = `<div class="fc-inner"><div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div><div class="fc-face fc-back"><div>${c.back}</div></div></div>`;
-        document.getElementById('fc-canvas').onclick = function() { this.classList.toggle('fc-flipped'); };
-        document.getElementById('fc-count').innerText = `${App.fcI+1}/${App.data.flashcards.length}`;
-    },
-    moveFC: (d) => {
-        App.fcI += d; if(App.fcI < 0) App.fcI = App.data.flashcards.length - 1;
-        if(App.fcI >= App.data.flashcards.length) App.fcI = 0;
-        document.getElementById('fc-canvas').classList.remove('fc-flipped'); App.drawFC();
-    },
-
-    renderTest: () => {
-        const div = document.getElementById('test-container');
-        div.innerHTML = App.data.test.map((q,i) => `<div class="q-block" data-correct="${q.correcta}"><p><b>${i+1}. ${q.pregunta}</b></p>${q.respuestas.map(r => `<div class="quiz-option" onclick="App.selOpt(this)">${r}</div>`).join('')}</div>`).join('');
-    },
-    selOpt: (el) => {
-        el.parentElement.querySelectorAll('.quiz-option').forEach(e => e.classList.remove('selected'));
-        el.classList.add('selected');
-    },
-    submitTest: () => {
-        let s = 0; const blocks = document.querySelectorAll('.q-block');
-        blocks.forEach(b => {
-            const sel = b.querySelector('.selected'); const corr = parseInt(b.dataset.correct); const opts = b.querySelectorAll('.quiz-option');
-            opts.forEach(o => o.classList.remove('correct','wrong'));
-            if(sel) { if(Array.from(opts).indexOf(sel) === corr) { sel.classList.add('correct'); s++; } else { sel.classList.add('wrong'); opts[corr].classList.add('correct'); } }
-        });
-        document.getElementById('test-result').innerText = `Nota: ${s} / ${blocks.length}`;
-        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]');
-        logs.push({u:App.user.u, d:new Date().toLocaleDateString(), s:s, f:blocks.length-s});
-        localStorage.setItem(App.dbLogs, JSON.stringify(logs));
-        if(['admin','master'].includes(App.user.r)) App.renderAdmin();
-    },
-
-    renderAdmin: () => {
-        const global = ['admin','master'].includes(App.user.r); const jefatura = App.user.r === 'jef'; const readonly = !global;
-        const logs = JSON.parse(localStorage.getItem(App.dbLogs)||'[]'); const users = JSON.parse(localStorage.getItem(App.dbUsers));
-        const t = document.getElementById('admin-logs'); t.innerHTML='';
-        
-        if(readonly) document.getElementById('admin-tools').style.display='none';
-        else {
-            const bs = document.getElementById('new-b'); bs.innerHTML = '<option value="">-- Asignar Jefe --</option>';
-            users.filter(u => ['mdc','mdt','mut','jef','admin','master'].includes(u.r)).forEach(b => { bs.innerHTML += `<option value="${b.u}">${b.u} (${b.r})</option>`; });
-        }
-
-        if(global) {
-            document.getElementById('security-box').style.display='block';
-            const sl = JSON.parse(localStorage.getItem(App.dbSec)||'[]'); const st = document.getElementById('sec-logs'); st.innerHTML='';
-            sl.forEach(s => st.innerHTML += `<tr><td>${s.d}</td><td>${s.u}</td><td>${s.a}</td><td>${s.t}</td></tr>`);
-        } else { document.getElementById('security-box').style.display='none'; }
-
-        logs.forEach(l => {
-            let show = false; const uData = users.find(x => x.u === l.u); const boss = uData ? uData.boss : '';
-            if(global || jefatura) show = true; else if(boss === App.user.u) show = true;
-            if(show) t.innerHTML += `<tr><td>${l.u}</td><td>${uData?uData.r.toUpperCase():'?'}</td><td>${l.d}</td><td style="color:${l.s>10?'green':'red'}">${l.s}</td><td>${l.f}</td><td>${boss}</td></tr>`;
-        });
-    },
-
-    addUser: () => {
-        const u = document.getElementById('new-u').value; const p = document.getElementById('new-p').value; const r = document.getElementById('new-r').value; const b = document.getElementById('new-b').value;
-        const users = JSON.parse(localStorage.getItem(App.dbUsers));
-        if(users.find(x=>x.u===u)) return alert("Existe");
-        users.push({u,p,r,boss:b, change:true}); localStorage.setItem(App.dbUsers, JSON.stringify(users));
-        App.logSec('CREATE_USER', u); App.renderAdmin(); alert("Creado");
-    },
-
-    importUsers: () => {
-        const raw = document.getElementById('import-data').value; const users = JSON.parse(localStorage.getItem(App.dbUsers));
-        const map = {'AGENTE (DC)':'adc','AGENTE (DT)':'adt','AGENTE (UT)':'aut','MANDO (DC)':'mdc','MANDO (DT)':'mdt','MANDO (UT)':'mut','JEFATURA':'jef','ADMIN':'admin','MASTER':'master'};
-        let c=0;
-        raw.split('\n').forEach(l => {
-            let p = l.split(/\t+/); if(p.length<2) p=l.split(/\s+/);
-            if(p.length>=2) {
-                let r = map[p[2]] || 'adc';
-                if(!users.find(x=>x.u===p[0])) { users.push({u:p[0], p:p[1], r:r, boss:p[3]||'', change:true}); c++; }
-            }
-        });
-        localStorage.setItem(App.dbUsers, JSON.stringify(users)); document.getElementById('import-msg').innerText = `+${c}`; App.logSec('IMPORT', c); App.renderAdmin();
-    },
-
-    clearLogs: () => { if(confirm("¿Borrar?")) { localStorage.removeItem(App.dbLogs); App.renderAdmin(); }},
-    nav: (id) => { document.querySelectorAll('.view-section').forEach(x=>x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); }
-};
-window.onload = App.init;
-</script>
-</body>
-</html>
+  }
+]
+    
