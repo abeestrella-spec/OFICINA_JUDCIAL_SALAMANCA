@@ -139,8 +139,8 @@
                     <h2>Multimedia</h2>
                     <div id="media-container" class="media-grid"></div>
                     <div style="margin-top:20px; background:white; padding:20px; border-radius:8px;">
-                        <h3>Audio Resumen</h3>
-                        <audio id="main-audio" controls style="width:100%"></audio>
+                        <h3> Resumen</h3>
+                        < id="main-" controls style="width:100%"></>
                     </div>
                 </div>
 
@@ -584,10 +584,20 @@
         userDocId: null,
 
         // 1. INICIALIZACIÓN Y CREACIÓN DE JERARQUÍA (JEFES Y AGENTES)
-        init: async () => {
-            document.addEventListener('keyup', (e) => {
-                if(e.key === 'Enter' && !document.getElementById('login-screen').classList.contains('hidden')) App.login();
-            });
+       init: async () => {
+        // Listener para tecla Enter (esto déjalo igual)
+        document.addEventListener('keyup', (e) => {
+            if(e.key === 'Enter' && !document.getElementById('login-screen').classList.contains('hidden')) App.login();
+        });
+
+        // --- PEGA ESTO AQUÍ, LO PRIMERO DE TODO ---
+        try {
+            const player = document.getElementById('main-audio');
+            if(player) { 
+                player.src = App.data.audio_url; 
+                console.log("Audio cargado: " + App.data.audio_url);
+            }
+        } catch(e) { console.error("Fallo audio", e); };
 
             // COMPROBAR SI LA BASE DE DATOS ESTÁ VACÍA Y CREAR LA ESTRUCTURA
             try {
