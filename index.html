@@ -578,49 +578,53 @@
     };
 
     // --- LÓGICA DE LA APP (CLOUD + SEGURIDAD MEJORADA) ---
-    const App = {
+   const App = {
         data: DB,
         user: null,
         userDocId: null,
 
+        // 1. INICIALIZACIÓN Y CREACIÓN DE JERARQUÍA (JEFES Y AGENTES)
         init: async () => {
-            // Listener para Enter en Login
             document.addEventListener('keyup', (e) => {
                 if(e.key === 'Enter' && !document.getElementById('login-screen').classList.contains('hidden')) App.login();
             });
 
-            // COMPROBACIÓN INICIAL: SI NO HAY USUARIOS, CREAR TODA LA PLANTILLA
+            // COMPROBAR SI LA BASE DE DATOS ESTÁ VACÍA Y CREAR LA ESTRUCTURA
             try {
                 const q = query(collection(db, "noj_users"));
                 const querySnapshot = await getDocs(q);
                 
                 if (querySnapshot.empty) {
-                    console.log("Inicializando base de datos completa...");
+                    console.log("Inicializando jerarquía completa...");
                     const defs = [
+                        // Nivel Superior
                         { u:'master', p:'master', r:'master', boss:'', change:true },
                         { u:'admin', p:'admin', r:'admin', boss:'', change:true },
                         { u:'jefatura', p:'jefatura', r:'jef', boss:'', change:true },
+                        // Mandos Intermedios
                         { u:'mandodc', p:'1234', r:'mdc', boss:'', change:true },
                         { u:'mandodt', p:'1234', r:'mdt', boss:'', change:true },
                         { u:'mandout', p:'1234', r:'mut', boss:'', change:true },
+                        // Agentes (Asignados a un Mando)
                         { u:'agentedc', p:'1234', r:'adc', boss:'mandodc', change:true }
                     ];
                     
+                    // Crear uno a uno en la nube
                     for(let u of defs) {
                         await addDoc(collection(db, "noj_users"), u);
                     }
-                    console.log("Usuarios por defecto creados.");
-                    App.logSec('SYSTEM', 'Inicialización Base de Datos V2');
+                    console.log("Usuarios y relaciones creados.");
+                    App.logSec('SYSTEM', 'Inicialización Jerarquía V75');
                 }
             } catch (e) { 
-                console.error("Esperando conexión...", e); 
+                console.error("Error conectando:", e); 
             }
 
-            // BARAJAR Y SELECCIONAR
+            // Cargar datos aleatorios
             if(App.data.flashcards) App.sessionCards = App.shuffle([...App.data.flashcards]).slice(0, 30);
             if(App.data.test) App.sessionTest = App.shuffle([...App.data.test]).slice(0, 20);
 
-            // RENDERIZAR TODO
+            // Renderizar vistas
             App.renderTemario();
             App.renderBiblio();
             App.renderMedia();
@@ -631,7 +635,7 @@
 
         shuffle: (a) => { for(let i=a.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; },
 
-        // REGISTRO DE AUDITORÍA (NUEVA FUNCIÓN CLOUD)
+        // 2. LOGS DE SEGURIDAD
         logSec: async (action, details) => {
             try {
                 await addDoc(collection(db, "noj_sec"), {
@@ -644,6 +648,7 @@
             } catch(e) { console.error("Error logSec", e); }
         },
 
+        // 3. LOGIN
         login: async () => {
             const u = document.getElementById('user').value.trim();
             const p = document.getElementById('pass').value.trim();
@@ -651,22 +656,20 @@
             const load = document.getElementById('loading-msg');
             
             if(!u || !p) return;
-
             btn.disabled = true;
             load.style.display = 'block';
 
             try {
                 const q = query(collection(db, "noj_users"), where("u", "==", u), where("p", "==", p));
-                const querySnapshot = await getDocs(q);
+                const snap = await getDocs(q);
 
-                if (!querySnapshot.empty) {
-                    const docSnap = querySnapshot.docs[0];
+                if (!snap.empty) {
+                    const docSnap = snap.docs[0];
                     App.user = docSnap.data();
                     App.userDocId = docSnap.id;
                     
-                    App.logSec('LOGIN', `Acceso correcto de ${u}`);
+                    App.logSec('LOGIN', `Acceso: ${u}`);
 
-                    // Si requiere cambio de contraseña
                     if (App.user.change) {
                         document.getElementById('login-screen').style.display = 'none';
                         document.getElementById('password-screen').classList.remove('hidden');
@@ -675,11 +678,10 @@
                     App.enterApp();
                 } else {
                     document.getElementById('msg').innerText = "Credenciales incorrectas";
-                    App.logSec('LOGIN_FAIL', `Intento fallido: ${u}`);
                 }
             } catch (e) {
                 console.error(e);
-                document.getElementById('msg').innerText = "Error de conexión (Verifique internet)";
+                document.getElementById('msg').innerText = "Error de conexión";
             } finally {
                 btn.disabled = false;
                 load.style.display = 'none';
@@ -689,13 +691,12 @@
         changePass: async () => {
             const p1 = document.getElementById('new-p1').value;
             const p2 = document.getElementById('new-p2').value;
-            if(p1.length<4 || p1!==p2) return document.getElementById('pass-msg').innerText = "Mínimo 4 caracteres y deben coincidir";
+            if(p1.length<4 || p1!==p2) return document.getElementById('pass-msg').innerText = "Error: Mínimo 4 caracteres y deben coincidir";
             
             try {
                 const userRef = doc(db, "noj_users", App.userDocId);
                 await updateDoc(userRef, { p: p1, change: false });
                 App.user.p = p1;
-                App.logSec('PASSWORD_CHANGE', `Usuario ${App.user.u} cambió su clave`);
                 document.getElementById('password-screen').classList.add('hidden');
                 App.enterApp();
             } catch(e) { console.error(e); }
@@ -706,111 +707,34 @@
             document.getElementById('main-app').style.display='flex';
             document.getElementById('user-display').innerText = App.user.u.toUpperCase();
             
-            // Mostrar menú admin si corresponde
+            // Mostrar menú de gestión según rol
             if(['admin','master','jef','mdc','mdt','mut'].includes(App.user.r)) { 
                 document.getElementById('menu-admin').classList.remove('hidden'); 
                 App.renderAdmin(); 
             }
         },
 
-        renderTemario: () => {
-            const t = document.getElementById('doc-tabs'), c = document.getElementById('doc-content'); t.innerHTML=''; c.innerHTML='';
-            App.data.secciones_temario.forEach((s,i) => {
-                t.innerHTML += `<button class="doc-tab ${i===0?'active':''}" onclick="window.App.tab(${i})">${s.titulo}</button>`;
-                c.innerHTML += `<div id="p${i}" class="doc-page ${i===0?'active':''}">${s.contenido}</div>`;
-            });
-        },
-        tab: (i) => {
-            document.querySelectorAll('.doc-tab').forEach(x=>x.classList.remove('active'));
-            document.querySelectorAll('.doc-page').forEach(x=>x.classList.remove('active'));
-            document.querySelectorAll('.doc-tab')[i].classList.add('active');
-            document.getElementById('p'+i).classList.add('active');
-        },
-
-        renderBiblio: () => { 
-            const t = document.getElementById('file-tree'); t.innerHTML = ''; 
-            App.data.bibliografia.forEach(c => { 
-                let l = c.archivos.map(f => `<li style="margin-bottom:5px;"><a href="${f.nombre}" target="_blank" style="text-decoration:none; color:#0a2e5c;">📄 ${f.desc}</a></li>`).join(''); 
-                t.innerHTML += `<li style="margin-bottom:15px;"><strong>${c.nivel}</strong><ul style="list-style:none; padding-left:10px;">${l}</ul></li>`; 
-            }); 
-        },
-
-        renderMedia: () => {
-            const c = document.getElementById('media-container'); c.innerHTML='';
-            App.data.imagenes.forEach(i => c.innerHTML += `<div class="media-card" onclick="window.open('${i.url}','_blank')"><img src="${i.url}" onerror="this.src='//via.placeholder.com/300'"><p>${i.nombre}</p></div>`);
-        },
-
-        renderFC: () => { App.fcI=0; App.drawFC(); },
-        drawFC: () => {
-            if(!App.sessionCards || !App.sessionCards.length) return;
-            const c = App.sessionCards[App.fcI];
-            document.getElementById('fc-canvas').innerHTML = `<div class="fc-inner"><div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div><div class="fc-face fc-back"><div>${c.back}</div></div></div>`;
-            document.getElementById('fc-canvas').onclick = function() { this.classList.toggle('fc-flipped'); };
-            document.getElementById('fc-count').innerText = `${App.fcI+1} / ${App.sessionCards.length}`;
-        },
-        moveFC: (d) => {
-            if(!App.sessionCards) return;
-            App.fcI += d; 
-            if(App.fcI < 0) App.fcI = App.sessionCards.length - 1;
-            if(App.fcI >= App.sessionCards.length) App.fcI = 0;
-            document.getElementById('fc-canvas').classList.remove('fc-flipped'); 
-            setTimeout(() => App.drawFC(), 200);
-        },
-
-        renderTest: () => {
-            if(!App.sessionTest) return;
-            document.getElementById('test-container').innerHTML = App.sessionTest.map((q,i) => `<div class="q-block" data-c="${q.correcta}"><p><b>${i+1}. ${q.pregunta}</b></p>${q.respuestas.map(r => `<div class="quiz-option" onclick="window.App.selOpt(this)">${r}</div>`).join('')}</div>`).join('');
-        },
-        selOpt: (el) => {
-            el.parentElement.querySelectorAll('.quiz-option').forEach(e => e.classList.remove('selected'));
-            el.classList.add('selected');
-        },
-        submitTest: async () => {
-            let s = 0; 
-            const blocks = document.querySelectorAll('.q-block');
-            blocks.forEach(b => {
-                const sel = b.querySelector('.selected'); const c = parseInt(b.dataset.c); const opts = b.querySelectorAll('.quiz-option');
-                opts.forEach(o => o.classList.remove('correct','wrong'));
-                if(sel) { if(Array.from(opts).indexOf(sel)===c) { sel.classList.add('correct'); s++; } else { sel.classList.add('wrong'); opts[c].classList.add('correct'); } }
-            });
-            document.getElementById('test-result').innerText = `Resultado: ${s} / ${blocks.length} Aciertos`;
-            
-            // GUARDAR LOG EN FIREBASE
-            try {
-                await addDoc(collection(db, "noj_logs"), {
-                    u: App.user.u,
-                    d: new Date().toLocaleString(),
-                    s: s,
-                    f: blocks.length - s,
-                    timestamp: Date.now()
-                });
-            } catch(e) { console.error(e); }
-
-            if(['admin','master','jef'].includes(App.user.r)) App.renderAdmin();
-        },
-
-        // --- RENDER ADMIN MEJORADO CON LOGICA DE SEGURIDAD ---
+        // 4. PANEL DE GESTIÓN (AQUÍ ESTÁ LA CLAVE DE LAS RELACIONES)
         renderAdmin: async () => {
             const global = ['admin','master'].includes(App.user.r); 
             const jefatura = App.user.r === 'jef';
-            const readonly = !global; // Jefatura y Mandos ven pero no crean usuarios (salvo admin)
+            // Si NO es global, es solo lectura (Mandos no pueden crear usuarios, solo ver)
+            const readonly = !global; 
             
-            // CARGAR USUARIOS
+            // Traer todos los datos frescos de la nube
             let users = [];
             const uSnap = await getDocs(collection(db, "noj_users"));
             uSnap.forEach(d => users.push(d.data()));
 
-            // CARGAR LOGS RESULTADOS
             let logs = [];
             const lSnap = await getDocs(query(collection(db, "noj_logs"), orderBy("timestamp", "desc"), limit(50)));
             lSnap.forEach(d => logs.push(d.data()));
 
-            // 1. GESTIÓN DE SEGURIDAD (SOLO GLOBAL)
+            // A. SEGURIDAD (Solo Master/Admin)
             const secBox = document.getElementById('security-box');
             if(global) {
                 secBox.style.display = 'block';
                 const st = document.getElementById('sec-logs'); st.innerHTML = '';
-                // Cargar logs de seguridad de Firebase
                 const sSnap = await getDocs(query(collection(db, "noj_sec"), orderBy("timestamp", "desc"), limit(20)));
                 sSnap.forEach(doc => {
                     const s = doc.data();
@@ -820,46 +744,58 @@
                 secBox.style.display = 'none';
             }
 
-            // 2. HERRAMIENTAS DE CREACIÓN
-            if(!global) {
+            // B. HERRAMIENTAS DE CREACIÓN (Solo Global)
+            if(readonly) {
                 document.getElementById('admin-tools').style.display='none';
             } else {
-                // Rellenar selector de jefes
+                document.getElementById('admin-tools').style.display='block';
+                // Rellenar selector de jefes con TODOS los que tengan rango de mando
                 const bs = document.getElementById('new-b'); 
-                bs.innerHTML = '<option value="">-- Asignar Jefe --</option>';
-                users.filter(u => ['mdc','mdt','mut','jef'].includes(u.r)).forEach(b => { bs.innerHTML += `<option value="${b.u}">${b.u} (${b.r})</option>`; });
+                bs.innerHTML = '<option value="">-- Sin Jefe Asignado --</option>';
+                users.filter(u => ['mdc','mdt','mut','jef','admin','master'].includes(u.r)).forEach(b => { 
+                    bs.innerHTML += `<option value="${b.u}">${b.u} (${b.r.toUpperCase()})</option>`; 
+                });
             }
 
-            // 3. TABLA DE RESULTADOS (LOGICA JERÁRQUICA)
+            // C. TABLA DE RESULTADOS (FILTRO DE RELACIONES)
             const t = document.getElementById('admin-logs'); t.innerHTML='';
             logs.forEach(l => {
                 let show = false; 
+                // Buscamos quién es el jefe de este usuario que ha hecho el examen
                 const uData = users.find(x => x.u === l.u); 
                 const boss = uData ? uData.boss : '';
                 
-                // Lógica:
-                if(global || jefatura) show = true; // Admin/Jefatura ven todo
-                else if(boss === App.user.u) show = true; // Mando ve a sus subordinados
+                // REGLAS DE VISIBILIDAD:
+                // 1. Admin, Master y Jefatura ven TODO.
+                if(global || jefatura) show = true; 
+                // 2. Un Mando solo ve si el usuario le tiene asignado como jefe ('boss').
+                else if(boss === App.user.u) show = true; 
 
-                if(show) t.innerHTML += `<tr><td>${l.u}</td><td>${uData?uData.r:'?'}</td><td>${l.d}</td><td style="color:${l.s>10?'green':'red'}">${l.s}</td><td>${l.f}</td><td>${boss}</td></tr>`;
+                if(show) {
+                    t.innerHTML += `<tr>
+                        <td>${l.u}</td>
+                        <td>${uData?uData.r.toUpperCase():'?'}</td>
+                        <td>${l.d}</td>
+                        <td style="color:${l.s>10?'green':'red'}"><b>${l.s}</b></td>
+                        <td>${l.f}</td>
+                        <td>${boss || '-'}</td>
+                    </tr>`;
+                }
             });
         },
 
         addUser: async () => {
             const u = document.getElementById('new-u').value; const p = document.getElementById('new-p').value; const r = document.getElementById('new-r').value; const b = document.getElementById('new-b').value;
-            
             if(!u || !p) return alert("Rellena usuario y clave");
 
             const q = query(collection(db, "noj_users"), where("u", "==", u));
             const check = await getDocs(q);
-            if(!check.empty) return alert("Usuario existe");
+            if(!check.empty) return alert("Usuario ya existe");
 
             await addDoc(collection(db, "noj_users"), {u,p,r,boss:b, change:true});
-            App.logSec('CREATE_USER', `Usuario creado: ${u} [Rol: ${r}]`);
+            App.logSec('CREATE_USER', `Creado: ${u} [${r}]`);
             App.renderAdmin(); 
             alert("Usuario creado");
-            document.getElementById('new-u').value='';
-            document.getElementById('new-p').value='';
         },
 
         importUsers: async () => {
@@ -880,9 +816,81 @@
                     }
                 }
             }
-            document.getElementById('import-msg').innerText = `Importados: ${c}`; 
-            App.logSec('IMPORT', `Importación masiva: ${c} usuarios`);
+            document.getElementById('import-msg').innerText = `+${c}`; 
+            App.logSec('IMPORT', `Importados ${c}`);
             App.renderAdmin();
+        },
+        
+        // --- RESTO DE FUNCIONES DE RENDERIZADO (NO CAMBIAN) ---
+        renderTemario: () => {
+            const t = document.getElementById('doc-tabs'), c = document.getElementById('doc-content'); t.innerHTML=''; c.innerHTML='';
+            App.data.secciones_temario.forEach((s,i) => {
+                t.innerHTML += `<button class="doc-tab ${i===0?'active':''}" onclick="window.App.tab(${i})">${s.titulo}</button>`;
+                c.innerHTML += `<div id="p${i}" class="doc-page ${i===0?'active':''}">${s.contenido}</div>`;
+            });
+        },
+        tab: (i) => {
+            document.querySelectorAll('.doc-tab').forEach(x=>x.classList.remove('active'));
+            document.querySelectorAll('.doc-page').forEach(x=>x.classList.remove('active'));
+            document.querySelectorAll('.doc-tab')[i].classList.add('active');
+            document.getElementById('p'+i).classList.add('active');
+        },
+        renderBiblio: () => { 
+            const t = document.getElementById('file-tree'); t.innerHTML = ''; 
+            App.data.bibliografia.forEach(c => { 
+                let l = c.archivos.map(f => `<li style="margin-bottom:5px;"><a href="${f.nombre}" target="_blank" style="text-decoration:none; color:#0a2e5c;">📄 ${f.desc}</a></li>`).join(''); 
+                t.innerHTML += `<li style="margin-bottom:15px;"><strong>${c.nivel}</strong><ul style="list-style:none; padding-left:10px;">${l}</ul></li>`; 
+            }); 
+        },
+        renderMedia: () => {
+            const c = document.getElementById('media-container'); c.innerHTML='';
+            App.data.imagenes.forEach(i => c.innerHTML += `<div class="media-card" onclick="window.open('${i.url}','_blank')"><img src="${i.url}" onerror="this.src='//via.placeholder.com/300'"><p>${i.nombre}</p></div>`);
+        },
+        renderFC: () => { App.fcI=0; App.drawFC(); },
+        drawFC: () => {
+            if(!App.sessionCards || !App.sessionCards.length) return;
+            const c = App.sessionCards[App.fcI];
+            document.getElementById('fc-canvas').innerHTML = `<div class="fc-inner"><div class="fc-face fc-front"><div><i class="fas fa-question-circle fa-2x"></i><br><br>${c.front}</div></div><div class="fc-face fc-back"><div>${c.back}</div></div></div>`;
+            document.getElementById('fc-canvas').onclick = function() { this.classList.toggle('fc-flipped'); };
+            document.getElementById('fc-count').innerText = `${App.fcI+1} / ${App.sessionCards.length}`;
+        },
+        moveFC: (d) => {
+            if(!App.sessionCards) return;
+            App.fcI += d; 
+            if(App.fcI < 0) App.fcI = App.sessionCards.length - 1;
+            if(App.fcI >= App.sessionCards.length) App.fcI = 0;
+            document.getElementById('fc-canvas').classList.remove('fc-flipped'); 
+            setTimeout(() => App.drawFC(), 200);
+        },
+        renderTest: () => {
+            if(!App.sessionTest) return;
+            document.getElementById('test-container').innerHTML = App.sessionTest.map((q,i) => `<div class="q-block" data-c="${q.correcta}"><p><b>${i+1}. ${q.pregunta}</b></p>${q.respuestas.map(r => `<div class="quiz-option" onclick="window.App.selOpt(this)">${r}</div>`).join('')}</div>`).join('');
+        },
+        selOpt: (el) => {
+            el.parentElement.querySelectorAll('.quiz-option').forEach(e => e.classList.remove('selected'));
+            el.classList.add('selected');
+        },
+        submitTest: async () => {
+            let s = 0; 
+            const blocks = document.querySelectorAll('.q-block');
+            blocks.forEach(b => {
+                const sel = b.querySelector('.selected'); const c = parseInt(b.dataset.c); const opts = b.querySelectorAll('.quiz-option');
+                opts.forEach(o => o.classList.remove('correct','wrong'));
+                if(sel) { if(Array.from(opts).indexOf(sel)===c) { sel.classList.add('correct'); s++; } else { sel.classList.add('wrong'); opts[c].classList.add('correct'); } }
+            });
+            document.getElementById('test-result').innerText = `Resultado: ${s} / ${blocks.length} Aciertos`;
+            
+            try {
+                await addDoc(collection(db, "noj_logs"), {
+                    u: App.user.u,
+                    d: new Date().toLocaleString(),
+                    s: s,
+                    f: blocks.length - s,
+                    timestamp: Date.now()
+                });
+            } catch(e) { console.error(e); }
+
+            if(['admin','master','jef'].includes(App.user.r)) App.renderAdmin();
         },
         nav: (id) => { document.querySelectorAll('.view-section').forEach(x=>x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); }
     };
