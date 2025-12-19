@@ -252,17 +252,153 @@
             {nivel: "Manuales", archivos: [{nombre:"Anexo-II-Manual-del-SCT-Salamanca-firmado.pdf", desc:"Manual SCT"}, {nombre:"Anexo-III-Manual-del-SCG-Salamanca-firmado - copia.pdf", desc:"Manual SCG"}, {nombre:"Anexo-IV-Manual-SCEJ-Salamanca-firmado - copia.pdf", desc:"Manual SCEJ"}]}
         ],
         secciones_temario: [
-          { "titulo": "1. Introducción", "contenido": "<h3>1. Introducción: La transformación del sistema judicial en Salamanca</h3><p>El presente documento tiene como finalidad servir de manual operativo...</p><p>Este modelo, que entrará en vigor el <strong>31 de diciembre de 2025</strong>, deriva de la Ley Orgánica 1/2025...</p>" },
-          { "titulo": "2. Visión General", "contenido": "<h3>2. Visión general de la nueva Oficina Judicial (OJ)</h3><p>La nueva OJ redefine completamente la relación funcional...</p><h4>2.1 El Tribunal de Instancia (TI)</h4><p>Integra en una única estructura todas las anteriores plazas judiciales...</p>" },
-          { "titulo": "3. Servicios Comunes", "contenido": "<h3>2.2 Los Servicios Comunes</h3><p>La Oficina Judicial se estructura en tres Servicios Comunes...</p><table class='doc-table'><tr><th>Servicio Común</th><th>Acrónimo</th><th>Función principal</th></tr><tr><td>Servicio Común General</td><td>SCG</td><td>Punto único de entrada...</td></tr><tr><td>Servicio Común de Tramitación</td><td>SCT</td><td>Gestión integral...</td></tr><tr><td>Servicio Común de Ejecución</td><td>SCEJ</td><td>Ejecución...</td></tr></table>" },
-          { "titulo": "4. Guía Operativa", "contenido": "<h3>3. Guía operativa</h3><h4>3.1 Inicio del procedimiento</h4><p>Principio fundamental: Todo documento policial tiene un único punto de entrada ordinario: el <strong>Servicio Común General (SCG)</strong>.</p>" },
-          { "titulo": "5. Guardia", "contenido": "<h4>3.2 Interacción con el Servicio de Guardia (GU)</h4><p>El Servicio de Guardia constituye una excepción... Atestados con persona detenida, Solicitudes urgentes...</p>" },
-          { "titulo": "6. Policía Judicial", "contenido": "<h3>4. Manual avanzado para agentes</h3><h4>4.1 Servicio Común de Tramitación (SCT) – Área Penal</h4><p>El SCT Penal gestiona los procedimientos penales desde el inicio hasta la firmeza.</p>" },
-          { "titulo": "7. Unidades Espec.", "contenido": "<h4>4.2 Unidades especializadas (S4M)</h4><ul><li>Violencia sobre la Mujer</li><li>Menores</li><li>Familia, Infancia y Capacidad</li></ul>" },
-          { "titulo": "8. Ejecución", "contenido": "<h4>4.3 Fase de ejecución: SCEJ – Área Penal</h4><p>Una vez firme la sentencia, la competencia pasa al SCEJ...</p>" },
-          { "titulo": "9. Mandos", "contenido": "<h3>5. Pautas para la escala técnica</h3><h4>5.1 Estructura de mando</h4><p>Director/a (LAJ), Jefatura de Área, Jefatura de Equipo...</p>" },
-          { "titulo": "10. Protocolos", "contenido": "<h3>6. Instrucción interna</h3><p>Obligatoria y vinculante. Entrada en vigor 31/12/2025...</p>" }
+          { 
+            "titulo": "1. Introducción", 
+            "contenido": `
+                <h3>1. Introducción: La transformación del sistema judicial</h3>
+                <p>El presente documento sirve de manual operativo para la Policía Local ante la implantación del nuevo modelo de Oficina Judicial (OJ), que entrará en vigor el <strong>31 de diciembre de 2025</strong> (Ley Orgánica 1/2025).</p>
+                <p>Se abandona el esquema de juzgados aislados para pasar a un sistema centralizado orientado a:</p>
+                <ul>
+                    <li>Incrementar la agilidad.</li>
+                    <li>Garantizar criterios homogéneos.</li>
+                    <li>Optimizar recursos.</li>
+                    <li>Facilitar la interoperabilidad digital.</li>
+                </ul>
+                <p><strong>Impacto policial:</strong> Varían los puntos de entrada, los interlocutores y los circuitos de tramitación. Conocer esto es indispensable para evitar devoluciones de atestados.</p>
+            ` 
+          },
+          { 
+            "titulo": "2. Estructura (TI)", 
+            "contenido": `
+                <h3>2. Visión general: El Tribunal de Instancia (TI)</h3>
+                <p>Ya no se interactúa con un "juzgado concreto", sino con servicios especializados. El eje es el <strong>Tribunal de Instancia (TI)</strong> de Salamanca, que integra todas las plazas judiciales organizadas en Secciones:</p>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:0.9rem;">
+                    <div style="background:#fff; padding:5px; border:1px solid #ddd;">• Sección Civil</div>
+                    <div style="background:#fff; padding:5px; border:1px solid #ddd;">• Sección de Instrucción</div>
+                    <div style="background:#fff; padding:5px; border:1px solid #ddd;">• Sección Penal</div>
+                    <div style="background:#fff; padding:5px; border:1px solid #ddd;">• Sección Menores</div>
+                    <div style="background:#fff; padding:5px; border:1px solid #ddd;">• Sección V. Penitenciaria</div>
+                    <div style="background:#fff; padding:5px; border:1px solid #ddd;">• Sección Social/Contencioso</div>
+                </div>
+                <p>El TI juzga, pero la tramitación la hacen los <strong>Servicios Comunes</strong>.</p>
+            ` 
+          },
+          { 
+            "titulo": "3. Servicios Comunes", 
+            "contenido": `
+                <h3>2.2 Los Servicios Comunes (Columna Vertebral)</h3>
+                <p>Prestan apoyo al TI y a la Audiencia Provincial:</p>
+                <table class='doc-table'>
+                    <tr><th>Servicio</th><th>Acrónimo</th><th>Función principal</th></tr>
+                    <tr><td><strong>Servicio Común General</strong></td><td>SCG</td><td><strong>Punto único de entrada.</strong> Recepción, registro, reparto, actos de comunicación (notificaciones) y archivo.</td></tr>
+                    <tr><td><strong>Servicio Común de Tramitación</strong></td><td>SCT</td><td>Gestión integral en fase declarativa (instrucción y enjuiciamiento).</td></tr>
+                    <tr><td><strong>Servicio Común de Ejecución</strong></td><td>SCEJ</td><td>Ejecución de resoluciones firmes (multas, prisión, embargos).</td></tr>
+                </table>
+            ` 
+          },
+          { 
+            "titulo": "4. Guía Operativa", 
+            "contenido": `
+                <h3>3. Guía Operativa (Escala Ejecutiva)</h3>
+                <h4>3.1 Inicio: Destino del atestado</h4>
+                <p><strong>Principio fundamental:</strong> Todo documento policial tiene un único punto de entrada ordinario: el <strong>SCG</strong>.</p>
+                <ul>
+                    <li><strong>Forma:</strong> Preferentemente telemática.</li>
+                    <li><strong>Horario SCG:</strong> Lunes a viernes, 08:30 a 15:00.</li>
+                </ul>
+                <p><strong>Circuito:</strong> Presentación SCG &rarr; Registro Oficial &rarr; Reparto &rarr; Remisión al SCT competente.</p>
+                <div style="background:#ffeeba; padding:10px; border-left:4px solid #ffc107; margin-top:10px;">
+                    <strong>⚠️ Importante:</strong> Un atestado mal dirigido se devuelve al circuito inicial. Los errores generan retrasos en medidas cautelares.
+                </div>
+            ` 
+          },
+          { 
+            "titulo": "5. Guardia (GU)", 
+            "contenido": `
+                <h3>3.2 Interacción con el Servicio de Guardia (GU)</h3>
+                <p>Es la excepción al circuito ordinario. Se activa <strong>exclusivamente</strong> para urgencias.</p>
+                <h4>Documentación directa a Guardia:</h4>
+                <ul>
+                    <li>🚨 Atestados con <strong>PERSONA DETENIDA</strong>.</li>
+                    <li>Atestados con investigado citado ante el juez de guardia.</li>
+                    <li><strong>Solicitudes urgentes:</strong> Entradas y registros, intervenciones telefónicas, medidas cautelares inmediatas.</li>
+                </ul>
+                <p>El juez de guardia decide en tiempo real. Posteriormente, el asunto pasa al SCT.</p>
+            ` 
+          },
+          { 
+            "titulo": "6. Policía Judicial", 
+            "contenido": `
+                <h3>4. Manual Avanzado: SCT Penal</h3>
+                <p>El <strong>SCT Penal</strong> gestiona desde el inicio hasta la sentencia firme.</p>
+                <h4>Estructura Interna:</h4>
+                <ul>
+                    <li><strong>Equipos de Instrucción:</strong> Investigación, diligencias, pruebas.</li>
+                    <li><strong>Equipos de Enjuiciamiento:</strong> Señalamientos, vistas orales, sentencias.</li>
+                </ul>
+                <p>Existen grupos de trabajo diferenciados para Delitos Graves/Menos Graves y para Delitos Leves.</p>
+            ` 
+          },
+          { 
+            "titulo": "7. Unidades Espec.", 
+            "contenido": `
+                <h3>4.2 Unidades Especializadas (S4M)</h3>
+                <p><strong>Violencia sobre la Mujer:</strong> Grupo de Instrucción nº 3. Gestiona instrucción penal, delitos leves asociados y órdenes de protección.</p>
+                <p><strong>Menores:</strong> Grupo específico del Equipo de Enjuiciamiento. Competencia integral desde Fiscalía hasta ejecución.</p>
+                <p><strong>Familia y Capacidad (Civil):</strong> Internamientos no voluntarios, custodias y protección a vulnerables.</p>
+            ` 
+          },
+          { 
+            "titulo": "8. Ejecución (SCEJ)", 
+            "contenido": `
+                <h3>4.3 Fase de Ejecución (SCEJ Penal)</h3>
+                <p>Una vez la sentencia es firme, actúa el SCEJ. Es el interlocutor para:</p>
+                <ul>
+                    <li>Mandamientos de prisión y libertad.</li>
+                    <li>Órdenes de búsqueda y captura.</li>
+                    <li>Ejecución de multas e indemnizaciones.</li>
+                    <li>Embargos y averiguaciones patrimoniales.</li>
+                </ul>
+                <p><strong>Gestión Digital:</strong> La calidad del expediente depende del primer envío policial (datos completos y normalizados).</p>
+            ` 
+          },
+          { 
+            "titulo": "9. Mandos y Coordinación", 
+            "contenido": `
+                <h3>5. Pautas para Escala Técnica</h3>
+                <h4>5.1 Estructura de Mando</h4>
+                <ul>
+                    <li><strong>Director/a (LAJ):</strong> Máxima autoridad funcional.</li>
+                    <li><strong>Jefatura de Área:</strong> Coordinación por materias.</li>
+                    <li><strong>Jefatura de Equipo:</strong> Gestión operativa directa.</li>
+                </ul>
+                <h4>5.3 Gestión de Incidencias</h4>
+                <table class="doc-table">
+                    <tr><td>Reparto incorrecto</td><td>Devolución al equipo de inicio.</td></tr>
+                    <tr><td>Errores en datos</td><td>Corrección por Jefatura de Equipo.</td></tr>
+                    <tr><td>Documento sin registro</td><td>Remisión inmediata al SCG.</td></tr>
+                </table>
+            ` 
+          },
+          { 
+            "titulo": "10. Flujos y Resumen", 
+            "contenido": `
+                <h3>7. Flujos Operativos y Resumen</h3>
+                <p><strong>7.1 Atestado NO Urgente:</strong><br>Policía &rarr; SCG &rarr; SCT (Instrucción).</p>
+                <p><strong>7.2 Urgente / Detenido:</strong><br>Policía &rarr; GUARDIA &rarr; Resolución &rarr; SCT.</p>
+                <p><strong>7.3 Ejecución:</strong><br>Sentencia Firme &rarr; SCEJ &rarr; Mandamiento a Policía.</p>
+                <hr>
+                <h4>RESUMEN DE BOLSILLO (PATRULLA)</h4>
+                <ul>
+                    <li>¿Tengo un atestado <strong>NO urgente</strong>? &rarr; <strong>SCG</strong>.</li>
+                    <li>¿Hay <strong>Detenido</strong> o es Urgente? &rarr; <strong>GUARDIA</strong>.</li>
+                    <li>¿Es ejecución de sentencia? &rarr; <strong>SCEJ</strong>.</li>
+                    <li><strong>NUNCA</strong> enviar directamente a un juzgado.</li>
+                </ul>
+            ` 
+          }
         ],
+        // ... (resto de flashcards y test se mantienen igual, no los borres) ...
         flashcards: [
             { "front": "¿Fecha de entrada en vigor de la Nueva OJ?", "back": "31 de diciembre de 2025" },
             { "front": "¿Ley que impulsa la transformación?", "back": "Ley Orgánica 1/2025" },
