@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma Formación Policial - NOJ Salamanca (CLOUD)</title>
+    <title>Plataforma Formación Policial - NOJ Salamanca (CLOUD V2)</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --primary: #0a2e5c; --accent: #d4af37; --bg: #f4f7f9; --text: #333; --danger: #c0392b; --success: #27ae60; }
@@ -166,6 +166,16 @@
                 <div id="view-admin" class="view-section">
                     <h2>Panel de Gestión (CLOUD)</h2>
                     
+                    <div id="security-box" style="display:none; background:#ffebeb; padding:15px; border:2px solid #c0392b; border-radius:8px; margin-bottom:20px;">
+                        <h3 style="color:#c0392b; margin-top:0;"><i class="fas fa-shield-alt"></i> Auditoría de Seguridad</h3>
+                        <div style="max-height:200px; overflow-y:auto;">
+                            <table class="admin-table">
+                                <thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Detalles</th></tr></thead>
+                                <tbody id="sec-logs"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <div id="admin-tools">
                         <div style="background:white; padding:20px; border-radius:8px; margin-bottom:20px;">
                             <h3>Añadir Usuario</h3>
@@ -230,7 +240,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // --- DATOS COMPLETOS (COPIADOS DE TU HTML ORIGINAL) ---
+    // --- DATOS COMPLETOS (TEXTOS Y PREGUNTAS) ---
     const DB = {
         audio_url: "audio.m4a",
         imagenes: [
@@ -431,7 +441,7 @@
         ]
     };
 
-    // --- LÓGICA DE LA APP (CONECTADA A LA NUBE) ---
+    // --- LÓGICA DE LA APP (CLOUD + SEGURIDAD MEJORADA) ---
     const App = {
         data: DB,
         user: null,
@@ -443,20 +453,34 @@
                 if(e.key === 'Enter' && !document.getElementById('login-screen').classList.contains('hidden')) App.login();
             });
 
-            // COMPROBACIÓN INICIAL: SI NO HAY USUARIOS, CREAR MASTER AUTOMÁTICAMENTE
+            // COMPROBACIÓN INICIAL: SI NO HAY USUARIOS, CREAR TODA LA PLANTILLA
             try {
-                const q = query(collection(db, "noj_users"), where("u", "==", "master"));
+                const q = query(collection(db, "noj_users"));
                 const querySnapshot = await getDocs(q);
                 
                 if (querySnapshot.empty) {
-                    console.log("Inicializando base de datos con usuario master...");
-                    await addDoc(collection(db, "noj_users"), { u:'master', p:'master', r:'master', boss:'', change:true });
+                    console.log("Inicializando base de datos completa...");
+                    const defs = [
+                        { u:'master', p:'master', r:'master', boss:'', change:true },
+                        { u:'admin', p:'admin', r:'admin', boss:'', change:true },
+                        { u:'jefatura', p:'jefatura', r:'jef', boss:'', change:true },
+                        { u:'mandodc', p:'1234', r:'mdc', boss:'', change:true },
+                        { u:'mandodt', p:'1234', r:'mdt', boss:'', change:true },
+                        { u:'mandout', p:'1234', r:'mut', boss:'', change:true },
+                        { u:'agentedc', p:'1234', r:'adc', boss:'mandodc', change:true }
+                    ];
+                    
+                    for(let u of defs) {
+                        await addDoc(collection(db, "noj_users"), u);
+                    }
+                    console.log("Usuarios por defecto creados.");
+                    App.logSec('SYSTEM', 'Inicialización Base de Datos V2');
                 }
             } catch (e) { 
                 console.error("Esperando conexión...", e); 
             }
 
-            // BARAJAR Y SELECCIONAR (30 Flashcards, 20 Test)
+            // BARAJAR Y SELECCIONAR
             if(App.data.flashcards) App.sessionCards = App.shuffle([...App.data.flashcards]).slice(0, 30);
             if(App.data.test) App.sessionTest = App.shuffle([...App.data.test]).slice(0, 20);
 
@@ -470,6 +494,19 @@
         },
 
         shuffle: (a) => { for(let i=a.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; },
+
+        // REGISTRO DE AUDITORÍA (NUEVA FUNCIÓN CLOUD)
+        logSec: async (action, details) => {
+            try {
+                await addDoc(collection(db, "noj_sec"), {
+                    u: App.user ? App.user.u : 'SYSTEM',
+                    a: action,
+                    t: details,
+                    d: new Date().toLocaleString(),
+                    timestamp: Date.now()
+                });
+            } catch(e) { console.error("Error logSec", e); }
+        },
 
         login: async () => {
             const u = document.getElementById('user').value.trim();
@@ -490,6 +527,8 @@
                     const docSnap = querySnapshot.docs[0];
                     App.user = docSnap.data();
                     App.userDocId = docSnap.id;
+                    
+                    App.logSec('LOGIN', `Acceso correcto de ${u}`);
 
                     // Si requiere cambio de contraseña
                     if (App.user.change) {
@@ -500,6 +539,7 @@
                     App.enterApp();
                 } else {
                     document.getElementById('msg').innerText = "Credenciales incorrectas";
+                    App.logSec('LOGIN_FAIL', `Intento fallido: ${u}`);
                 }
             } catch (e) {
                 console.error(e);
@@ -519,6 +559,7 @@
                 const userRef = doc(db, "noj_users", App.userDocId);
                 await updateDoc(userRef, { p: p1, change: false });
                 App.user.p = p1;
+                App.logSec('PASSWORD_CHANGE', `Usuario ${App.user.u} cambió su clave`);
                 document.getElementById('password-screen').classList.add('hidden');
                 App.enterApp();
             } catch(e) { console.error(e); }
@@ -612,42 +653,59 @@
             if(['admin','master','jef'].includes(App.user.r)) App.renderAdmin();
         },
 
+        // --- RENDER ADMIN MEJORADO CON LOGICA DE SEGURIDAD ---
         renderAdmin: async () => {
             const global = ['admin','master'].includes(App.user.r); 
             const jefatura = App.user.r === 'jef';
+            const readonly = !global; // Jefatura y Mandos ven pero no crean usuarios (salvo admin)
             
             // CARGAR USUARIOS
             let users = [];
             const uSnap = await getDocs(collection(db, "noj_users"));
             uSnap.forEach(d => users.push(d.data()));
 
-            // CARGAR LOGS
+            // CARGAR LOGS RESULTADOS
             let logs = [];
             const lSnap = await getDocs(query(collection(db, "noj_logs"), orderBy("timestamp", "desc"), limit(50)));
             lSnap.forEach(d => logs.push(d.data()));
 
-            const t = document.getElementById('admin-logs'); t.innerHTML='';
+            // 1. GESTIÓN DE SEGURIDAD (SOLO GLOBAL)
+            const secBox = document.getElementById('security-box');
+            if(global) {
+                secBox.style.display = 'block';
+                const st = document.getElementById('sec-logs'); st.innerHTML = '';
+                // Cargar logs de seguridad de Firebase
+                const sSnap = await getDocs(query(collection(db, "noj_sec"), orderBy("timestamp", "desc"), limit(20)));
+                sSnap.forEach(doc => {
+                    const s = doc.data();
+                    st.innerHTML += `<tr><td>${s.d}</td><td>${s.u}</td><td>${s.a}</td><td>${s.t || ''}</td></tr>`;
+                });
+            } else {
+                secBox.style.display = 'none';
+            }
 
-            if(!global && !jefatura) {
-                // Si es un mando normal, ocultar herramientas de crear usuario
+            // 2. HERRAMIENTAS DE CREACIÓN
+            if(!global) {
                 document.getElementById('admin-tools').style.display='none';
             } else {
-                // Si es global/jefatura, rellenar selector de jefes
+                // Rellenar selector de jefes
                 const bs = document.getElementById('new-b'); 
                 bs.innerHTML = '<option value="">-- Asignar Jefe --</option>';
                 users.filter(u => ['mdc','mdt','mut','jef'].includes(u.r)).forEach(b => { bs.innerHTML += `<option value="${b.u}">${b.u} (${b.r})</option>`; });
             }
 
+            // 3. TABLA DE RESULTADOS (LOGICA JERÁRQUICA)
+            const t = document.getElementById('admin-logs'); t.innerHTML='';
             logs.forEach(l => {
                 let show = false; 
                 const uData = users.find(x => x.u === l.u); 
                 const boss = uData ? uData.boss : '';
                 
-                // Lógica de visualización jerárquica
-                if(global || jefatura) show = true; 
-                else if(boss === App.user.u) show = true; // Solo veo a mis subordinados
+                // Lógica:
+                if(global || jefatura) show = true; // Admin/Jefatura ven todo
+                else if(boss === App.user.u) show = true; // Mando ve a sus subordinados
 
-                if(show) t.innerHTML += `<tr><td>${l.u}</td><td>${uData?uData.r:'?'}</td><td>${l.d}</td><td>${l.s}</td><td>${l.f}</td><td>${boss}</td></tr>`;
+                if(show) t.innerHTML += `<tr><td>${l.u}</td><td>${uData?uData.r:'?'}</td><td>${l.d}</td><td style="color:${l.s>10?'green':'red'}">${l.s}</td><td>${l.f}</td><td>${boss}</td></tr>`;
             });
         },
 
@@ -661,6 +719,7 @@
             if(!check.empty) return alert("Usuario existe");
 
             await addDoc(collection(db, "noj_users"), {u,p,r,boss:b, change:true});
+            App.logSec('CREATE_USER', `Usuario creado: ${u} [Rol: ${r}]`);
             App.renderAdmin(); 
             alert("Usuario creado");
             document.getElementById('new-u').value='';
@@ -686,6 +745,7 @@
                 }
             }
             document.getElementById('import-msg').innerText = `Importados: ${c}`; 
+            App.logSec('IMPORT', `Importación masiva: ${c} usuarios`);
             App.renderAdmin();
         },
         nav: (id) => { document.querySelectorAll('.view-section').forEach(x=>x.classList.remove('active')); document.getElementById('view-'+id).classList.add('active'); }
